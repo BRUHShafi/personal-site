@@ -1,0 +1,123 @@
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-top: 80px; /* offset for fixed navbar */
+}
+
+/* ── Left side ── */
+.hero__left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 64px 64px 64px 80px;
+  background: linear-gradient(135deg, #0a0a18 0%, #06060e 100%);
+}
+
+.hero__name {
+  font-size: clamp(80px, 12vw, 160px);
+  font-weight: 900;
+  letter-spacing: -4px;
+  line-height: 0.9;
+  color: var(--cyan);
+  text-shadow:
+    0 0 20px rgba(0, 229, 255, 0.9),
+    0 0 40px rgba(0, 229, 255, 0.5),
+    0 0 80px rgba(0, 229, 255, 0.2);
+  margin-bottom: 32px;
+}
+
+/* Each letter bounces independently */
+@keyframes letterBounce {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-18px); }
+}
+
+.hero__name-letter {
+  display: inline-block;
+  animation: letterBounce 2.4s ease-in-out infinite;
+}
+
+.hero__subtitle {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  line-height: 1.8;
+}
+
+/* ── Right side ── */
+.hero__right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a12;
+  padding: 64px;
+}
+
+.hero__throne-placeholder {
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 48px 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-card);
+}
+
+.hero__throne-label {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: var(--text-white);
+}
+
+.hero__throne-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+/* Animated loading bar */
+.hero__throne-bar {
+  width: 60%;
+  height: 2px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 16px;
+}
+
+@keyframes barSlide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.hero__throne-bar-fill {
+  height: 100%;
+  width: 50%;
+  background: linear-gradient(90deg, transparent, var(--magenta), transparent);
+  animation: barSlide 2s ease-in-out infinite;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .hero__right {
+    display: none;
+  }
+  .hero__left {
+    padding: 64px 32px;
+    align-items: center;
+    text-align: center;
+  }
+}

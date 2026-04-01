@@ -1,0 +1,75 @@
+:root {
+  --bg: #080810;
+  --bg-card: #0f0f1a;
+  --bg-card-hover: #141428;
+  --border: #1a1a2e;
+  --text: #6b7280;
+  --text-light: #9ca3af;
+  --text-white: #f1f1f3;
+  --cyan: #00e5ff;
+  --cyan-glow: rgba(0, 229, 255, 0.15);
+  --magenta: #d946ef;
+  --green: #22c55e;
+  --sans: 'Space Grotesk', system-ui, sans-serif;
+  --mono: 'Space Mono', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Scroll reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* Shared section styles */
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 16px;
+}
+
+.section-heading {
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 700;
+  color: var(--text-white);
+  letter-spacing: -1.5px;
+  line-height: 1.05;
+  margin-bottom: 48px;
+}
+
+.section-heading em {
+  font-style: italic;
+  color: var(--cyan);
+}

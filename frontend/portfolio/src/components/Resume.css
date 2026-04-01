@@ -1,0 +1,93 @@
+.resume {
+  padding: 120px 80px;
+  border-top: 1px solid var(--border);
+}
+
+.resume__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.resume__right {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.resume__entry {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 24px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+}
+
+.resume__year {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: var(--text);
+  padding-top: 4px;
+  white-space: nowrap;
+}
+
+.resume__role {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-white);
+  letter-spacing: -0.3px;
+  margin-bottom: 4px;
+}
+
+.resume__company {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.resume__detail {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-light);
+}
+
+.resume__download {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 24px;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.resume__download:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+@media (max-width: 900px) {
+  .resume {
+    padding: 80px 32px;
+  }
+  .resume__inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .resume__entry {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}

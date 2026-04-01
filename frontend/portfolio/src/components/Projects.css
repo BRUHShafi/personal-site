@@ -1,0 +1,131 @@
+.projects {
+  padding: 120px 80px;
+  border-top: 1px solid var(--border);
+  max-width: 1260px;
+  margin: 0 auto;
+}
+
+.projects__header {
+  margin-bottom: 0;
+}
+
+.projects__list {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+/* ── Project card ── */
+.project-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+/* Flipped layout — text left, image right */
+.project-card--flipped {
+  direction: rtl;
+}
+
+.project-card--flipped > * {
+  direction: ltr;
+}
+
+/* Image placeholder */
+.project-card__image {
+  aspect-ratio: 16 / 10;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+
+.project-card__image:hover {
+  border-color: var(--cyan);
+}
+
+.project-card__image-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--border);
+}
+
+/* Text content */
+.project-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.project-card__number {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text);
+}
+
+.project-card__title {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--text-white);
+  text-transform: uppercase;
+}
+
+.project-card__desc {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-light);
+  max-width: 420px;
+}
+
+.project-card__tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.project-card__tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 10px;
+}
+
+.project-card__link {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  color: var(--cyan);
+  text-decoration: none;
+  transition: opacity 0.2s;
+  align-self: flex-start;
+  margin-top: 8px;
+}
+
+.project-card__link:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 900px) {
+  .projects {
+    padding: 80px 32px;
+  }
+  .project-card {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .project-card--flipped {
+    direction: ltr;
+  }
+}
