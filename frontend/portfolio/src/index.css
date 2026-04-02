@@ -26,6 +26,23 @@
   --mono:    'JetBrains Mono', monospace;
 }
 
+/* ── Light mode overrides ── */
+[data-theme="light"] {
+  --bg:            #f2f2f8;
+  --bg-card:       #ffffff;
+  --bg-card-hover: #ebebf5;
+  --border:        #d8d8e8;
+  --border-subtle: #eaeaf2;
+  --text:          #9090b0;
+  --text-muted:    #b0b0c8;
+  --text-light:    #50506e;
+  --text-white:    #0c0c1e;
+  --cyan:          #0088aa;
+  --cyan-glow:     rgba(0, 136, 170, 0.1);
+  --magenta:       #9a14b8;
+  --green:         #16a34a;
+}
+
 * {
   margin: 0;
   padding: 0;
