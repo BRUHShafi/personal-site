@@ -56,6 +56,19 @@
   letter-spacing: 0.5px;
   color: var(--text-light);
   line-height: 1.6;
+  min-height: 1.6em; /* prevents layout shift as text changes */
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.hero__cursor {
+  display: inline-block;
+  margin-left: 2px;
+  color: var(--cyan);
+  animation: blink 1s step-start infinite;
 }
 
 /* ── Right side ── */

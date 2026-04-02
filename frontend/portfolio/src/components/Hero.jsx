@@ -1,6 +1,59 @@
+import { useState, useEffect } from 'react'
 import './Hero.css'
 
-// Split each letter of the name into its own span so we can animate them individually
+const TITLES = [
+  'Cybersecurity Student',
+  'Cloud Computing Enthusiast',
+  'Networking & Infrastructure',
+  'Building Secure Systems',
+]
+
+const TYPE_SPEED   = 60    // ms per character when typing
+const DELETE_SPEED = 35    // ms per character when deleting
+const PAUSE_END    = 2800  // ms to wait at the end before deleting
+const PAUSE_START  = 400   // ms to wait before typing next string
+
+function TypingSubtitle() {
+  const [displayed,   setDisplayed]   = useState('')
+  const [titleIndex,  setTitleIndex]  = useState(0)
+  const [isDeleting,  setIsDeleting]  = useState(false)
+
+  useEffect(() => {
+    const current = TITLES[titleIndex]
+    let timeout
+
+    if (!isDeleting) {
+      if (displayed.length < current.length) {
+        // Still typing
+        timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), TYPE_SPEED)
+      } else {
+        // Finished typing — wait then start deleting
+        timeout = setTimeout(() => setIsDeleting(true), PAUSE_END)
+      }
+    } else {
+      if (displayed.length > 0) {
+        // Still deleting
+        timeout = setTimeout(() => setDisplayed(displayed.slice(0, -1)), DELETE_SPEED)
+      } else {
+        // Finished deleting — wait then move to next title
+        timeout = setTimeout(() => {
+          setTitleIndex((prev) => (prev + 1) % TITLES.length)
+          setIsDeleting(false)
+        }, PAUSE_START)
+      }
+    }
+
+    return () => clearTimeout(timeout)
+  }, [displayed, isDeleting, titleIndex])
+
+  return (
+    <p className="hero__subtitle">
+      {displayed}
+      <span className="hero__cursor" aria-hidden="true">|</span>
+    </p>
+  )
+}
+
 function BouncingName({ name }) {
   const words = name.split(' ')
 
@@ -26,16 +79,11 @@ function BouncingName({ name }) {
 export default function Hero() {
   return (
     <section className="hero" id="intro">
-      {/* Left side — name + subtitle */}
       <div className="hero__left">
         <BouncingName name="MD Mushfiqur Rahman" />
-        <p className="hero__subtitle">
-          {/* Replace this with your title/tagline */}
-          Software Developer &amp; Builder
-        </p>
+        <TypingSubtitle />
       </div>
 
-      {/* Right side — placeholder for 3D throne */}
       <div className="hero__right">
         <div className="hero__throne-placeholder">
           <span className="hero__throne-label">THRONE PROTOCOL</span>

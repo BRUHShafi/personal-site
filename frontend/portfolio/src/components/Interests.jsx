@@ -1,59 +1,18 @@
 import { useState, useEffect } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { useTilt } from '../hooks/useTilt'
+import { interestCards } from '../data/interests'
 import './Interests.css'
 
 const STATUS_LABELS = {
-  ongoing:    'PLAYING',
-  completed:  'COMPLETED',
-  'will-play': 'WILL PLAY LATER',
-  reading:    'READING',
+  ongoing:        'PLAYING',
+  completed:      'COMPLETED',
+  'will-play':    'WILL PLAY LATER',
+  reading:        'READING',
   'want-to-read': 'WANT TO READ',
-  current:    'CURRENT',
-  past:       'PAST',
+  current:        'CURRENT',
+  past:           'PAST',
 }
-
-const cards = [
-  {
-    id: 'playing',
-    label: '02 // Playing',
-    title: 'Currently Playing',
-    preview: 'Elden Ring',
-    accent: 'var(--cyan)',
-    items: [
-      { name: 'Elden Ring',  sub: 'FromSoftware',  status: 'ongoing' },
-      { name: 'Valorant',    sub: 'Riot Games',     status: 'ongoing' },
-      { name: 'FIFA 25',     sub: 'EA Sports',      status: 'completed' },
-      { name: 'GTA V',       sub: 'Rockstar Games', status: 'completed' },
-      { name: 'Minecraft',   sub: 'Mojang',         status: 'will-play' },
-    ],
-  },
-  {
-    id: 'reading',
-    label: '02 // Reading',
-    title: 'Currently Reading',
-    preview: 'Atomic Habits',
-    accent: 'var(--magenta)',
-    items: [
-      { name: 'Atomic Habits',          sub: 'James Clear',    status: 'reading' },
-      { name: 'Dune',                   sub: 'Frank Herbert',  status: 'reading' },
-      { name: 'The Pragmatic Programmer', sub: 'Hunt & Thomas', status: 'completed' },
-      { name: 'Clean Code',             sub: 'Robert Martin',  status: 'completed' },
-      { name: 'Deep Work',              sub: 'Cal Newport',    status: 'want-to-read' },
-    ],
-  },
-  {
-    id: 'working',
-    label: '02 // Working',
-    title: 'Currently Working At',
-    preview: 'Acme Corp',
-    accent: 'var(--green)',
-    items: [
-      { name: 'Acme Corp',   sub: 'Software Developer', status: 'current' },
-      { name: 'Freelance',   sub: 'Web Projects',       status: 'current' },
-      { name: 'University',  sub: 'CS Student',         status: 'past' },
-    ],
-  },
-]
 
 function StatusBadge({ status }) {
   return (
@@ -63,7 +22,24 @@ function StatusBadge({ status }) {
   )
 }
 
+
 function InterestModal({ card, onClose }) {
+  const [filter, setFilter] = useState('all')
+
+  // Build filter options from the items in this card
+  const statuses = [...new Set(card.items.map(i => i.status))]
+  const filters = [
+    { key: 'all',       label: 'All' },
+    ...statuses.map(s => ({ key: s, label: card.filterLabels?.[s] ?? s.toUpperCase() })),
+    { key: 'favourite', label: '★ Fav' },
+  ]
+
+  const visible = card.items.filter(item => {
+    if (filter === 'all')       return true
+    if (filter === 'favourite') return item.favourite
+    return item.status === filter
+  })
+
   // Close on ESC
   useEffect(() => {
     const handler = (e) => { if (e.key === 'Escape') onClose() }
@@ -71,7 +47,7 @@ function InterestModal({ card, onClose }) {
     return () => window.removeEventListener('keydown', handler)
   }, [onClose])
 
-  // Prevent body scroll while modal is open
+  // Prevent body scroll
   useEffect(() => {
     document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = '' }
@@ -83,19 +59,38 @@ function InterestModal({ card, onClose }) {
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
       <div className="interest-modal" style={{ '--accent': card.accent }}>
-        {/* Modal header */}
+
+        {/* Header */}
         <div className="interest-modal__header">
           <p className="interest-modal__label">{card.label}</p>
           <h3 className="interest-modal__title">{card.title}</h3>
         </div>
 
+        {/* Filter pills */}
+        <div className="interest-modal__filters">
+          {filters.map(f => (
+            <button
+              key={f.key}
+              className={`interest-filter ${filter === f.key ? 'interest-filter--active' : ''}`}
+              onClick={() => setFilter(f.key)}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+
         {/* Scrollable list */}
         <div className="interest-modal__list">
-          {card.items.map((item, i) => (
+          {visible.length === 0 && (
+            <p className="interest-modal__empty">Nothing here yet.</p>
+          )}
+          {visible.map((item, i) => (
             <div key={i} className="interest-modal__item">
-              <div className="interest-modal__item-index">{String(i + 1).padStart(2, '0')}</div>
               <div className="interest-modal__item-info">
-                <span className="interest-modal__item-name">{item.name}</span>
+                <span className="interest-modal__item-name">
+                  {item.name}
+                  {item.favourite && <span className="interest-modal__star" title="Favourite"> ★</span>}
+                </span>
                 <span className="interest-modal__item-sub">{item.sub}</span>
               </div>
               <StatusBadge status={item.status} />
@@ -103,7 +98,7 @@ function InterestModal({ card, onClose }) {
           ))}
         </div>
 
-        {/* Close button — centered at bottom */}
+        {/* Close button */}
         <div className="interest-modal__footer">
           <button className="interest-modal__close" onClick={onClose}>
             ✕ &nbsp;close
@@ -116,19 +111,31 @@ function InterestModal({ card, onClose }) {
 
 function InterestCard({ card }) {
   const [open, setOpen] = useState(false)
-  const ref = useScrollReveal()
+  const scrollRef = useScrollReveal()
+  const { ref: tiltRef, onMouseMove, onMouseLeave } = useTilt(8)
+
+  // Merge both refs onto the same element
+  const setRef = (el) => {
+    scrollRef.current = el
+    tiltRef.current = el
+  }
 
   return (
     <>
       <button
         className="interest-card reveal"
-        ref={ref}
-        style={{ '--accent': card.accent }}
+        ref={setRef}
+        onMouseMove={onMouseMove}
+        onMouseLeave={onMouseLeave}
+        style={{
+          '--accent': card.accent,
+          '--card-image': `url(${card.image})`,
+          '--card-bg-size': card.bgSize ?? 'cover',
+          '--card-glow': card.glow,
+        }}
         onClick={() => setOpen(true)}
       >
-        <p className="interest-card__label">{card.label}</p>
         <p className="interest-card__title">{card.title}</p>
-        <p className="interest-card__preview">{card.preview}</p>
         <span className="interest-card__cta">View all →</span>
       </button>
 
@@ -149,7 +156,7 @@ export default function Interests() {
         </div>
 
         <div className="interests__grid">
-          {cards.map((card) => (
+          {interestCards.map((card) => (
             <InterestCard key={card.id} card={card} />
           ))}
         </div>
