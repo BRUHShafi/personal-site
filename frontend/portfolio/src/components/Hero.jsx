@@ -2,15 +2,21 @@ import './Hero.css'
 
 // Split each letter of the name into its own span so we can animate them individually
 function BouncingName({ name }) {
+  const words = name.split(' ')
+
   return (
     <h1 className="hero__name" aria-label={name}>
-      {name.split('').map((char, i) => (
-        <span
-          key={i}
-          className="hero__name-letter"
-          style={{ animationDelay: `${i * 0.08}s` }}
-        >
-          {char === ' ' ? '\u00A0' : char}
+      {words.map((word, wordIndex) => (
+        <span key={wordIndex} className="hero__name-word">
+          {word.split('').map((char, charIndex) => (
+            <span
+              key={charIndex}
+              className="hero__name-letter"
+              style={{ animationDelay: `${wordIndex * 0.3}s` }}
+            >
+              {char}
+            </span>
+          ))}
         </span>
       ))}
     </h1>
@@ -22,7 +28,7 @@ export default function Hero() {
     <section className="hero" id="intro">
       {/* Left side — name + subtitle */}
       <div className="hero__left">
-        <BouncingName name="YOUR NAME" />
+        <BouncingName name="MD Mushfiqur Rahman" />
         <p className="hero__subtitle">
           {/* Replace this with your title/tagline */}
           Software Developer &amp; Builder

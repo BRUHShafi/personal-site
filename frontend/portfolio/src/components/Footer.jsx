@@ -3,7 +3,7 @@ import './Footer.css'
 export default function Footer() {
   return (
     <footer className="footer">
-      <span className="footer__logo">YOUR NAME</span>
+      <span className="footer__logo">Shafi</span>
 
       <span className="footer__copy">© 2025 All rights reserved.</span>
 

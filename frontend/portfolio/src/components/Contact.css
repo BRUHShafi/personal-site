@@ -5,20 +5,20 @@
 .contact__card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: 24px;
   padding: 72px 80px;
   max-width: 900px;
   margin: 0 auto;
 }
 
 .contact__heading {
+  font-family: var(--display);
   font-size: clamp(40px, 6vw, 72px);
-  font-weight: 800;
+  font-weight: 700;
   color: var(--text-white);
   letter-spacing: -2px;
   line-height: 1.05;
-  margin-bottom: 20px;
-  text-transform: uppercase;
+  margin-bottom: 18px;
 }
 
 .contact__heading em {
@@ -27,11 +27,12 @@
 }
 
 .contact__subtext {
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 400;
   color: var(--text-light);
   max-width: 480px;
   margin-bottom: 48px;
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
 /* ── Form ── */
@@ -44,7 +45,7 @@
 .contact__row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 16px;
 }
 
 .contact__field {
@@ -55,61 +56,63 @@
 
 .contact__label {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--text);
+  color: var(--text-muted);
 }
 
 .contact__field input,
 .contact__field textarea {
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 14px 16px;
+  border-radius: 10px;
+  padding: 14px 18px;
   font-family: var(--sans);
   font-size: 15px;
+  font-weight: 400;
   color: var(--text-white);
   outline: none;
   resize: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, background 0.2s;
 }
 
 .contact__field input::placeholder,
 .contact__field textarea::placeholder {
-  color: var(--text);
+  color: var(--text-muted);
 }
 
 .contact__field input:focus,
 .contact__field textarea:focus {
   border-color: var(--cyan);
+  background: rgba(0, 229, 255, 0.02);
 }
 
 .contact__submit {
   align-self: flex-start;
-  font-family: var(--mono);
-  font-size: 13px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
   color: var(--bg);
   background: var(--cyan);
   border: none;
   border-radius: 100px;
-  padding: 14px 32px;
+  padding: 14px 36px;
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.2s;
+  transition: opacity 0.2s, transform 0.15s;
 }
 
 .contact__submit:hover {
-  opacity: 0.85;
+  opacity: 0.88;
   transform: translateY(-1px);
 }
 
 /* ── Success state ── */
 .contact__success {
   font-family: var(--mono);
-  font-size: 14px;
-  letter-spacing: 2px;
+  font-size: 13px;
+  letter-spacing: 1.5px;
   color: var(--green);
   text-transform: uppercase;
   padding: 32px 0;

@@ -1,17 +1,29 @@
 :root {
-  --bg: #080810;
-  --bg-card: #0f0f1a;
+  /* Backgrounds */
+  --bg:            #07070f;
+  --bg-card:       #0e0e1c;
   --bg-card-hover: #141428;
-  --border: #1a1a2e;
-  --text: #6b7280;
-  --text-light: #9ca3af;
-  --text-white: #f1f1f3;
-  --cyan: #00e5ff;
-  --cyan-glow: rgba(0, 229, 255, 0.15);
-  --magenta: #d946ef;
-  --green: #22c55e;
-  --sans: 'Space Grotesk', system-ui, sans-serif;
-  --mono: 'Space Mono', monospace;
+
+  /* Borders */
+  --border:        #22223a;
+  --border-subtle: #181828;
+
+  /* Text */
+  --text:          #606080;
+  --text-muted:    #5a5a78;
+  --text-light:    #a0a0c0;
+  --text-white:    #f0f0f6;
+
+  /* Accents */
+  --cyan:          #00e5ff;
+  --cyan-glow:     rgba(0, 229, 255, 0.12);
+  --magenta:       #d946ef;
+  --green:         #22c55e;
+
+  /* Fonts */
+  --sans:    'Plus Jakarta Sans', system-ui, sans-serif;
+  --display: 'Syne', 'Plus Jakarta Sans', sans-serif;
+  --mono:    'JetBrains Mono', monospace;
 }
 
 * {
@@ -26,18 +38,20 @@ html {
 
 body {
   background: var(--bg);
-  color: var(--text);
+  color: var(--text-light);
   font-family: var(--sans);
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.65;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scroll reveal animation */
+/* ── Scroll reveal animation ── */
 .reveal {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(32px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
 }
 
 .reveal.visible {
@@ -50,26 +64,33 @@ body {
 .reveal-delay-3 { transition-delay: 0.3s; }
 .reveal-delay-4 { transition-delay: 0.4s; }
 
-/* Shared section styles */
+/* ── Shared section styles ── */
 .section-label {
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: 3px;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
   color: var(--green);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .section-heading {
-  font-size: clamp(36px, 5vw, 60px);
+  font-family: var(--display);
+  font-size: clamp(38px, 5vw, 64px);
   font-weight: 700;
   color: var(--text-white);
-  letter-spacing: -1.5px;
+  letter-spacing: -1px;
   line-height: 1.05;
-  margin-bottom: 48px;
+  margin-bottom: 52px;
 }
 
 .section-heading em {
   font-style: italic;
   color: var(--cyan);
+}
+
+/* ── Global max-width container ── */
+.container {
+  max-width: 1160px;
+  margin: 0 auto;
 }
