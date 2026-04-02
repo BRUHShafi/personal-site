@@ -14,7 +14,7 @@ export default function Navbar() {
 
   return (
     <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
-      <span className="navbar__logo">YOUR NAME</span>
+      <span className="navbar__logo">Shafi</span>
 
       <ul className="navbar__links">
         {navLinks.map((link) => (

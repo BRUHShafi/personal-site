@@ -60,15 +60,17 @@ function ProjectCard({ project, flipped }) {
 export default function Projects() {
   return (
     <section className="projects" id="work">
-      <div className="projects__header">
-        <p className="section-label">04 // Artifacts</p>
-        <h2 className="section-heading">Selected<br />Works.</h2>
-      </div>
+      <div className="projects__inner">
+        <div className="projects__header">
+          <p className="section-label">04 // Artifacts</p>
+          <h2 className="section-heading">Selected<br />Works.</h2>
+        </div>
 
-      <div className="projects__list">
-        {projects.map((project, i) => (
-          <ProjectCard key={project.number} project={project} flipped={i % 2 !== 0} />
-        ))}
+        <div className="projects__list">
+          {projects.map((project, i) => (
+            <ProjectCard key={project.number} project={project} flipped={i % 2 !== 0} />
+          ))}
+        </div>
       </div>
     </section>
   )
