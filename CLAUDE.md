@@ -96,3 +96,94 @@ npm run build
 - Created `Footer.jsx` + `Footer.css` (logo, copyright, social links)
 - Fixed section numbering: Skills 02→03, Projects 03→04, Resume 04→05
 - Changed section label color from cyan to green to match design reference
+
+### Session 3
+- First GitHub commit: staged and committed all project files with message "Add full portfolio structure: components, styles, and design system"
+- Created `dev` branch — all future work happens here, main stays stable
+- Pushed `dev` branch to GitHub
+- Updated branding: navbar/footer/tab title = "Shafi", hero name = "MD Mushfiqur Rahman"
+- Reduced hero font size to fit full name: `clamp(32px, 4.5vw, 64px)`
+- Fixed bouncing name animation — letters now bounce per word (not per character) so "MD", "Mushfiqur", "Rahman" each bounce in sync
+- Rebuilt Interests section as 3 clickable expandable cards: Currently Playing, Currently Reading, Currently Working At
+  - Click to expand scrollable list, click again to close
+  - Each card has its own accent color (cyan, magenta, green)
+  - Demo data in place — real data to be filled in later
+  - ⚠️ User not satisfied with current Interests design — needs revisiting next session
+
+### Session 4
+- Rebuilt Interests section as glass modal system:
+  - 3 static clickable cards in a grid (Currently Playing, Reading, Working At)
+  - Click opens a glassmorphism modal overlay with blur backdrop
+  - Modal: scrollable item list with index + name + subtitle + status badge
+  - Status badges: PLAYING/COMPLETED/WILL PLAY LATER (cyan/green/magenta)
+  - Close button centered at modal bottom; ESC key + click-outside also close
+  - On mobile: slides up as a bottom sheet
+- Upgraded entire design system fonts and typography:
+  - Replaced Space Grotesk → `Plus Jakarta Sans` (body, nav, buttons)
+  - Added `Syne` as display font for all headings (section headings, hero name)
+  - Replaced Space Mono → `JetBrains Mono` (labels, mono text)
+  - Added `--display` CSS variable for Syne, updated `--mono` to JetBrains Mono
+- Improved global design tokens (`index.css`):
+  - `--border` bumped from `#1a1a2e` → `#22223a` (actually visible now)
+  - Added `--text-muted` for dim labels, `--border-subtle` for delicate separators
+  - Body text contrast improved throughout
+- Refined all component CSS: better spacing, line-heights, button styles, max-width containers
+- Added `.projects__inner` and `.interests__inner` wrappers for consistent max-width (1160px)
+- Committed all changes to `dev` branch and pushed to GitHub
+- TODO: open PR from dev → main (deferred to next session)
+
+### Session 5
+- Replaced traditional navbar with orbital/radial nav:
+  - "SHAFI" circular button fixed at top-center
+  - Click opens 6 nav items fanning out in a downward arc
+  - Items are glass pill bubbles; click scrolls to section + closes menu
+  - ESC and click-outside also close
+  - Arc angles: 195°–345°, radius 158px
+  - Pulse animation on button when closed; ripple ring on open
+  - Mobile fallback: collapses to simple top bar
+- Added light mode toggle as 6th orbital nav item (☀ Light / ☾ Dark)
+  - Saves preference to localStorage
+  - Full light mode CSS variable overrides in `index.css`
+  - Hero backgrounds, navbar, modals, cards all adapt
+- Improved dark mode text readability: bumped `--text`, `--text-muted`, `--text-light`
+- Interests section overhaul:
+  - Cards now use gif backgrounds (`Game_Card.gif`, `Book_Card.gif`, `Job_Card.gif`) from `public/`
+  - Dark overlay on cards for text readability
+  - Per-card side glow using accent color (inset box-shadow)
+  - 3D tilt on hover via reusable `useTilt` hook (`src/hooks/useTilt.js`)
+  - Removed card label and preview text; title + "View all →" only
+  - All text white with dark text-shadow for readability over gifs
+  - Modal: added filter pills (All / status filters / ★ Fav) + favourite flag per item
+  - Modal number indexes now use `--text-muted` (readable in both modes)
+  - Modal glass panel adapts to light mode
+- Moved interests data to `src/data/interests.js` — edit data without touching components
+- Hero typing effect: subtitle cycles through 4 titles with type/delete loop
+  - Titles: Cybersecurity Student, Cloud Computing Enthusiast, Networking & Infrastructure, Building Secure Systems
+  - Cyan blinking cursor; 2.8s pause before deleting
+- Committed and merged dev → main multiple times this session
+
+### Session 6
+- Animation improvements:
+  - Hero name wave: per-letter stagger using global character index (not per-word), so wave rolls continuously across full name
+  - Wave speed tuned to 3.2s, peak height -22px with scale(1.12) pop at apex
+  - Hero name color: white in dark mode, near-black in light mode (removed cyan)
+- Orbital nav fireball aura:
+  - Replaced cyan pulse with 5-ring concentric fire glow (white-yellow → orange → deep orange → red → dark red halo)
+  - Flickers across 3 keyframes at 2.8s — slow, languid breathe
+  - Border color pulses orange in dark mode, dark blue in light mode
+  - Light mode: matching dark blue `blueGlow` animation
+  - Fire stops when menu opens, cyan glow takes over
+  - "SHAFI" text: white in dark mode, near-black in light mode
+- 3D sword added to hero section:
+  - Installed `@react-three/fiber`, `@react-three/drei`, `@react-three/postprocessing`
+  - `sword.glb` in `public/` — exported from Blender
+  - `src/components/Sword.jsx` — loads model, floats on Y axis, drops on scroll
+  - Bloom post-processing: intensity 0.3, threshold 0.6 (subtle blade shimmer)
+  - Canvas is full-hero overlay (position: absolute, inset: 0) — no box/split feeling
+  - Canvas transparent background via `alpha: true` + `onCreated setClearColor`
+  - Performance: `dpr={[1, 1.5]}`, `powerPreference: high-performance`, `multisampling={0}`
+  - Scroll effect: sword drops downward (`scrollProgress * -5` on Y) as user scrolls
+  - Sword position: right side of hero (x=4), tip pointing down, blade facing camera
+  - Hero layout changed from grid to single column with sword as absolute overlay
+  - TODO: fix blade emblem/texture (procedural material didn't export from Blender)
+  - TODO: dial in final sword rotation/facing next session
