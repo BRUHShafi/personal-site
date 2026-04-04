@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import SwordCanvas from './Sword'
 import './Hero.css'
 
 const TITLES = [
@@ -56,42 +57,52 @@ function TypingSubtitle() {
 
 function BouncingName({ name }) {
   const words = name.split(' ')
+  let globalIndex = 0
 
   return (
     <h1 className="hero__name" aria-label={name}>
-      {words.map((word, wordIndex) => (
-        <span key={wordIndex} className="hero__name-word">
-          {word.split('').map((char, charIndex) => (
-            <span
-              key={charIndex}
-              className="hero__name-letter"
-              style={{ animationDelay: `${wordIndex * 0.3}s` }}
-            >
-              {char}
-            </span>
-          ))}
-        </span>
-      ))}
+      {words.map((word, wordIndex) => {
+        const wordStart = globalIndex
+        globalIndex += word.length
+        return (
+          <span key={wordIndex} className="hero__name-word">
+            {word.split('').map((char, charIndex) => (
+              <span
+                key={charIndex}
+                className="hero__name-letter"
+                style={{ animationDelay: `${(wordStart + charIndex) * 0.065}s` }}
+              >
+                {char}
+              </span>
+            ))}
+          </span>
+        )
+      })}
     </h1>
   )
 }
 
 export default function Hero() {
+  const [scrollProgress, setScrollProgress] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const progress = Math.min(window.scrollY / window.innerHeight, 1)
+      setScrollProgress(progress)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <section className="hero" id="intro">
+      <div className="hero__sword-overlay">
+        <SwordCanvas scrollProgress={scrollProgress} />
+      </div>
+
       <div className="hero__left">
         <BouncingName name="MD Mushfiqur Rahman" />
         <TypingSubtitle />
-      </div>
-
-      <div className="hero__right">
-        <div className="hero__throne-placeholder">
-          <span className="hero__throne-label">THRONE PROTOCOL</span>
-          <span className="hero__throne-sub">3D ASSET LOADING SEQUENCE INITIATED</span>
-          <div className="hero__throne-bar">
-            <div className="hero__throne-bar-fill" />
-          </div>
-        </div>
       </div>
     </section>
   )
