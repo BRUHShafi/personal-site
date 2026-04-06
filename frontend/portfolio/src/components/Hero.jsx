@@ -87,8 +87,7 @@ export default function Hero() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const progress = Math.min(window.scrollY / window.innerHeight, 1)
-      setScrollProgress(progress)
+      setScrollProgress(Math.min(window.scrollY / window.innerHeight, 1))
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
@@ -99,7 +98,6 @@ export default function Hero() {
       <div className="hero__sword-overlay">
         <SwordCanvas scrollProgress={scrollProgress} />
       </div>
-
       <div className="hero__left">
         <BouncingName name="MD Mushfiqur Rahman" />
         <TypingSubtitle />

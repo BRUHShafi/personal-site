@@ -64,6 +64,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ── Star field: reduce opacity slightly in light mode (stars recolored to dark blue) ── */
+[data-theme="light"] canvas.starfield {
+  opacity: 0.9;
+}
+
 /* ── Scroll reveal animation ── */
 .reveal {
   opacity: 0;

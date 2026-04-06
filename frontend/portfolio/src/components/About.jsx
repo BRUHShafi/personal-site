@@ -1,11 +1,13 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import SwordFlyby from './SwordFlyby'
 import './About.css'
 
 export default function About() {
   const ref = useScrollReveal()
 
   return (
-    <section className="about" id="intro-section">
+    <section className="about" id="intro-section" style={{ position: 'relative' }}>
+      <SwordFlyby />
       <div className="about__inner reveal" ref={ref}>
         {/* Left column — label + big heading */}
         <div className="about__left">
