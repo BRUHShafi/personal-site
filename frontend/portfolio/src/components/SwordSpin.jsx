@@ -6,15 +6,22 @@ import * as THREE from 'three'
 
 const YELLOW_EMISSIVE = new THREE.Color('#ffaa00')
 
-function FlybyMesh({ scrollProgress }) {
+function SpinMesh({ scrollProgress }) {
   const groupRef = useRef()
   const { scene: original } = useGLTF('/sword.glb')
 
-  // Clone so it renders independently from the hero sword
-  const scene = useMemo(() => original.clone(true), [original])
+  const scene = useMemo(() => {
+    const cloned = original.clone(true)
+    // Apply scale + rotation so the bounding box matches what's actually rendered
+    cloned.scale.set(0.13, 0.13, 0.13)
+    cloned.rotation.set(Math.PI / 2, Math.PI / 2, 0)
+    // Shift position so geometric center sits at the group origin (the spin point)
+    const box    = new THREE.Box3().setFromObject(cloned)
+    const center = box.getCenter(new THREE.Vector3())
+    cloned.position.set(-center.x, -center.y, -center.z)
 
-  useEffect(() => {
-    scene.traverse((node) => {
+    // Yellow emissive
+    cloned.traverse((node) => {
       if (node.isMesh && node.material) {
         const mats = Array.isArray(node.material) ? node.material : [node.material]
         mats.forEach((mat) => {
@@ -24,34 +31,38 @@ function FlybyMesh({ scrollProgress }) {
         })
       }
     })
-  }, [scene])
+    return cloned
+  }, [original])
 
-  useFrame(() => {
-    // Delay entry: sword waits off-screen for first 25% of section scroll,
-    // then enters from the left — feels like the hero sword reappearing
-    const delayed = Math.max(0, (scrollProgress - 0.25) / 0.75)
-    groupRef.current.position.x = -10 + delayed * 22
-    groupRef.current.position.y = -1.2
-    groupRef.current.rotation.z = 0  // horizontal
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime()
+
+    // Enter from right, travel left as you scroll
+    // Delay entry slightly (wait for first 20% of section scroll)
+    const delayed = scrollProgress
+    groupRef.current.position.x = 10 - delayed * 22   // right → left
+    groupRef.current.position.y = 1.9  // raised to sit over the heading
+
+    // Slow continuous spin around Z axis (one full rotation every ~4s)
+    groupRef.current.rotation.z = t * 0.5
   })
 
   return (
     <group ref={groupRef}>
-      <primitive object={scene} scale={0.35} rotation={[Math.PI / 2, Math.PI / 2, 0]} />
+      <primitive object={scene} />
     </group>
   )
 }
 
-export default function SwordFlyby() {
+export default function SwordSpin() {
   const [scrollProgress, setScrollProgress] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
-      const el = document.getElementById('intro-section')
+      const el = document.getElementById('skills')
       if (!el) return
       const rect = el.getBoundingClientRect()
       const vpH  = window.innerHeight
-      // 0 when section enters viewport bottom, 1 when section exits viewport top
       const progress = (vpH - rect.top) / (rect.height + vpH)
       setScrollProgress(Math.max(0, Math.min(1, progress)))
     }
@@ -65,7 +76,7 @@ export default function SwordFlyby() {
       position:      'absolute',
       inset:         0,
       pointerEvents: 'none',
-      zIndex:        1,
+      zIndex:        0,
     }}>
       <Canvas
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
@@ -78,7 +89,7 @@ export default function SwordFlyby() {
         <directionalLight position={[3, 5, 5]}  intensity={2.0} color="#ffd060" />
         <directionalLight position={[-3, 1, -2]} intensity={0.8} color="#ff9900" />
         <pointLight position={[0, 0, 3]} intensity={4.0} color="#ffbb00" distance={12} />
-        <FlybyMesh scrollProgress={scrollProgress} />
+        <SpinMesh scrollProgress={scrollProgress} />
         <EffectComposer multisampling={0}>
           <Bloom intensity={1.2} luminanceThreshold={0.3} luminanceSmoothing={0.7} />
         </EffectComposer>

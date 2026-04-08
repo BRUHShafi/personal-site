@@ -26,8 +26,8 @@ function SwordMesh({ scrollProgress }) {
   useFrame((state) => {
     const t = state.clock.getElapsedTime()
     const floatY = Math.sin(t * 0.8) * 0.12
-    // Stay in place for first 75% of hero scroll, then drop off the bottom
-    const dropProgress = Math.max(0, (scrollProgress - 0.75) / 0.25)
+    // Drop immediately from the first scroll
+    const dropProgress = scrollProgress
     groupRef.current.position.x = 4
     groupRef.current.position.y = -1.5 + floatY + dropProgress * -6
     groupRef.current.rotation.z = -Math.PI / 2

@@ -1,10 +1,10 @@
 .projects {
-  padding: 120px 80px;
+  padding: 80px 80px;
   border-top: 1px solid var(--border);
 }
 
 .projects__inner {
-  max-width: 1160px;
+  max-width: 860px;
   margin: 0 auto;
 }
 
@@ -15,14 +15,14 @@
 .projects__list {
   display: flex;
   flex-direction: column;
-  gap: 88px;
+  gap: 56px;
 }
 
 /* ── Project card ── */
 .project-card {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 72px;
+  grid-template-columns: 0.45fr 1fr;
+  gap: 40px;
   align-items: center;
 }
 

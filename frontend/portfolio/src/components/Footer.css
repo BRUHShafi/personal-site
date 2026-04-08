@@ -4,6 +4,7 @@
   justify-content: space-between;
   padding: 28px 80px;
   border-top: 1px solid var(--border);
+  position: relative;
 }
 
 .footer__logo {

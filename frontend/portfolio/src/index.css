@@ -53,6 +53,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Sit above fixed background canvases (LightningAmbient, StarField) via DOM order */
+section, footer {
+  position: relative;
+}
+
 body {
   background: var(--bg);
   color: var(--text-light);
