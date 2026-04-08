@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lightning GLB Test</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #07070f; overflow: hidden; }
+    canvas { display: block; }
+    #info {
+      position: fixed; top: 16px; left: 16px;
+      color: #aaa; font-family: monospace; font-size: 13px;
+      background: rgba(0,0,0,0.6); padding: 10px 14px; border-radius: 8px;
+    }
+    #controls {
+      position: fixed; bottom: 16px; left: 16px;
+      color: #aaa; font-family: monospace; font-size: 12px;
+      background: rgba(0,0,0,0.6); padding: 10px 14px; border-radius: 8px;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+  <div id="info">Loading lightning.glb…</div>
+  <div id="controls">
+    🖱 Left drag — rotate<br>
+    🖱 Right drag — pan<br>
+    🖱 Scroll — zoom<br>
+    R — reset camera
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three'
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+
+    const info = document.getElementById('info')
+
+    const scene  = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.1, 100)
+    camera.position.set(0, 0, 8)
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true })
+    renderer.setSize(innerWidth, innerHeight)
+    renderer.setPixelRatio(devicePixelRatio)
+    renderer.toneMapping = THREE.ACESFilmicToneMapping
+    renderer.toneMappingExposure = 1.2
+    document.body.appendChild(renderer.domElement)
+
+    const controls = new OrbitControls(camera, renderer.domElement)
+    controls.enableDamping = true
+
+    // Yellow-tinted lights to preview the theme
+    scene.add(new THREE.AmbientLight('#ffcc55', 0.6))
+    const dir = new THREE.DirectionalLight('#ffd060', 2.5)
+    dir.position.set(5, 5, 5)
+    scene.add(dir)
+    const fill = new THREE.DirectionalLight('#ff9900', 1.0)
+    fill.position.set(-3, 1, -2)
+    scene.add(fill)
+    const pt = new THREE.PointLight('#ffbb00', 6, 12)
+    pt.position.set(0, 2, 3)
+    scene.add(pt)
+
+    let mixer = null
+    const loader = new GLTFLoader()
+    loader.load(
+      '/Lightning.glb',
+      (gltf) => {
+        // Force yellow emissive so it matches the site theme
+        gltf.scene.traverse((node) => {
+          if (node.isMesh && node.material) {
+            const mats = Array.isArray(node.material) ? node.material : [node.material]
+            mats.forEach((mat) => {
+              mat.emissive = new THREE.Color('#ffaa00')
+              mat.emissiveIntensity = 0.6
+              mat.needsUpdate = true
+            })
+          }
+        })
+
+        scene.add(gltf.scene)
+
+        // Auto-center + fit to view
+        const box    = new THREE.Box3().setFromObject(gltf.scene)
+        const size   = box.getSize(new THREE.Vector3())
+        const center = box.getCenter(new THREE.Vector3())
+        const maxDim = Math.max(size.x, size.y, size.z)
+        const scale  = 4 / maxDim
+        gltf.scene.scale.setScalar(scale)
+        gltf.scene.position.sub(center.multiplyScalar(scale))
+
+        if (gltf.animations.length > 0) {
+          mixer = new THREE.AnimationMixer(gltf.scene)
+          gltf.animations.forEach((clip) => mixer.clipAction(clip).play())
+          info.textContent = `✓ Loaded — ${gltf.animations.length} animation(s) | size: ${size.x.toFixed(2)} × ${size.y.toFixed(2)} × ${size.z.toFixed(2)}`
+        } else {
+          info.textContent = `✓ Loaded — no animations | size: ${size.x.toFixed(2)} × ${size.y.toFixed(2)} × ${size.z.toFixed(2)}`
+        }
+      },
+      (xhr) => {
+        if (xhr.total) info.textContent = `Loading… ${Math.round(xhr.loaded / xhr.total * 100)}%`
+      },
+      (err) => {
+        info.textContent = `✗ Error: ${err.message}`
+        console.error(err)
+      }
+    )
+
+    // Reset camera on R key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'r' || e.key === 'R') {
+        camera.position.set(0, 0, 8)
+        controls.target.set(0, 0, 0)
+        controls.update()
+      }
+    })
+
+    const clock = new THREE.Clock()
+    const animate = () => {
+      requestAnimationFrame(animate)
+      const dt = clock.getDelta()
+      if (mixer) mixer.update(dt)
+      controls.update()
+      renderer.render(scene, camera)
+    }
+    animate()
+
+    window.addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight
+      camera.updateProjectionMatrix()
+      renderer.setSize(innerWidth, innerHeight)
+    })
+  </script>
+</body>
+</html>

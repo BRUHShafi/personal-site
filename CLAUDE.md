@@ -187,3 +187,31 @@ npm run build
   - Hero layout changed from grid to single column with sword as absolute overlay
   - TODO: fix blade emblem/texture (procedural material didn't export from Blender)
   - TODO: dial in final sword rotation/facing next session
+
+### Session 7
+- Yellow glow theme applied to sword (`Sword.jsx`):
+  - All mesh materials get `emissive: #ffaa00` at 55% intensity via `scene.traverse`
+  - Lights shifted to warm gold/amber tones; added `pointLight` at `#ffbb00` near sword
+  - Bloom: intensity 1.2, threshold 0.3 (stronger yellow halo)
+- Star field added (`src/components/StarField.jsx`):
+  - 280 twinkling stars, fixed canvas covering full site (`position: fixed`)
+  - 12% warm gold stars with radial halo glow to match sword theme
+  - Larger stars get soft gradient bloom; each star has independent twinkle phase
+  - Hidden in light mode via `.starfield` CSS class
+  - Mounted in `App.jsx` so it covers all sections
+  - Hero background set to `transparent` so stars show through
+- Scattered galaxy decorations added to `StarField.jsx`:
+  - 7 galaxies in different colors: blue-indigo, magenta, cyan-teal, amber, purple, green, red-rose
+  - Each pre-rendered once to an offscreen canvas (zero per-frame CPU cost — just `drawImage` blit)
+  - 2 spiral arms + disk scatter per galaxy; tilted disk illusion via `scale(1, tilt)`
+  - Bright round core glow rendered separately (not tilted) per galaxy
+  - Positions spread across viewport as % so they scale with window size
+- Portal work (in progress — resuming next session):
+  - User modeled a portal in Blender (`Portal.glb` in `public/`)
+  - Loaded in same Three.js canvas as sword via `useGLTF` + `useAnimations`
+  - Suspense boundary added so portal failure doesn't crash sword canvas
+  - `test-portal.html` created in `public/` for isolated GLB testing
+  - Issue: animation not exporting from Blender — procedural/constraint-driven spin
+  - Fix identified: bake action (`Object → Animation → Bake Action`) then push to NLA before export
+  - TODO: user will bake + re-export portal next session, then dial in position/scale in Three.js
+  - TODO: two more 3D models planned for the site (user's idea)

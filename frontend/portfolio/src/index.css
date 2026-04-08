@@ -53,6 +53,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Sit above fixed background canvases (LightningAmbient, StarField) via DOM order */
+section, footer {
+  position: relative;
+}
+
 body {
   background: var(--bg);
   color: var(--text-light);
@@ -62,6 +67,11 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Star field: reduce opacity slightly in light mode (stars recolored to dark blue) ── */
+[data-theme="light"] canvas.starfield {
+  opacity: 0.9;
 }
 
 /* ── Scroll reveal animation ── */

@@ -2,13 +2,14 @@
   min-height: 100vh;
   position: relative;
   padding-top: 80px;
-  background: #07070f;
+  background: transparent;
   overflow: hidden;
 }
 
 [data-theme="light"] .hero {
-  background: #f2f2f8;
+  background: transparent;
 }
+
 
 /* ── Sword — floats over the entire hero ── */
 .hero__sword-overlay {

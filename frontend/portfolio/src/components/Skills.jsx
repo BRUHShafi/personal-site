@@ -1,4 +1,6 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import SwordSpin from './SwordSpin'
+import SkillConstellation from './SkillConstellation'
 import './Skills.css'
 
 // Replace these with your actual skills
@@ -17,8 +19,9 @@ export default function Skills() {
   const ref = useScrollReveal()
 
   return (
-    <section className="skills" id="skills">
-      <div className="skills__inner reveal" ref={ref}>
+    <section className="skills" id="skills" style={{ position: 'relative' }}>
+      <SwordSpin />
+      <div className="skills__inner reveal" ref={ref} style={{ position: 'relative', zIndex: 2 }}>
         <div className="skills__left">
           <p className="section-label">03 // Toolkit</p>
           <h2 className="section-heading">Technical<br />Skills.</h2>
@@ -29,17 +32,7 @@ export default function Skills() {
         </div>
 
         <div className="skills__right">
-          <div className="skills__grid">
-            {skills.map((skill, i) => (
-              <span
-                key={skill}
-                className="skills__pill reveal"
-                style={{ transitionDelay: `${i * 0.06}s` }}
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
+          <SkillConstellation />
         </div>
       </div>
     </section>

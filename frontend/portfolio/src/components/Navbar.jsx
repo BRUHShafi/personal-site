@@ -28,7 +28,9 @@ export default function Navbar() {
   const [light, setLight]     = useState(() => {
     return localStorage.getItem('theme') === 'light'
   })
-  const navRef = useRef(null)
+  const [dimmed, setDimmed]   = useState(false)
+  const navRef    = useRef(null)
+  const centerRef = useRef(null)
 
   // Apply theme to <html> and persist
   useEffect(() => {
@@ -59,6 +61,71 @@ export default function Navbar() {
     return () => window.removeEventListener('keydown', handler)
   }, [])
 
+  // Dim when floating over real content
+  useEffect(() => {
+    const SVG_VISUAL = new Set(['text','tspan','circle','ellipse','rect','path','line','polyline','polygon','image','use'])
+
+    const isContentEl = (el, px, py) => {
+      if (navRef.current?.contains(el) || el === navRef.current) return false
+      if (el === document.body || el === document.documentElement) return false
+      if (el.tagName === 'CANVAS') return false
+
+      const tag = el.tagName.toLowerCase()
+      if (SVG_VISUAL.has(tag))                                                    return true
+      if (tag === 'img')                                                           return true
+      if (['span','a','strong','em','input','textarea','button','label','li'].includes(tag)) return true
+
+      // Block text: verify the rendered glyphs (not just layout box) cover this point
+      if (['h1','h2','h3','h4','h5','h6','p'].includes(tag)) {
+        try {
+          const range = document.createRange()
+          range.selectNodeContents(el)
+          return Array.from(range.getClientRects()).some(
+            r => px >= r.left && px <= r.right && py >= r.top && py <= r.bottom
+          )
+        } catch { return false }
+      }
+
+      // Containers: only flag if they have a visible card/image background
+      const style    = window.getComputedStyle(el)
+      const bg       = style.backgroundColor
+      const bgImg    = style.backgroundImage
+      const isPageBg = bg === 'rgba(0, 0, 0, 0)' || bg === 'rgb(7, 7, 15)' || bg === 'rgb(242, 242, 248)'
+      return (!isPageBg) || (bgImg && bgImg !== 'none')
+    }
+
+    const check = () => {
+      const btn = centerRef.current
+      if (!btn) return
+      const rect = btn.getBoundingClientRect()
+      const cx = rect.left + rect.width  / 2
+      const cy = rect.top  + rect.height / 2
+      const r  = rect.width / 2 * 0.7   // sample radius — ~70% of button radius
+
+      // Sample 9 points: center + 8 around the edge of the button
+      const points = [
+        [cx,      cy     ],
+        [cx + r,  cy     ],
+        [cx - r,  cy     ],
+        [cx,      cy + r ],
+        [cx,      cy - r ],
+        [cx + r,  cy + r ],
+        [cx - r,  cy - r ],
+        [cx + r,  cy - r ],
+        [cx - r,  cy + r ],
+      ]
+
+      const overContent = points.some(([px, py]) =>
+        document.elementsFromPoint(px, py).some(el => isContentEl(el, px, py))
+      )
+      setDimmed(overContent)
+    }
+
+    window.addEventListener('scroll', check, { passive: true })
+    check()
+    return () => window.removeEventListener('scroll', check)
+  }, [])
+
   const handleItemClick = (e, item) => {
     e.preventDefault()
     if (item.toggle) {
@@ -81,6 +148,7 @@ export default function Navbar() {
       className={`orbital-nav ${open ? 'orbital-nav--open' : ''}`}
       ref={navRef}
       aria-label="Main navigation"
+      style={{ opacity: dimmed && !open ? 0.25 : 1, transition: 'opacity 0.5s ease' }}
     >
       <div className="orbital-nav__ring" aria-hidden="true" />
 
@@ -111,6 +179,7 @@ export default function Navbar() {
         onClick={() => setOpen(!open)}
         aria-expanded={open}
         aria-label="Toggle navigation"
+        ref={centerRef}
       >
         <span className="orbital-nav__name">Shafi</span>
       </button>
