@@ -5,33 +5,38 @@ import { interestCards } from '../data/interests'
 import './Interests.css'
 
 const STATUS_LABELS = {
-  ongoing:        'PLAYING',
-  completed:      'COMPLETED',
-  'will-play':    'WILL PLAY LATER',
-  reading:        'READING',
-  'want-to-read': 'WANT TO READ',
-  current:        'CURRENT',
-  past:           'PAST',
+  ongoing:   'Playing',
+  completed: 'Completed',
+  online:    'Online',
+  reading:   'Reading',
+  current:   'Current',
+  past:      'Past',
+}
+
+const CARD_NOUNS = {
+  playing: 'game',
+  reading: 'book',
+  working: 'position',
 }
 
 function StatusBadge({ status }) {
+  if (!status) return null
   return (
     <span className={`interest-badge interest-badge--${status}`}>
-      {STATUS_LABELS[status] ?? status.toUpperCase()}
+      {STATUS_LABELS[status] ?? status}
     </span>
   )
 }
 
-
 function InterestModal({ card, onClose }) {
   const [filter, setFilter] = useState('all')
 
-  // Build filter options from the items in this card
   const statuses = [...new Set(card.items.map(i => i.status))]
+  const hasFavourites = card.items.some(i => i.favourite)
   const filters = [
-    { key: 'all',       label: 'All' },
+    { key: 'all', label: 'All' },
     ...statuses.map(s => ({ key: s, label: card.filterLabels?.[s] ?? s.toUpperCase() })),
-    { key: 'favourite', label: '★ Fav' },
+    ...(hasFavourites ? [{ key: 'favourite', label: '★ Fav' }] : []),
   ]
 
   const visible = card.items.filter(item => {
@@ -40,14 +45,15 @@ function InterestModal({ card, onClose }) {
     return item.status === filter
   })
 
-  // Close on ESC
+  const noun  = CARD_NOUNS[card.id] ?? 'item'
+  const count = card.items.length
+
   useEffect(() => {
     const handler = (e) => { if (e.key === 'Escape') onClose() }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   }, [onClose])
 
-  // Prevent body scroll
   useEffect(() => {
     document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = '' }
@@ -58,15 +64,21 @@ function InterestModal({ card, onClose }) {
       className="interest-overlay"
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
-      <div className="interest-modal" style={{ '--accent': card.accent }}>
+      <div className="interest-modal" style={{ '--accent': card.accent, '--accent-glow': card.glow }}>
+
+        {/* Corner close */}
+        <button className="interest-modal__x" onClick={onClose} aria-label="Close">✕</button>
 
         {/* Header */}
         <div className="interest-modal__header">
           <p className="interest-modal__label">{card.label}</p>
           <h3 className="interest-modal__title">{card.title}</h3>
+          <p className="interest-modal__count">
+            {count} {noun}{count !== 1 ? 's' : ''} tracked
+          </p>
         </div>
 
-        {/* Filter pills */}
+        {/* Tab filters */}
         <div className="interest-modal__filters">
           {filters.map(f => (
             <button
@@ -86,23 +98,17 @@ function InterestModal({ card, onClose }) {
           )}
           {visible.map((item, i) => (
             <div key={i} className="interest-modal__item">
+              <span className="interest-modal__num">{String(i + 1).padStart(2, '0')}</span>
               <div className="interest-modal__item-info">
                 <span className="interest-modal__item-name">
                   {item.name}
-                  {item.favourite && <span className="interest-modal__star" title="Favourite"> ★</span>}
+                  {item.favourite && <span className="interest-modal__star">★</span>}
                 </span>
                 <span className="interest-modal__item-sub">{item.sub}</span>
               </div>
               <StatusBadge status={item.status} />
             </div>
           ))}
-        </div>
-
-        {/* Close button */}
-        <div className="interest-modal__footer">
-          <button className="interest-modal__close" onClick={onClose}>
-            ✕ &nbsp;close
-          </button>
         </div>
       </div>
     </div>
@@ -114,7 +120,6 @@ function InterestCard({ card }) {
   const scrollRef = useScrollReveal()
   const { ref: tiltRef, onMouseMove, onMouseLeave } = useTilt(8)
 
-  // Merge both refs onto the same element
   const setRef = (el) => {
     scrollRef.current = el
     tiltRef.current = el

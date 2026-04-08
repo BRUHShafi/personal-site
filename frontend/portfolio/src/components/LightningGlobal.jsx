@@ -99,10 +99,10 @@ export default function LightningGlobal() {
       clipPath: `inset(${clipTop}px 0 0 0)`,
     }}>
       <Canvas
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+        gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         camera={{ position: [0, 0, 7], fov: 45 }}
         style={{ background: 'transparent' }}
-        dpr={[1, 1.5]}
+        dpr={1}
         onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
       >
         <ambientLight intensity={0.4} color="#ffcc55" />
@@ -115,7 +115,7 @@ export default function LightningGlobal() {
         ))}
 
         <EffectComposer multisampling={0}>
-          <Bloom intensity={1.5} luminanceThreshold={0.25} luminanceSmoothing={0.7} />
+          <Bloom intensity={1.5} luminanceThreshold={0.65} luminanceSmoothing={0.7} />
         </EffectComposer>
       </Canvas>
     </div>

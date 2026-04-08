@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
@@ -41,13 +41,26 @@ function SwordMesh({ scrollProgress }) {
 }
 
 export default function SwordCanvas({ scrollProgress }) {
+  const wrapRef = useRef()
+  const [frameloop, setFrameloop] = useState('always')
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => setFrameloop(entry.isIntersecting ? 'always' : 'never'),
+      { threshold: 0 }
+    )
+    if (wrapRef.current) obs.observe(wrapRef.current)
+    return () => obs.disconnect()
+  }, [])
+
   return (
-    <div style={{ width: '100%', height: '100%' }}>
+    <div ref={wrapRef} style={{ width: '100%', height: '100%' }}>
       <Canvas
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+        frameloop={frameloop}
+        gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         camera={{ position: [0, 0, 7], fov: 45 }}
         style={{ background: 'transparent' }}
-        dpr={[1, 1.5]}
+        dpr={1}
         onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
       >
         <ambientLight intensity={0.4} color="#ffcc55" />
@@ -56,7 +69,7 @@ export default function SwordCanvas({ scrollProgress }) {
         <pointLight position={[4, -1, 3]} intensity={4.0} color="#ffbb00" distance={12} />
         <SwordMesh scrollProgress={scrollProgress} />
         <EffectComposer multisampling={0}>
-          <Bloom intensity={1.2} luminanceThreshold={0.3} luminanceSmoothing={0.7} />
+          <Bloom intensity={1.2} luminanceThreshold={0.6} luminanceSmoothing={0.7} />
         </EffectComposer>
       </Canvas>
     </div>

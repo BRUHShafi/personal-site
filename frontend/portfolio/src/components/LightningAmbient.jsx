@@ -90,10 +90,10 @@ export default function LightningAmbient() {
       zIndex:        0,
     }}>
       <Canvas
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+        gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         camera={{ position: [0, 0, 7], fov: 45 }}
         style={{ background: 'transparent' }}
-        dpr={[1, 1.5]}
+        dpr={1}
         onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
       >
         <ambientLight intensity={0.3} color="#ffcc55" />
@@ -103,7 +103,7 @@ export default function LightningAmbient() {
         <AllBolts />
 
         <EffectComposer multisampling={0}>
-          <Bloom intensity={0.6} luminanceThreshold={0.6} luminanceSmoothing={0.9} mipmapBlur />
+          <Bloom intensity={0.6} luminanceThreshold={0.7} luminanceSmoothing={0.9} />
         </EffectComposer>
       </Canvas>
     </div>

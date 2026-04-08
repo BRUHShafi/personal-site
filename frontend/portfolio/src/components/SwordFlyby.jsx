@@ -44,6 +44,17 @@ function FlybyMesh({ scrollProgress }) {
 
 export default function SwordFlyby() {
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [frameloop, setFrameloop] = useState('never')
+  const wrapRef = useRef()
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => setFrameloop(entry.isIntersecting ? 'always' : 'never'),
+      { threshold: 0 }
+    )
+    if (wrapRef.current) obs.observe(wrapRef.current)
+    return () => obs.disconnect()
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,7 +62,6 @@ export default function SwordFlyby() {
       if (!el) return
       const rect = el.getBoundingClientRect()
       const vpH  = window.innerHeight
-      // 0 when section enters viewport bottom, 1 when section exits viewport top
       const progress = (vpH - rect.top) / (rect.height + vpH)
       setScrollProgress(Math.max(0, Math.min(1, progress)))
     }
@@ -61,17 +71,18 @@ export default function SwordFlyby() {
   }, [])
 
   return (
-    <div style={{
+    <div ref={wrapRef} style={{
       position:      'absolute',
       inset:         0,
       pointerEvents: 'none',
       zIndex:        1,
     }}>
       <Canvas
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+        frameloop={frameloop}
+        gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         camera={{ position: [0, 0, 7], fov: 45 }}
         style={{ background: 'transparent' }}
-        dpr={[1, 1.5]}
+        dpr={1}
         onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
       >
         <ambientLight intensity={0.4} color="#ffcc55" />
@@ -80,7 +91,7 @@ export default function SwordFlyby() {
         <pointLight position={[0, 0, 3]} intensity={4.0} color="#ffbb00" distance={12} />
         <FlybyMesh scrollProgress={scrollProgress} />
         <EffectComposer multisampling={0}>
-          <Bloom intensity={1.2} luminanceThreshold={0.3} luminanceSmoothing={0.7} />
+          <Bloom intensity={1.2} luminanceThreshold={0.6} luminanceSmoothing={0.7} />
         </EffectComposer>
       </Canvas>
     </div>

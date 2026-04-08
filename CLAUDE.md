@@ -215,3 +215,17 @@ npm run build
   - Fix identified: bake action (`Object → Animation → Bake Action`) then push to NLA before export
   - TODO: user will bake + re-export portal next session, then dial in position/scale in Three.js
   - TODO: two more 3D models planned for the site (user's idea)
+
+### Session 8
+- Interests section — games data populated from Steam library screenshots:
+  - 14 games added with developer names as subtitles
+  - Categorized: `ongoing` (CS2), `online` (Warframe, ESO, Path of Exile, Marvel Rivals, Paladins, AdventureQuest 3D), `completed` (Skyrim, BG3, Terraria, Stardew Valley, Sleeping Dogs, Enderal, Clair Obscur: Expedition 33)
+  - Added `online` status to `STATUS_LABELS` in `Interests.jsx`
+  - `StatusBadge` now returns null when status is falsy
+  - More screenshots pending — user will continue filling in games list
+- Performance fixes across all WebGL canvases (site was lagging due to 4 simultaneous canvases):
+  - Root cause: `LightningAmbient` (20 bolt instances) + `LightningGlobal` (8 bolts) added last session were running non-stop with very aggressive Bloom (`luminanceThreshold: 0.25`)
+  - All 4 canvases (`Sword`, `SwordFlyby`, `LightningAmbient`, `LightningGlobal`): `antialias: false`, `dpr={1}` (was adaptive `[1, 1.5]`)
+  - Bloom `luminanceThreshold` raised: `0.3→0.6` (swords), `0.25→0.65/0.7` (lightning)
+  - Removed `mipmapBlur` from `LightningAmbient` Bloom
+  - `Sword` + `SwordFlyby` now pause rendering (`frameloop="never"`) when scrolled out of viewport via `IntersectionObserver`
