@@ -6,7 +6,7 @@ import * as THREE from 'three'
 
 const YELLOW_EMISSIVE = new THREE.Color('#ffaa00')
 
-function LightningMesh({ scrollProgress }) {
+function LightningMesh({ scrollProgressRef }) {
   const groupRef = useRef()
   const { scene: original } = useGLTF('/Lightning.glb')
 
@@ -30,7 +30,7 @@ function LightningMesh({ scrollProgress }) {
     const floatX = Math.sin(t * 0.6) * 0.08  // subtle sway
 
     // Starts at top-right corner, falls all the way down as you scroll
-    const delayed = Math.max(0, (scrollProgress - 0.2) / 0.8)
+    const delayed = Math.max(0, (scrollProgressRef.current - 0.2) / 0.8)
     groupRef.current.position.x = 2.5 + floatX
     groupRef.current.position.y = 3.0 - delayed * 10  // enters from top, falls past bottom
     groupRef.current.rotation.y = t * 0.3
@@ -44,7 +44,22 @@ function LightningMesh({ scrollProgress }) {
 }
 
 export default function LightningFall({ sectionId = 'work' }) {
-  const [scrollProgress, setScrollProgress] = useState(0)
+  const scrollProgressRef = useRef(0)
+  const [mounted, setMounted] = useState(false)
+  const [frameloop, setFrameloop] = useState('always')
+  const wrapRef = useRef()
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) { setMounted(true); setFrameloop('always') }
+        else { setFrameloop('never') }
+      },
+      { threshold: 0, rootMargin: '100px 0px 100px 0px' }
+    )
+    if (wrapRef.current) obs.observe(wrapRef.current)
+    return () => obs.disconnect()
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,8 +67,7 @@ export default function LightningFall({ sectionId = 'work' }) {
       if (!el) return
       const rect = el.getBoundingClientRect()
       const vpH  = window.innerHeight
-      const progress = (vpH - rect.top) / (rect.height + vpH)
-      setScrollProgress(Math.max(0, Math.min(1, progress)))
+      scrollProgressRef.current = Math.max(0, Math.min(1, (vpH - rect.top) / (rect.height + vpH)))
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
@@ -61,28 +75,29 @@ export default function LightningFall({ sectionId = 'work' }) {
   }, [sectionId])
 
   return (
-    <div style={{
+    <div ref={wrapRef} style={{
       position:      'absolute',
       inset:         0,
       pointerEvents: 'none',
       zIndex:        0,
     }}>
-      <Canvas
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+      {mounted && <Canvas
+        frameloop={frameloop}
+        gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         camera={{ position: [0, 0, 7], fov: 45 }}
         style={{ background: 'transparent' }}
-        dpr={[1, 1.5]}
+        dpr={1}
         onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
       >
         <ambientLight intensity={0.4} color="#ffcc55" />
         <directionalLight position={[3, 5, 5]}  intensity={2.0} color="#ffd060" />
         <directionalLight position={[-3, 1, -2]} intensity={0.8} color="#ff9900" />
         <pointLight position={[4, 0, 3]} intensity={5.0} color="#ffbb00" distance={12} />
-        <LightningMesh scrollProgress={scrollProgress} />
+        <LightningMesh scrollProgressRef={scrollProgressRef} />
         <EffectComposer multisampling={0}>
           <Bloom intensity={1.5} luminanceThreshold={0.25} luminanceSmoothing={0.7} />
         </EffectComposer>
-      </Canvas>
+      </Canvas>}
     </div>
   )
 }

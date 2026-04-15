@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Navbar.css'
 
 const NAV_ITEMS = [
@@ -7,7 +8,13 @@ const NAV_ITEMS = [
   { label: 'Work',    href: '#work' },
   { label: 'Resume',  href: '#resume' },
   { label: 'Contact', href: '#contact' },
-  { label: '☀ Light', toggle: true },   // theme toggle — no href
+  { label: '☀ Light', toggle: true },
+]
+
+// Shown instead of NAV_ITEMS when on an interest detail page
+const INTEREST_ITEMS = [
+  { label: '← Back',    back: true },
+  { label: '⌕ Search',  search: true },
 ]
 
 const RADIUS = 158
@@ -23,7 +30,8 @@ function getPos(index, total) {
   }
 }
 
-export default function Navbar() {
+export default function Navbar({ mode, onSearch, searchActive }) {
+  const navigate               = useNavigate()
   const [open, setOpen]       = useState(false)
   const [light, setLight]     = useState(() => {
     return localStorage.getItem('theme') === 'light'
@@ -130,7 +138,17 @@ export default function Navbar() {
     e.preventDefault()
     if (item.toggle) {
       setLight(prev => !prev)
-      // keep menu open so user can see the label change
+      return
+    }
+    if (item.back) {
+      setOpen(false)
+      if (window.history.length > 1) navigate(-1)
+      else navigate('/')
+      return
+    }
+    if (item.search) {
+      setOpen(false)
+      onSearch?.()
       return
     }
     setOpen(false)
@@ -138,8 +156,8 @@ export default function Navbar() {
     if (el) el.scrollIntoView({ behavior: 'smooth' })
   }
 
-  // Update toggle label based on current state
-  const items = NAV_ITEMS.map(item =>
+  const baseItems = mode === 'interest' ? INTEREST_ITEMS : NAV_ITEMS
+  const items = baseItems.map(item =>
     item.toggle ? { ...item, label: light ? '☾ Dark' : '☀ Light' } : item
   )
 
@@ -158,7 +176,7 @@ export default function Navbar() {
           <a
             key={item.label}
             href={item.href ?? '#'}
-            className={`orbital-nav__item${item.toggle ? ' orbital-nav__item--toggle' : ''}`}
+            className={`orbital-nav__item${item.toggle ? ' orbital-nav__item--toggle' : ''}${item.search && searchActive ? ' orbital-nav__item--active' : ''}`}
             style={{
               '--tx': `${x}px`,
               '--ty': `${y}px`,

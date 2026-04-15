@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import SwordCanvas from './Sword'
 import './Hero.css'
 
@@ -83,11 +83,11 @@ function BouncingName({ name }) {
 }
 
 export default function Hero() {
-  const [scrollProgress, setScrollProgress] = useState(0)
+  const scrollProgressRef = useRef(0)
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollProgress(Math.min(window.scrollY / window.innerHeight, 1))
+      scrollProgressRef.current = Math.min(window.scrollY / window.innerHeight, 1)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
@@ -96,7 +96,7 @@ export default function Hero() {
   return (
     <section className="hero" id="intro">
       <div className="hero__sword-overlay">
-        <SwordCanvas scrollProgress={scrollProgress} />
+        <SwordCanvas scrollProgressRef={scrollProgressRef} />
       </div>
       <div className="hero__left">
         <BouncingName name="MD Mushfiqur Rahman" />

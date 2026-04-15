@@ -6,7 +6,7 @@ import * as THREE from 'three'
 
 const YELLOW_EMISSIVE = new THREE.Color('#ffaa00')
 
-function SpinMesh({ scrollProgress }) {
+function SpinMesh({ scrollProgressRef }) {
   const groupRef = useRef()
   const { scene: original } = useGLTF('/sword.glb')
 
@@ -39,7 +39,7 @@ function SpinMesh({ scrollProgress }) {
 
     // Enter from right, travel left as you scroll
     // Delay entry slightly (wait for first 20% of section scroll)
-    const delayed = scrollProgress
+    const delayed = scrollProgressRef.current
     groupRef.current.position.x = 10 - delayed * 22   // right → left
     groupRef.current.position.y = 1.9  // raised to sit over the heading
 
@@ -55,7 +55,22 @@ function SpinMesh({ scrollProgress }) {
 }
 
 export default function SwordSpin() {
-  const [scrollProgress, setScrollProgress] = useState(0)
+  const scrollProgressRef = useRef(0)
+  const [mounted, setMounted] = useState(false)
+  const [frameloop, setFrameloop] = useState('always')
+  const wrapRef = useRef()
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) { setMounted(true); setFrameloop('always') }
+        else { setFrameloop('never') }
+      },
+      { threshold: 0, rootMargin: '100px 0px 100px 0px' }
+    )
+    if (wrapRef.current) obs.observe(wrapRef.current)
+    return () => obs.disconnect()
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,8 +78,7 @@ export default function SwordSpin() {
       if (!el) return
       const rect = el.getBoundingClientRect()
       const vpH  = window.innerHeight
-      const progress = (vpH - rect.top) / (rect.height + vpH)
-      setScrollProgress(Math.max(0, Math.min(1, progress)))
+      scrollProgressRef.current = Math.max(0, Math.min(1, (vpH - rect.top) / (rect.height + vpH)))
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
@@ -72,28 +86,29 @@ export default function SwordSpin() {
   }, [])
 
   return (
-    <div style={{
+    <div ref={wrapRef} style={{
       position:      'absolute',
       inset:         0,
       pointerEvents: 'none',
       zIndex:        0,
     }}>
-      <Canvas
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+      {mounted && <Canvas
+        frameloop={frameloop}
+        gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         camera={{ position: [0, 0, 7], fov: 45 }}
         style={{ background: 'transparent' }}
-        dpr={[1, 1.5]}
+        dpr={1}
         onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
       >
         <ambientLight intensity={0.4} color="#ffcc55" />
         <directionalLight position={[3, 5, 5]}  intensity={2.0} color="#ffd060" />
         <directionalLight position={[-3, 1, -2]} intensity={0.8} color="#ff9900" />
         <pointLight position={[0, 0, 3]} intensity={4.0} color="#ffbb00" distance={12} />
-        <SpinMesh scrollProgress={scrollProgress} />
+        <SpinMesh scrollProgressRef={scrollProgressRef} />
         <EffectComposer multisampling={0}>
           <Bloom intensity={1.2} luminanceThreshold={0.3} luminanceSmoothing={0.7} />
         </EffectComposer>
-      </Canvas>
+      </Canvas>}
     </div>
   )
 }

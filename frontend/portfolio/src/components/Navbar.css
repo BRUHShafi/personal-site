@@ -2,7 +2,7 @@
 /* Centered at the top of the page; items are positioned absolutely from here */
 .orbital-nav {
   position: fixed;
-  top: -18px;
+  top: -90px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 200;
@@ -237,6 +237,16 @@
 /* No dot needed anymore */
 .orbital-nav__dot {
   display: none;
+}
+
+/* Search active — glows cyan when search bar is open */
+.orbital-nav__item--active {
+  border-color: rgba(0, 229, 255, 0.7) !important;
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.3) !important;
+}
+
+.orbital-nav__item--active .orbital-nav__label {
+  color: var(--cyan) !important;
 }
 
 /* Theme toggle bubble — slightly distinct */

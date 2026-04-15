@@ -31,26 +31,30 @@ function FlybyMesh({ scrollProgress }) {
     // then enters from the left — feels like the hero sword reappearing
     const delayed = Math.max(0, (scrollProgress - 0.25) / 0.75)
     groupRef.current.position.x = -10 + delayed * 22
-    groupRef.current.position.y = -1.2
+    groupRef.current.position.y = -2.2
     groupRef.current.rotation.z = 0  // horizontal
   })
 
   return (
     <group ref={groupRef}>
-      <primitive object={scene} scale={0.35} rotation={[Math.PI / 2, Math.PI / 2, 0]} />
+      <primitive object={scene} scale={0.52} rotation={[Math.PI / 2, Math.PI / 2, 0]} />
     </group>
   )
 }
 
 export default function SwordFlyby() {
   const [scrollProgress, setScrollProgress] = useState(0)
-  const [frameloop, setFrameloop] = useState('never')
+  const [mounted, setMounted] = useState(false)
+  const [frameloop, setFrameloop] = useState('always')
   const wrapRef = useRef()
 
   useEffect(() => {
     const obs = new IntersectionObserver(
-      ([entry]) => setFrameloop(entry.isIntersecting ? 'always' : 'never'),
-      { threshold: 0 }
+      ([entry]) => {
+        if (entry.isIntersecting) { setMounted(true); setFrameloop('always') }
+        else { setFrameloop('never') }
+      },
+      { threshold: 0, rootMargin: '100px 0px 100px 0px' }
     )
     if (wrapRef.current) obs.observe(wrapRef.current)
     return () => obs.disconnect()
@@ -76,8 +80,10 @@ export default function SwordFlyby() {
       inset:         0,
       pointerEvents: 'none',
       zIndex:        1,
+      WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
+      maskImage:       'linear-gradient(to bottom, black 70%, transparent 100%)',
     }}>
-      <Canvas
+      {mounted && <Canvas
         frameloop={frameloop}
         gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         camera={{ position: [0, 0, 7], fov: 45 }}
@@ -93,7 +99,7 @@ export default function SwordFlyby() {
         <EffectComposer multisampling={0}>
           <Bloom intensity={1.2} luminanceThreshold={0.6} luminanceSmoothing={0.7} />
         </EffectComposer>
-      </Canvas>
+      </Canvas>}
     </div>
   )
 }

@@ -216,6 +216,28 @@ npm run build
   - TODO: user will bake + re-export portal next session, then dial in position/scale in Three.js
   - TODO: two more 3D models planned for the site (user's idea)
 
+### Session 9
+- Interests section converted from modal popup to dedicated pages (performance improvement):
+  - Installed + wired `react-router-dom` (`BrowserRouter` in `main.jsx`, `Routes`/`Route` in `App.jsx`)
+  - Route `/interests/:id` → `src/pages/InterestPage.jsx`
+  - `Interests.jsx` cards now call `navigate('/interests/:id')` — modal system removed entirely
+  - `InterestPage` shows `StarField` + `Navbar` (no heavy lightning/3D), full-page list with filters
+  - `src/pages/InterestPage.css` — frosted dark overlay for readability against starfield
+- Navbar updated with `mode` prop:
+  - `mode="interest"` → SHAFI fans out only 2 items: `← Back` and `⌕ Search`
+  - Main page unchanged (still shows all 6 items)
+  - Back item uses `navigate(-1)` so scroll position is preserved on return
+  - `onSearch` / `searchActive` props wire up the search feature
+- Search bar added to InterestPage:
+  - Toggled by clicking `⌕ Search` in SHAFI menu; pill glows cyan when active
+  - Slides in inline to the right of "N games tracked" in the header
+  - Real-time filter against name + developer; stacks with tab filter
+  - `✕` button clears query; `Escape` closes; clicking Search again closes + clears
+  - "No results for X" state with hint text when nothing matches
+- Games data added to `interests.js` playing card (14 games: CS2, Warframe, ESO, PoE2, Marvel Rivals, Paladins, AQ3D + 7 completed)
+- Orbital nav position nudged up (`top: -90px`)
+- TODO: add game/book cover images to interest items
+
 ### Session 8
 - Interests section — games data populated from Steam library screenshots:
   - 14 games added with developer names as subtitles

@@ -6,7 +6,7 @@ import * as THREE from 'three'
 
 const YELLOW_EMISSIVE = new THREE.Color('#ffaa00')
 
-function SwordMesh({ scrollProgress }) {
+function SwordMesh({ scrollProgressRef }) {
   const groupRef = useRef()
   const { scene } = useGLTF('/sword.glb')
 
@@ -27,7 +27,7 @@ function SwordMesh({ scrollProgress }) {
     const t = state.clock.getElapsedTime()
     const floatY = Math.sin(t * 0.8) * 0.12
     // Drop immediately from the first scroll
-    const dropProgress = scrollProgress
+    const dropProgress = scrollProgressRef.current
     groupRef.current.position.x = 4
     groupRef.current.position.y = -1.5 + floatY + dropProgress * -6
     groupRef.current.rotation.z = -Math.PI / 2
@@ -40,7 +40,7 @@ function SwordMesh({ scrollProgress }) {
   )
 }
 
-export default function SwordCanvas({ scrollProgress }) {
+export default function SwordCanvas({ scrollProgressRef }) {
   const wrapRef = useRef()
   const [frameloop, setFrameloop] = useState('always')
 
@@ -67,7 +67,7 @@ export default function SwordCanvas({ scrollProgress }) {
         <directionalLight position={[3, 5, 5]}  intensity={2.0} color="#ffd060" />
         <directionalLight position={[-3, 1, -2]} intensity={0.8} color="#ff9900" />
         <pointLight position={[4, -1, 3]} intensity={4.0} color="#ffbb00" distance={12} />
-        <SwordMesh scrollProgress={scrollProgress} />
+        <SwordMesh scrollProgressRef={scrollProgressRef} />
         <EffectComposer multisampling={0}>
           <Bloom intensity={1.2} luminanceThreshold={0.6} luminanceSmoothing={0.7} />
         </EffectComposer>
