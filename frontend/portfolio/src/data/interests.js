@@ -133,6 +133,7 @@ export const interestCards = [
   },
   {
     id: 'working',
+    route: '/projects',
     label: '02 // Working',
     title: 'Currently Working At',
     image: '/Job_Card.gif',

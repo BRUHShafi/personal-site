@@ -26,7 +26,7 @@ function InterestCard({ card }) {
         '--card-bg-size': card.bgSize ?? 'cover',
         '--card-glow': card.glow,
       }}
-      onClick={() => navigate(`/interests/${card.id}`)}
+      onClick={() => navigate(card.route ?? `/interests/${card.id}`)}
     >
       <p className="interest-card__title">{card.title}</p>
       <span className="interest-card__cta">View all →</span>

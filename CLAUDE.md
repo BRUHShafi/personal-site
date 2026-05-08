@@ -216,6 +216,33 @@ npm run build
   - TODO: user will bake + re-export portal next session, then dial in position/scale in Three.js
   - TODO: two more 3D models planned for the site (user's idea)
 
+### Session 10
+- Navbar orbital pills redesigned — replaced static white border with star-breathing glow:
+  - Removed rotating conic-gradient arc system entirely
+  - Each pill has a `box-shadow` pulse animation (`starGlow` keyframes) in amber
+  - 6 unique breathing rates (3.6s–8.2s) + phase offsets so pills never sync
+  - Hover switches to `starGlowHover` — brighter, faster (1.1s) pulse; label turns amber
+  - Search-active pill: static cyan glow override
+  - Light mode: matching blue breathing variant
+- `FloatingOrbs.jsx` — new physics-based background component for interest/project pages:
+  - `requestAnimationFrame` loop with position + velocity per orb
+  - Wall bouncing + elastic collision detection (O(n²), fine for ~9 orbs)
+  - Speed clamped post-collision so orbs never compound into fast movement
+  - Grid-based initial placement (3×3) prevents clustering in corners
+  - CSS `orbPulse` animation for independent glow breathing per orb
+  - Used in `InterestPage` and both project pages
+- Projects section built — replaces "Currently Working At" interest card:
+  - `src/data/projects.js` — project data (description, whatIDid, tech, images, github, video, demo)
+  - `src/pages/ProjectsPage.jsx/.css` — grid of project cards (cover, title, tagline, tech pills, status)
+  - `src/pages/ProjectDetailPage.jsx/.css` — full project documentation page:
+    - Sections: Overview, Tech Stack, What I Built, Gallery, Video Demo
+    - GitHub + Live Demo link buttons
+    - FloatingOrbs background in project accent color
+  - Routes added: `/projects` and `/projects/:id`
+  - `Interests.jsx` updated to support `card.route` override (working card → `/projects`)
+  - Demo project: "Personal Portfolio Site" pre-filled with real data
+  - To add a project: add object to `projects.js`, everything else auto-updates
+
 ### Session 9
 - Interests section converted from modal popup to dedicated pages (performance improvement):
   - Installed + wired `react-router-dom` (`BrowserRouter` in `main.jsx`, `Routes`/`Route` in `App.jsx`)

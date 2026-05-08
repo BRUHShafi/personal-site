@@ -12,6 +12,8 @@ import Resume from './components/Resume'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import InterestPage from './pages/InterestPage'
+import ProjectsPage from './pages/ProjectsPage'
+import ProjectDetailPage from './pages/ProjectDetailPage'
 
 function HomePage() {
   return (
@@ -39,6 +41,8 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/interests/:id" element={<InterestPage />} />
+      <Route path="/projects" element={<ProjectsPage />} />
+      <Route path="/projects/:id" element={<ProjectDetailPage />} />
     </Routes>
   )
 }
