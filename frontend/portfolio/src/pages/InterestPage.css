@@ -12,11 +12,44 @@
   content: '';
   position: fixed;
   inset: 0;
-  background: rgba(4, 4, 12, 0.72);
+  background: rgba(4, 4, 12, 0.50);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
   z-index: -1;
   pointer-events: none;
+}
+
+/* ── Floating orbs (position driven by FloatingOrbs.jsx physics loop) ── */
+@keyframes orbPulse {
+  0%, 100% { opacity: 0.70; }
+  50%       { opacity: 1.00; }
+}
+
+.ip-nebulas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.ip-nebula {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    color-mix(in srgb, var(--accent) 28%, transparent) 0%,
+    transparent 68%
+  );
+  border: 1.5px solid var(--accent);
+  box-shadow:
+    0 0 10px var(--accent),
+    0 0 28px var(--accent),
+    0 0 55px color-mix(in srgb, var(--accent) 50%, transparent),
+    inset 0 0 14px color-mix(in srgb, var(--accent) 20%, transparent);
+  will-change: transform;
+  animation: orbPulse 4s ease-in-out infinite;
 }
 
 /* ── Header meta row (count + search bar) ── */

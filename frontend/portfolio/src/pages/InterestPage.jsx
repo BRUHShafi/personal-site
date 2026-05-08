@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { interestCards } from '../data/interests'
 import Navbar from '../components/Navbar'
 import StarField from '../components/StarField'
+import FloatingOrbs from '../components/FloatingOrbs'
 import './InterestPage.css'
 
 const STATUS_LABELS = {
@@ -91,6 +92,7 @@ export default function InterestPage() {
   return (
     <>
       <StarField />
+      <FloatingOrbs accent={card.accent} />
       <Navbar mode="interest" onSearch={handleSearchToggle} searchActive={searchOpen} />
       <div className="ip-wrap" style={{ '--accent': card.accent, '--accent-glow': card.glow }}>
 
