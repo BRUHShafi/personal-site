@@ -1,14 +1,14 @@
-import { useScrollReveal } from '../hooks/useScrollReveal'
 import SwordFlyby from './SwordFlyby'
+import { useSnapPanel } from '../hooks/useSnapPanel'
 import './About.css'
 
 export default function About() {
-  const ref = useScrollReveal()
+  const panelRef = useSnapPanel()
 
   return (
-    <section className="about" id="intro-section" style={{ position: 'relative' }}>
+    <section className="about snap-panel" id="intro-section" ref={panelRef} style={{ position: 'relative' }}>
       <SwordFlyby />
-      <div className="about__inner reveal" ref={ref}>
+      <div className="about__inner reveal">
         {/* Left column — label + big heading */}
         <div className="about__left">
           <p className="section-label">01 // The Essence</p>

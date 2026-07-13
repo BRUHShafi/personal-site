@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { useScrollReveal } from '../hooks/useScrollReveal'
+import { useSnapPanel } from '../hooks/useSnapPanel'
 import './Contact.css'
 
 export default function Contact() {
-  const ref = useScrollReveal()
+  const panelRef = useSnapPanel()
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [sent, setSent] = useState(false)
 
@@ -19,8 +19,8 @@ export default function Contact() {
   }
 
   return (
-    <section className="contact" id="contact">
-      <div className="contact__card reveal" ref={ref}>
+    <section className="contact snap-panel" id="contact" ref={panelRef}>
+      <div className="contact__card reveal">
         <div className="contact__header">
           <p className="section-label">05 // Contact</p>
           <h2 className="contact__heading">

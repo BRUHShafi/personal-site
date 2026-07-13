@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { interestCards } from '../data/interests'
 import Navbar from '../components/Navbar'
-import StarField from '../components/StarField'
+import SceneBackground from '../components/SceneBackground'
 import FloatingOrbs from '../components/FloatingOrbs'
 import './InterestPage.css'
 
@@ -59,7 +59,7 @@ export default function InterestPage() {
   if (!card) {
     return (
       <>
-        <StarField />
+        <SceneBackground />
         <Navbar mode="interest" onSearch={handleSearchToggle} />
         <div className="ip-wrap">
           <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: '80px' }}>Page not found.</p>
@@ -91,7 +91,7 @@ export default function InterestPage() {
 
   return (
     <>
-      <StarField />
+      <SceneBackground />
       <FloatingOrbs accent={card.accent} />
       <Navbar mode="interest" onSearch={handleSearchToggle} searchActive={searchOpen} />
       <div className="ip-wrap" style={{ '--accent': card.accent, '--accent-glow': card.glow }}>

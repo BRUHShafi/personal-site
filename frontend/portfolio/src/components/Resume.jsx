@@ -1,12 +1,12 @@
-import { useScrollReveal } from '../hooks/useScrollReveal'
+import { useSnapPanel } from '../hooks/useSnapPanel'
 import './Resume.css'
 
 export default function Resume() {
-  const ref = useScrollReveal()
+  const panelRef = useSnapPanel()
 
   return (
-    <section className="resume" id="resume">
-      <div className="resume__inner reveal" ref={ref}>
+    <section className="resume snap-panel" id="resume" ref={panelRef}>
+      <div className="resume__inner reveal">
         <div className="resume__left">
           <p className="section-label">05 // Résumé</p>
           <h2 className="section-heading">My<br />Experience.</h2>

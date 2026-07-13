@@ -216,6 +216,81 @@ npm run build
   - TODO: user will bake + re-export portal next session, then dial in position/scale in Three.js
   - TODO: two more 3D models planned for the site (user's idea)
 
+
+### Session 13
+- **Scroll-snap page mode** (home page only) — each section is now a full-viewport "page" that animates in:
+  - `html.snap` class added by `HomePage` via `useLayoutEffect` (must beat first paint — the reveals depend on it), removed on unmount so `/interests` + `/projects` still scroll normally
+  - `index.css`: `html.snap { scroll-snap-type: y mandatory }`, `.snap-panel { min-height:100vh; scroll-snap-align:start; flex column centered }`
+  - `src/hooks/useSnapPanel.js` — new. Like `useScrollReveal` but *toggles* `is-active` instead of unobserving, so contents re-animate every time you scroll back to a panel
+  - Panel now drives every `.reveal` beneath it: `html.snap .snap-panel.is-active .reveal { opacity:1; transform:none }`
+  - 6 sections got `snap-panel` + panel ref (Hero, About, Interests, Skills, Resume, Contact); their inner `useScrollReveal` refs removed
+  - `html.snap .hero { padding-top: 0 }` — its 80px navbar padding pushed hero past 100vh, and **a snap area taller than the viewport stops snapping** (spec). Would have silently broken the first stop
+  - Footer gets `scroll-snap-align: end` (it's short, not a full panel)
+  - `prefers-reduced-motion` keeps the snapping, drops the rise animation
+- **Bug fixed en route**: `About.jsx` info cards + both `Resume.jsx` entries had class `reveal` but *no ref* → no observer ever added `.visible` → they were `opacity: 0` **permanently** on the live site. Panel-driven reveal fixes them.
+- **Custom wheel glide** — `src/hooks/useSnapScroll.js` (new):
+  - There is no `scroll-snap-duration`; native snap timing is browser-internal. Only way to slow it is to drive scroll yourself
+  - Hijacks `wheel` (non-passive, `preventDefault`), animates the **real** `window.scrollTo` with `easeInOutCubic` over `DURATION = 1100`ms. `scrollY` still advances → swords/lightning/navbar dim-check all keep working, zero rewiring
+  - `COOLDOWN = 140`ms swallows trackpad inertia after a glide lands
+  - Bails on `(pointer: coarse)` and `prefers-reduced-motion` → touch/keyboard fall through to the CSS snap underneath (that's why the CSS stays)
+  - `html.snapping` sets `scroll-snap-type: none` during the glide, else mandatory snap yanks the position mid-animation
+  - Current stop derived from `scrollY` each event (not a tracked index) so navbar clicks can't desync it
+  - ⚠️ Wheel is fully swallowed on the home page — shift+wheel / horizontal gestures do nothing there
+- **Perf**: removed global `scroll-behavior: smooth` under `html.snap` (`scroll-behavior: auto`). It fought snapping — every wheel notch became a browser scroll animation firing `scroll` events every frame for its whole duration. This was the reported lag. Navbar clicks unaffected (`Navbar.jsx:164` passes `behavior:'smooth'` to `scrollIntoView` directly)
+- `LightningAmbient` **unmounted** from `App.jsx` (user disliked the floating bolts). File left on disk. `LightningGlobal` kept — it's clip-pathed to start at `#skills`, never touched the hero
+- Sword tweaks:
+  - `Sword.jsx` (hero): flipped — `rotation.z = +π/2` (tip up), travels **up** on scroll (`REST_Y = 1.6`, `RISE_DISTANCE = 6`). Flipping rotation swung the blade to the other side of the group origin, so `REST_Y` had to go `-1.5 → +1.6` or it hung off-frame
+  - `SwordFlyby.jsx` (about): `SCALE 0.52 → 0.442` (−15%), `REST_Y -2.2 → -1.5`, emissive `0.55 → 1.0`, lights up ~50%. **The "too dark/transparent" was the mask**, not lighting — `linear-gradient(black 70%, transparent)` started fading above the sword's own rest height. Now `92%`
+- **StarField parallax + variety** (`StarField.jsx`):
+  - Sky built `VIRTUAL_SPAN = 3` viewports tall, panned by scroll and wrapped. `STAR_PARALLAX 0.35`, `GALAXY_PARALLAX 0.18` (distant = slower = depth)
+  - Star count ×3, but off-screen stars culled before `createRadialGradient` → per-frame cost ~flat
+  - `STAR_PALETTE`: 7 weighted stellar classes (was 2). Size range widened `0.25 → 5.8` w/ rare-giant tier. Light mode deliberately keeps the old 2 dark tones — colored stars on a pale sky read as confetti
+  - Galaxies **7 tiled 3× → 20 unique hand-authored defs**. `yPct` now runs `0 → VIRTUAL_SPAN`. Tiling reused the same bitmap, so screens 2+3 were literally screen 1 again
+  - New `arms: 2|3` field (was hardcoded 2); radius `31 → 95` (was `52 → 78`); tilt `0.28 → 0.52`
+  - `ARM_PARTICLES`/`DISK_SCATTER` now scale with radius (`r*7` / `r*3`, was flat `600`/`200`) — small galaxies stopped looking like blobs, and 20 cost ~2.3× the old 7 rather than 3×
+  - `resize` **debounced 150ms** — it does 20 pre-renders and resize fires per-pixel during a window drag
+  - ~7 MB of offscreen canvas now
+- ⚠️ **All of Session 12 + 13 is still uncommitted.** ~20 modified files + `SceneBackground.jsx`, `scenes/`, `context/`, `themes.js`, `hooks/useSnapPanel.js`, `hooks/useSnapScroll.js`
+- Stray file to delete: `src/components/Contact.jsx.tmp.24284.1775079633878`
+
+#### Next session — known state
+- Verified only via `npm run build` (clean) + user screenshots. No frame profiling done.
+- Open knobs: `DURATION` (glide speed), `REST_Y`/`RISE_DISTANCE` (hero sword), `VIRTUAL_SPAN` + parallax factors, `GALAXY_DEFS` (flat array, easy to tune)
+- Remaining lag suspects if it returns: (1) `Navbar.jsx:100-124` dim-check runs `document.elementsFromPoint` **9×** per animation frame while scrolling — should run on scroll-*settle*; (2) `SwordFlyby`/`SwordSpin` canvases are `inset:0` in sections that went from content-height to `100vh`, and **Bloom is fullscreen post-process — cost scales with canvas area**
+- Still-unfixed from earlier audit: `Resume.jsx:10` and `Contact.jsx:27` are **both** labelled `05 //`; `sword.glb` is 3.5MB loaded across 3 WebGL contexts; site content is still placeholder (bio, resume entries, `github.com/`, `linkedin.com/`, `you@email.com`, dead `/resume.pdf`, contact form only `console.log`s but tells the visitor "Message sent")
+
+### Session 12
+- Multi-theme system — each theme swaps the whole animated background, not just colors ("a lot of options for the viewer"):
+  - 6 themes: **Blackhole** (default deep-space, no data-theme attr), **Whitehole** (light mode — kept id `light` so all existing `[data-theme="light"]` CSS still applies), **Ember**, **Synthwave**, **Ocean**, **Forest**. Each is a `[data-theme="id"]` block in `index.css`
+  - Token convention: `--cyan` = primary accent, `--magenta` = secondary, `--green` = section-label accent, `--nav-glow` = navbar aura color (r,g,b triplet). Every theme remaps these + bg/text slots, so component CSS recolors automatically
+  - `src/data/themes.js` — theme list (`id`, `name`, `swatch`, `scene`). Add a theme = add a CSS block + one entry here
+- Theme picker UI (`Navbar`):
+  - "☀ Light" toggle → "🎨 Theme" pill that opens `.theme-palette` glass swatch popover (color dots, active = white ring). Hidden on mobile
+  - Available on ALL pages now (added palette item to the interest-mode nav too)
+- Theme state lifted to React Context (`src/context/ThemeContext.jsx`, provider wraps App in `main.jsx`). Navbar picker writes it; backgrounds read it. Applies `data-theme` on `<html>` + persists to localStorage. Old `void`/`dark`/`light` values migrate to `blackhole`/`light`
+- Scene-swap background system:
+  - `src/components/SceneBackground.jsx` — dispatcher; renders only the active theme's scene (one canvas/RAF at a time, no perf hit). Replaces direct `<StarField />` mounts in App + all 3 pages
+  - All scenes are 2D canvas RAF loops in `src/components/scenes/` (cheap, no WebGL), full-screen `position:fixed` with a top/depth vignette so section text stays readable:
+    - Blackhole/Whitehole → existing `StarField`
+    - **Synthwave** — violet gradient, hazy pink sun, drifting wavy magenta fog, rising dust (Blade Runner 2049)
+    - **Ember** — dark warm gradient, glowing lava bed + pulsing hotspots, rising flickering embers, dark smoke wisps
+    - **Ocean** — teal→navy depth gradient, swaying god-ray beams, swimming fish silhouettes (+ faint cyan/orange accent fish), rising wobbling bubbles, marine snow
+    - **Forest** — pre-rendered layered tree silhouettes (offscreen blit), green-gold canopy light shafts, blinking wandering fireflies, falling rotating leaves, ground mist
+  - `App.jsx`: gold Lightning canvases now only mount for Blackhole/Whitehole (would clash on other scenes)
+- Navbar reskins per theme via single `--nav-glow` token: pill breathing glow, SHAFI center aura, borders, hover-label all read it. Blackhole/Ember keep `fireGlow`, Whitehole keeps `blueGlow`, Synthwave/Ocean/Forest use new var-driven `themeGlow`. Removed duplicate blue pill keyframes
+- 3D performance pass (swords were rendering ~20fps, choppy float):
+  - Root cause was GPU render rate, NOT scroll handlers. Fixes: all 3 sword canvases (`Sword`, `SwordFlyby`, `SwordSpin`) → Bloom `mipmapBlur levels={5}` (mip-pyramid bloom, far cheaper than full-res Gaussian) + `dpr={1}`→`dpr={0.7}` (fill-rate cut). Result: smooth
+  - Also killed scroll-time React re-render storms: `SwordFlyby` scrollProgress state→ref; `LightningGlobal` rAF-throttled, progress→ref, clipPath set directly on div, only a bool re-renders; `Navbar` dim-check (9× elementsFromPoint) rAF-throttled to once/frame
+  - NOTE: durable win still pending — `sword.glb` is 3.3MB (1.17MB PNG + 868KB JPEG textures, 58k tris, loaded 3× across 3 WebGL contexts). Re-export with 512px textures + Draco would cut it to ~300KB. TODO
+- All 6 theme scenes now built. TODO: refine each scene individually (user wants to polish them one at a time later)
+
+### Session 11
+- Fixed scroll performance lag (15fps jank) — 4 WebGL canvases running simultaneously:
+  - Root cause: `LightningAmbient` and `LightningGlobal` both rendered + ran Bloom every frame with no pause mechanism, even when their content wasn't relevant to the scroll position
+  - `LightningGlobal`: added `frameloop={scrollProgress > 0 ? 'always' : 'never'}` — canvas now fully stops before the Skills section is reached
+  - `LightningAmbient`: added scroll listener; pauses (`frameloop="never"`) as soon as `scrollY >= skills.offsetTop` — hands off to LightningGlobal at that point
+  - Result: at any scroll position, at most 1 lightning canvas renders (down from 2 always-on), resolving the jank
+
 ### Session 10
 - Navbar orbital pills redesigned — replaced static white border with star-breathing glow:
   - Removed rotating conic-gradient arc system entirely

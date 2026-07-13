@@ -1,20 +1,23 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { THEMES } from '../data/themes'
+import { useTheme } from '../context/ThemeContext'
 import './Navbar.css'
 
 const NAV_ITEMS = [
   { label: 'Intro',   href: '#intro' },
   { label: 'Skills',  href: '#skills' },
-  { label: 'Work',    href: '#work' },
+  { label: 'Work',    route: '/projects' },
   { label: 'Resume',  href: '#resume' },
   { label: 'Contact', href: '#contact' },
-  { label: '☀ Light', toggle: true },
+  { label: '🎨 Theme', palette: true },
 ]
 
 // Shown instead of NAV_ITEMS when on an interest detail page
 const INTEREST_ITEMS = [
   { label: '← Back',    back: true },
   { label: '⌕ Search',  search: true },
+  { label: '🎨 Theme',  palette: true },
 ]
 
 const RADIUS = 158
@@ -31,26 +34,18 @@ function getPos(index, total) {
 }
 
 export default function Navbar({ mode, onSearch, searchActive }) {
-  const navigate               = useNavigate()
-  const [open, setOpen]       = useState(false)
-  const [light, setLight]     = useState(() => {
-    return localStorage.getItem('theme') === 'light'
-  })
-  const [dimmed, setDimmed]   = useState(false)
+  const navigate                  = useNavigate()
+  const { theme, setTheme }       = useTheme()
+  const [open, setOpen]           = useState(false)
+  const [paletteOpen, setPaletteOpen] = useState(false)
+  const [dimmed, setDimmed]       = useState(false)
   const navRef    = useRef(null)
   const centerRef = useRef(null)
 
-  // Apply theme to <html> and persist
+  // Close the theme palette whenever the nav closes
   useEffect(() => {
-    const root = document.documentElement
-    if (light) {
-      root.setAttribute('data-theme', 'light')
-      localStorage.setItem('theme', 'light')
-    } else {
-      root.removeAttribute('data-theme')
-      localStorage.setItem('theme', 'dark')
-    }
-  }, [light])
+    if (!open) setPaletteOpen(false)
+  }, [open])
 
   // Close on outside click
   useEffect(() => {
@@ -129,15 +124,28 @@ export default function Navbar({ mode, onSearch, searchActive }) {
       setDimmed(overContent)
     }
 
-    window.addEventListener('scroll', check, { passive: true })
+    // Coalesce to one hit-test per frame — check() runs 9 elementsFromPoint calls
+    let ticking = false
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(() => { ticking = false; check() })
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
     check()
-    return () => window.removeEventListener('scroll', check)
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   const handleItemClick = (e, item) => {
     e.preventDefault()
-    if (item.toggle) {
-      setLight(prev => !prev)
+    if (item.palette) {
+      setPaletteOpen(prev => !prev)
+      return
+    }
+    if (item.route) {
+      setOpen(false)
+      navigate(item.route)
       return
     }
     if (item.back) {
@@ -156,10 +164,7 @@ export default function Navbar({ mode, onSearch, searchActive }) {
     if (el) el.scrollIntoView({ behavior: 'smooth' })
   }
 
-  const baseItems = mode === 'interest' ? INTEREST_ITEMS : NAV_ITEMS
-  const items = baseItems.map(item =>
-    item.toggle ? { ...item, label: light ? '☾ Dark' : '☀ Light' } : item
-  )
+  const items = mode === 'interest' ? INTEREST_ITEMS : NAV_ITEMS
 
   return (
     <nav
@@ -176,7 +181,7 @@ export default function Navbar({ mode, onSearch, searchActive }) {
           <a
             key={item.label}
             href={item.href ?? '#'}
-            className={`orbital-nav__item${item.toggle ? ' orbital-nav__item--toggle' : ''}${item.search && searchActive ? ' orbital-nav__item--active' : ''}`}
+            className={`orbital-nav__item${item.palette ? ' orbital-nav__item--toggle' : ''}${(item.search && searchActive) || (item.palette && paletteOpen) ? ' orbital-nav__item--active' : ''}`}
             style={{
               '--tx': `${x}px`,
               '--ty': `${y}px`,
@@ -201,6 +206,31 @@ export default function Navbar({ mode, onSearch, searchActive }) {
       >
         <span className="orbital-nav__name">Shafi</span>
       </button>
+
+      <div
+        className={`theme-palette${paletteOpen ? ' theme-palette--open' : ''}`}
+        role="menu"
+        aria-label="Theme picker"
+      >
+        {THEMES.map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            role="menuitemradio"
+            aria-checked={theme === t.id}
+            aria-label={t.name}
+            className={`theme-swatch${theme === t.id ? ' theme-swatch--active' : ''}`}
+            onClick={() => { setTheme(t.id); setOpen(false) }}
+            tabIndex={paletteOpen ? 0 : -1}
+          >
+            <span
+              className="theme-swatch__dot"
+              style={{ background: t.swatch, color: t.swatch }}
+            />
+            <span className="theme-swatch__name">{t.name}</span>
+          </button>
+        ))}
+      </div>
     </nav>
   )
 }

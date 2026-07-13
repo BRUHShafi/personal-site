@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { projects } from '../data/projects'
 import Navbar from '../components/Navbar'
-import StarField from '../components/StarField'
+import SceneBackground from '../components/SceneBackground'
 import FloatingOrbs from '../components/FloatingOrbs'
 import './ProjectDetailPage.css'
 
@@ -22,7 +22,7 @@ export default function ProjectDetailPage() {
   if (!project) {
     return (
       <>
-        <StarField />
+        <SceneBackground />
         <Navbar mode="interest" />
         <div className="pdp-wrap">
           <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: '80px' }}>Project not found.</p>
@@ -33,7 +33,7 @@ export default function ProjectDetailPage() {
 
   return (
     <>
-      <StarField />
+      <SceneBackground />
       <FloatingOrbs accent={project.accent} />
       <Navbar mode="interest" />
       <div className="pdp-wrap" style={{ '--accent': project.accent }}>

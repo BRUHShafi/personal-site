@@ -20,13 +20,23 @@
   --magenta:       #d946ef;
   --green:         #22c55e;
 
+  /* Navbar glow color (r,g,b triplet — used in rgba() for the orbital nav aura) */
+  --nav-glow:      255, 150, 20;
+
   /* Fonts */
   --sans:    'Plus Jakarta Sans', system-ui, sans-serif;
   --display: 'Syne', 'Plus Jakarta Sans', sans-serif;
   --mono:    'JetBrains Mono', monospace;
 }
 
-/* ── Light mode overrides ── */
+/* ── Theme system ──
+   :root above = "Void" (default dark). Each theme below overrides the same
+   token slots. --cyan = the theme's PRIMARY accent (used by headings, glows),
+   --magenta = secondary accent, --green = the small section-label accent.
+   Theme is applied via [data-theme="id"] on <html>; "void" sets no attribute.
+   Add a matching entry in src/data/themes.js for the picker swatch. */
+
+/* Daylight (light mode) */
 [data-theme="light"] {
   --bg:            #f2f2f8;
   --bg-card:       #ffffff;
@@ -41,6 +51,79 @@
   --cyan-glow:     rgba(0, 136, 170, 0.1);
   --magenta:       #9a14b8;
   --green:         #16a34a;
+  --nav-glow:      80, 140, 255;
+}
+
+/* Ember — warm gold/orange (matches the sword glow) */
+[data-theme="ember"] {
+  --bg:            #0f0a07;
+  --bg-card:       #1a120b;
+  --bg-card-hover: #221710;
+  --border:        #3a2a18;
+  --border-subtle: #261b10;
+  --text:          #a08868;
+  --text-muted:    #8a7050;
+  --text-light:    #d8c4a0;
+  --text-white:    #f6efe0;
+  --cyan:          #ffb020;
+  --cyan-glow:     rgba(255, 176, 32, 0.14);
+  --magenta:       #ff6a3d;
+  --green:         #ffd24a;
+  --nav-glow:      255, 90, 10;
+}
+
+/* Synthwave — magenta-pink + purple on deep violet */
+[data-theme="synthwave"] {
+  --bg:            #0d0717;
+  --bg-card:       #170d28;
+  --bg-card-hover: #1f1233;
+  --border:        #34204e;
+  --border-subtle: #221536;
+  --text:          #9a7fc0;
+  --text-muted:    #7e64a8;
+  --text-light:    #cdb6f0;
+  --text-white:    #f3e9ff;
+  --cyan:          #ff43c4;
+  --cyan-glow:     rgba(255, 67, 196, 0.14);
+  --magenta:       #8b5cf6;
+  --green:         #f0a8ff;
+  --nav-glow:      255, 67, 196;
+}
+
+/* Ocean — teal-cyan + blue on deep navy */
+[data-theme="ocean"] {
+  --bg:            #06121f;
+  --bg-card:       #0c1d30;
+  --bg-card-hover: #11283f;
+  --border:        #1d3a55;
+  --border-subtle: #122739;
+  --text:          #6f93b5;
+  --text-muted:    #5a7a98;
+  --text-light:    #aacce8;
+  --text-white:    #e6f3ff;
+  --cyan:          #22d3ee;
+  --cyan-glow:     rgba(34, 211, 238, 0.13);
+  --magenta:       #3b82f6;
+  --green:         #2dd4bf;
+  --nav-glow:      34, 211, 238;
+}
+
+/* Forest — mint-green + lime on deep evergreen */
+[data-theme="forest"] {
+  --bg:            #07120c;
+  --bg-card:       #0e1f16;
+  --bg-card-hover: #13291d;
+  --border:        #1e3a2a;
+  --border-subtle: #12251a;
+  --text:          #6f9a80;
+  --text-muted:    #5a8068;
+  --text-light:    #a8d8bc;
+  --text-white:    #e6f6ec;
+  --cyan:          #34d399;
+  --cyan-glow:     rgba(52, 211, 153, 0.13);
+  --magenta:       #a3e635;
+  --green:         #4ade80;
+  --nav-glow:      52, 211, 153;
 }
 
 * {
@@ -90,6 +173,82 @@ body {
 .reveal-delay-2 { transition-delay: 0.2s; }
 .reveal-delay-3 { transition-delay: 0.3s; }
 .reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── Scroll-snap page mode ──
+   Only the home page opts in: HomePage adds .snap to <html> on mount and
+   removes it on unmount, so /interests and /projects still scroll normally.
+   Native scroll is preserved (this is snapping, not scroll hijacking), which
+   is why every window.scrollY-driven effect — the sword drop, the lightning
+   progress, the navbar dim check — keeps working untouched. */
+html.snap {
+  scroll-snap-type: y mandatory;
+
+  /* The global `scroll-behavior: smooth` fights snapping: every wheel notch
+     becomes a browser-run scroll animation *into* the snap point, firing a
+     scroll event every frame for its whole duration. Snap supplies its own
+     easing, so this costs nothing visually. Navbar clicks are unaffected —
+     they pass `behavior: 'smooth'` to scrollIntoView directly. */
+  scroll-behavior: auto;
+}
+
+/* useSnapScroll drives the wheel glide itself with per-frame scrollTo calls.
+   Mandatory snap would yank the scroll position mid-animation, so it's stood
+   down for the duration and restored the moment the glide lands. */
+html.snap.snapping {
+  scroll-snap-type: none;
+}
+
+html.snap .snap-panel {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* The hero fills the viewport on its own; its 80px navbar padding would push
+   it past 100vh, and a snap area taller than the viewport stops snapping. */
+html.snap .hero {
+  padding-top: 0;
+}
+
+/* Footer is short — snap its bottom edge to the viewport bottom so the last
+   stop shows the contact card sitting above it. */
+html.snap .footer {
+  scroll-snap-align: end;
+}
+
+/* ── Panel-driven reveal ──
+   Off the home page, .reveal waits for its own observer (useScrollReveal).
+   Inside a snap panel the panel itself drives every .reveal underneath it.
+   That fixes nested reveals (About's info cards, Resume's entries) which
+   carry the class but were never observed, so they never became visible. */
+html.snap .snap-panel .reveal {
+  opacity: 0;
+  transform: translateY(44px);
+  transition:
+    opacity   0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.snap .snap-panel.is-active .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* Interest cards have no delay class of their own — stagger them by position */
+html.snap .snap-panel .interests__grid .reveal:nth-child(1) { transition-delay: 0.12s; }
+html.snap .snap-panel .interests__grid .reveal:nth-child(2) { transition-delay: 0.22s; }
+html.snap .snap-panel .interests__grid .reveal:nth-child(3) { transition-delay: 0.32s; }
+
+/* Respect users who ask for less motion: keep the snapping, drop the rise. */
+@media (prefers-reduced-motion: reduce) {
+  html.snap .snap-panel .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
 
 /* ── Shared section styles ── */
 .section-label {

@@ -6,6 +6,15 @@ import * as THREE from 'three'
 
 const YELLOW_EMISSIVE = new THREE.Color('#ffaa00')
 
+// Where the sword rests before any scrolling. The group origin sits at the
+// blade's tip, and the tip points up, so the blade hangs *below* this value —
+// it has to sit high in frame for the whole sword to be visible.
+const REST_Y = 1.6
+
+// How far up the sword travels over one viewport of scroll. Raise this if the
+// blade is still poking into frame by the time the hero has scrolled away.
+const RISE_DISTANCE = 6
+
 function SwordMesh({ scrollProgressRef }) {
   const groupRef = useRef()
   const { scene } = useGLTF('/sword.glb')
@@ -26,11 +35,12 @@ function SwordMesh({ scrollProgressRef }) {
   useFrame((state) => {
     const t = state.clock.getElapsedTime()
     const floatY = Math.sin(t * 0.8) * 0.12
-    // Drop immediately from the first scroll
-    const dropProgress = scrollProgressRef.current
+    // Rise immediately from the first scroll — the blade launches up out of frame
+    const riseProgress = scrollProgressRef.current
     groupRef.current.position.x = 4
-    groupRef.current.position.y = -1.5 + floatY + dropProgress * -6
-    groupRef.current.rotation.z = -Math.PI / 2
+    groupRef.current.position.y = REST_Y + floatY + riseProgress * RISE_DISTANCE
+    // +π/2 points the tip up, so the sword travels the way it's aimed
+    groupRef.current.rotation.z = Math.PI / 2
   })
 
   return (
@@ -60,7 +70,7 @@ export default function SwordCanvas({ scrollProgressRef }) {
         gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         camera={{ position: [0, 0, 7], fov: 45 }}
         style={{ background: 'transparent' }}
-        dpr={1}
+        dpr={0.7}
         onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
       >
         <ambientLight intensity={0.4} color="#ffcc55" />
@@ -69,7 +79,7 @@ export default function SwordCanvas({ scrollProgressRef }) {
         <pointLight position={[4, -1, 3]} intensity={4.0} color="#ffbb00" distance={12} />
         <SwordMesh scrollProgressRef={scrollProgressRef} />
         <EffectComposer multisampling={0}>
-          <Bloom intensity={1.2} luminanceThreshold={0.6} luminanceSmoothing={0.7} />
+          <Bloom mipmapBlur levels={5} intensity={1.0} luminanceThreshold={0.6} luminanceSmoothing={0.3} />
         </EffectComposer>
       </Canvas>
     </div>

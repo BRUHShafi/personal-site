@@ -1,4 +1,4 @@
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useState, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
@@ -70,6 +70,20 @@ function AllBolts() {
 }
 
 export default function LightningAmbient() {
+  const [frameloop, setFrameloop] = useState('always')
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const skillsEl = document.getElementById('skills')
+      if (!skillsEl) return
+      // Pause ambient bolts once Skills section enters view — LightningGlobal takes over
+      setFrameloop(window.scrollY < skillsEl.offsetTop ? 'always' : 'never')
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <div style={{
       position:      'fixed',
@@ -82,6 +96,7 @@ export default function LightningAmbient() {
         camera={{ position: [0, 0, 7], fov: 45 }}
         style={{ background: 'transparent' }}
         dpr={1}
+        frameloop={frameloop}
         onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
       >
         <ambientLight intensity={0.3} color="#ffcc55" />
