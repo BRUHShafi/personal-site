@@ -97,7 +97,7 @@ export default function SwordSpin() {
         gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         camera={{ position: [0, 0, 7], fov: 45 }}
         style={{ background: 'transparent' }}
-        dpr={1}
+        dpr={0.7}
         onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
       >
         <ambientLight intensity={0.4} color="#ffcc55" />
@@ -106,7 +106,7 @@ export default function SwordSpin() {
         <pointLight position={[0, 0, 3]} intensity={4.0} color="#ffbb00" distance={12} />
         <SpinMesh scrollProgressRef={scrollProgressRef} />
         <EffectComposer multisampling={0}>
-          <Bloom intensity={1.2} luminanceThreshold={0.3} luminanceSmoothing={0.7} />
+          <Bloom mipmapBlur levels={5} intensity={1.0} luminanceThreshold={0.4} luminanceSmoothing={0.3} />
         </EffectComposer>
       </Canvas>}
     </div>

@@ -42,9 +42,7 @@
     inset -4px 0 32px var(--card-glow);
 
   /* GIF background */
-  background-image: var(--card-image);
-  background-size: var(--card-bg-size, cover);
-  background-position: center;
+  background: var(--card-image) center / var(--card-bg-size, cover) no-repeat;
 }
 
 /* Dark overlay so text is always readable */

@@ -1,4 +1,4 @@
-import { useScrollReveal } from '../hooks/useScrollReveal'
+import { useSnapPanel } from '../hooks/useSnapPanel'
 import SwordSpin from './SwordSpin'
 import SkillConstellation from './SkillConstellation'
 import './Skills.css'
@@ -16,12 +16,12 @@ const skills = [
 ]
 
 export default function Skills() {
-  const ref = useScrollReveal()
+  const panelRef = useSnapPanel()
 
   return (
-    <section className="skills" id="skills" style={{ position: 'relative' }}>
+    <section className="skills snap-panel" id="skills" ref={panelRef} style={{ position: 'relative' }}>
       <SwordSpin />
-      <div className="skills__inner reveal" ref={ref} style={{ position: 'relative', zIndex: 2 }}>
+      <div className="skills__inner reveal" style={{ position: 'relative', zIndex: 2 }}>
         <div className="skills__left">
           <p className="section-label">03 // Toolkit</p>
           <h2 className="section-heading">Technical<br />Skills.</h2>

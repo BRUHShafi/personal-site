@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { projects } from '../data/projects'
 import Navbar from '../components/Navbar'
-import StarField from '../components/StarField'
+import SceneBackground from '../components/SceneBackground'
 import FloatingOrbs from '../components/FloatingOrbs'
 import './ProjectsPage.css'
 
@@ -18,7 +18,7 @@ export default function ProjectsPage() {
 
   return (
     <>
-      <StarField />
+      <SceneBackground />
       <FloatingOrbs accent="var(--green)" />
       <Navbar mode="interest" />
       <div className="pp-wrap">

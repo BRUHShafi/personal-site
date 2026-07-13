@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import SwordCanvas from './Sword'
+import { useSnapPanel } from '../hooks/useSnapPanel'
 import './Hero.css'
 
 const TITLES = [
@@ -83,6 +84,7 @@ function BouncingName({ name }) {
 }
 
 export default function Hero() {
+  const panelRef = useSnapPanel()
   const scrollProgressRef = useRef(0)
 
   useEffect(() => {
@@ -94,7 +96,7 @@ export default function Hero() {
   }, [])
 
   return (
-    <section className="hero" id="intro">
+    <section className="hero snap-panel" id="intro" ref={panelRef}>
       <div className="hero__sword-overlay">
         <SwordCanvas scrollProgressRef={scrollProgressRef} />
       </div>

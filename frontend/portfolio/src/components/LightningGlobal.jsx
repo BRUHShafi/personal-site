@@ -21,7 +21,7 @@ const BOLTS = [
   { anchorSign: -1, xOffset: -0.72, yLand: -1.80, scale: 0.38, rotMul: 0.20, tiltX: -0.25, tiltZ: -0.40, scrollDelay: 0.03, swayAmp: 0.05, swayFreq: 0.40 },
 ]
 
-function LightningMesh({ scrollProgress, bolt }) {
+function LightningMesh({ scrollProgressRef, bolt }) {
   const groupRef = useRef()
   const { scene: original } = useGLTF('/Lightning.glb')
 
@@ -43,6 +43,7 @@ function LightningMesh({ scrollProgress, bolt }) {
   useFrame((state) => {
     const t        = state.clock.getElapsedTime()
     const frustumW = FRUSTUM_H * (window.innerWidth / window.innerHeight)
+    const scrollProgress = scrollProgressRef.current
 
     // Anchor at the edge (right or left), then apply per-bolt offset
     const anchor = bolt.anchorSign * frustumW * 0.42
@@ -69,40 +70,48 @@ function LightningMesh({ scrollProgress, bolt }) {
 }
 
 export default function LightningGlobal() {
-  const [scrollProgress, setScrollProgress] = useState(0)
-  const [clipTop, setClipTop]               = useState(window.innerHeight)
+  const scrollProgressRef = useRef(0)   // feeds the bolts (no re-render)
+  const [active, setActive] = useState(false)  // gates the render loop
+  const wrapRef = useRef(null)
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY    = window.scrollY
-      const projectsEl = document.getElementById('work')
-      const contactEl  = document.getElementById('contact')
-      if (!projectsEl || !contactEl) return
+    let ticking = false
+    // Coalesce scroll work to one run per animation frame
+    const update = () => {
+      ticking = false
+      const projectsEl = document.getElementById('skills')
+      if (!projectsEl) return
 
-      const projectsRect = projectsEl.getBoundingClientRect()
-      setClipTop(Math.max(0, projectsRect.top))
+      // Clip the canvas to start at the Skills section — set directly, no re-render
+      const clipTop = Math.max(0, projectsEl.getBoundingClientRect().top)
+      if (wrapRef.current) wrapRef.current.style.clipPath = `inset(${clipTop}px 0 0 0)`
 
       const startScroll = projectsEl.offsetTop
       const endScroll   = document.body.scrollHeight - window.innerHeight
-      const progress    = (scrollY - startScroll) / (endScroll - startScroll)
-      setScrollProgress(Math.max(0, Math.min(1, progress)))
+      const progress    = (window.scrollY - startScroll) / (endScroll - startScroll)
+      const clamped     = Math.max(0, Math.min(1, progress))
+      scrollProgressRef.current = clamped
+      setActive(clamped > 0)   // React skips re-render when the bool is unchanged
     }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
+    const onScroll = () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update) }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    update()
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return (
-    <div style={{
+    <div ref={wrapRef} style={{
       position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 2,
-      clipPath: `inset(${clipTop}px 0 0 0)`,
+      clipPath: `inset(${window.innerHeight}px 0 0 0)`,
     }}>
       <Canvas
         gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         camera={{ position: [0, 0, 7], fov: 45 }}
         style={{ background: 'transparent' }}
         dpr={1}
+        frameloop={active ? 'always' : 'never'}
         onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
       >
         <ambientLight intensity={0.4} color="#ffcc55" />
@@ -111,7 +120,7 @@ export default function LightningGlobal() {
         <pointLight position={[4, 0, 3]} intensity={5.0} color="#ffbb00" distance={12} />
 
         {BOLTS.map((bolt, i) => (
-          <LightningMesh key={i} scrollProgress={scrollProgress} bolt={bolt} />
+          <LightningMesh key={i} scrollProgressRef={scrollProgressRef} bolt={bolt} />
         ))}
 
         <EffectComposer multisampling={0}>

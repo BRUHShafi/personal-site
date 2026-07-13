@@ -135,7 +135,7 @@ export const interestCards = [
     id: 'working',
     route: '/projects',
     label: '02 // Working',
-    title: 'Currently Working At',
+    title: 'Currently Working On',
     image: '/Job_Card.gif',
     accent: 'var(--green)',
     glow: 'rgba(34, 197, 94, 0.18)',

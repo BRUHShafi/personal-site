@@ -6,7 +6,10 @@ import * as THREE from 'three'
 
 const YELLOW_EMISSIVE = new THREE.Color('#ffaa00')
 
-function FlybyMesh({ scrollProgress }) {
+const SCALE  = 0.442   // 15% down from 0.52
+const REST_Y = -1.5    // was -2.2, which parked the blade inside the mask's fade
+
+function FlybyMesh({ scrollProgressRef }) {
   const groupRef = useRef()
   const { scene: original } = useGLTF('/sword.glb')
 
@@ -19,7 +22,7 @@ function FlybyMesh({ scrollProgress }) {
         const mats = Array.isArray(node.material) ? node.material : [node.material]
         mats.forEach((mat) => {
           mat.emissive = YELLOW_EMISSIVE
-          mat.emissiveIntensity = 0.55
+          mat.emissiveIntensity = 1.0
           mat.needsUpdate = true
         })
       }
@@ -29,21 +32,21 @@ function FlybyMesh({ scrollProgress }) {
   useFrame(() => {
     // Delay entry: sword waits off-screen for first 25% of section scroll,
     // then enters from the left — feels like the hero sword reappearing
-    const delayed = Math.max(0, (scrollProgress - 0.25) / 0.75)
+    const delayed = Math.max(0, (scrollProgressRef.current - 0.25) / 0.75)
     groupRef.current.position.x = -10 + delayed * 22
-    groupRef.current.position.y = -2.2
+    groupRef.current.position.y = REST_Y
     groupRef.current.rotation.z = 0  // horizontal
   })
 
   return (
     <group ref={groupRef}>
-      <primitive object={scene} scale={0.52} rotation={[Math.PI / 2, Math.PI / 2, 0]} />
+      <primitive object={scene} scale={SCALE} rotation={[Math.PI / 2, Math.PI / 2, 0]} />
     </group>
   )
 }
 
 export default function SwordFlyby() {
-  const [scrollProgress, setScrollProgress] = useState(0)
+  const scrollProgressRef = useRef(0)
   const [mounted, setMounted] = useState(false)
   const [frameloop, setFrameloop] = useState('always')
   const wrapRef = useRef()
@@ -61,13 +64,14 @@ export default function SwordFlyby() {
   }, [])
 
   useEffect(() => {
+    // Write to a ref (no re-render) — the value is only read inside useFrame
     const handleScroll = () => {
       const el = document.getElementById('intro-section')
       if (!el) return
       const rect = el.getBoundingClientRect()
       const vpH  = window.innerHeight
       const progress = (vpH - rect.top) / (rect.height + vpH)
-      setScrollProgress(Math.max(0, Math.min(1, progress)))
+      scrollProgressRef.current = Math.max(0, Math.min(1, progress))
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
@@ -80,24 +84,26 @@ export default function SwordFlyby() {
       inset:         0,
       pointerEvents: 'none',
       zIndex:        1,
-      WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
-      maskImage:       'linear-gradient(to bottom, black 70%, transparent 100%)',
+      // Fade only the very bottom edge. At 70% the fade started above the
+      // sword's own resting height and washed the whole blade out.
+      WebkitMaskImage: 'linear-gradient(to bottom, black 92%, transparent 100%)',
+      maskImage:       'linear-gradient(to bottom, black 92%, transparent 100%)',
     }}>
       {mounted && <Canvas
         frameloop={frameloop}
         gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         camera={{ position: [0, 0, 7], fov: 45 }}
         style={{ background: 'transparent' }}
-        dpr={1}
+        dpr={0.7}
         onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
       >
-        <ambientLight intensity={0.4} color="#ffcc55" />
-        <directionalLight position={[3, 5, 5]}  intensity={2.0} color="#ffd060" />
-        <directionalLight position={[-3, 1, -2]} intensity={0.8} color="#ff9900" />
-        <pointLight position={[0, 0, 3]} intensity={4.0} color="#ffbb00" distance={12} />
-        <FlybyMesh scrollProgress={scrollProgress} />
+        <ambientLight intensity={0.7} color="#ffcc55" />
+        <directionalLight position={[3, 5, 5]}  intensity={3.0} color="#ffd060" />
+        <directionalLight position={[-3, 1, -2]} intensity={1.4} color="#ff9900" />
+        <pointLight position={[0, 0, 3]} intensity={6.0} color="#ffbb00" distance={14} />
+        <FlybyMesh scrollProgressRef={scrollProgressRef} />
         <EffectComposer multisampling={0}>
-          <Bloom intensity={1.2} luminanceThreshold={0.6} luminanceSmoothing={0.7} />
+          <Bloom mipmapBlur levels={5} intensity={1.0} luminanceThreshold={0.6} luminanceSmoothing={0.3} />
         </EffectComposer>
       </Canvas>}
     </div>
