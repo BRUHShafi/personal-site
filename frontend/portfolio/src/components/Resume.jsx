@@ -8,7 +8,7 @@ export default function Resume() {
     <section className="resume snap-panel" id="resume" ref={panelRef}>
       <div className="resume__inner reveal">
         <div className="resume__left">
-          <p className="section-label">05 // Résumé</p>
+          <p className="section-label">04 // Résumé</p>
           <h2 className="section-heading">My<br />Experience.</h2>
         </div>
 
