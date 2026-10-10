@@ -54,24 +54,6 @@
   --nav-glow:      80, 140, 255;
 }
 
-/* Ember — warm gold/orange (matches the sword glow) */
-[data-theme="ember"] {
-  --bg:            #0f0a07;
-  --bg-card:       #1a120b;
-  --bg-card-hover: #221710;
-  --border:        #3a2a18;
-  --border-subtle: #261b10;
-  --text:          #a08868;
-  --text-muted:    #8a7050;
-  --text-light:    #d8c4a0;
-  --text-white:    #f6efe0;
-  --cyan:          #ffb020;
-  --cyan-glow:     rgba(255, 176, 32, 0.14);
-  --magenta:       #ff6a3d;
-  --green:         #ffd24a;
-  --nav-glow:      255, 90, 10;
-}
-
 /* Synthwave — magenta-pink + purple on deep violet */
 [data-theme="synthwave"] {
   --bg:            #0d0717;
@@ -88,42 +70,6 @@
   --magenta:       #8b5cf6;
   --green:         #f0a8ff;
   --nav-glow:      255, 67, 196;
-}
-
-/* Ocean — teal-cyan + blue on deep navy */
-[data-theme="ocean"] {
-  --bg:            #06121f;
-  --bg-card:       #0c1d30;
-  --bg-card-hover: #11283f;
-  --border:        #1d3a55;
-  --border-subtle: #122739;
-  --text:          #6f93b5;
-  --text-muted:    #5a7a98;
-  --text-light:    #aacce8;
-  --text-white:    #e6f3ff;
-  --cyan:          #22d3ee;
-  --cyan-glow:     rgba(34, 211, 238, 0.13);
-  --magenta:       #3b82f6;
-  --green:         #2dd4bf;
-  --nav-glow:      34, 211, 238;
-}
-
-/* Forest — mint-green + lime on deep evergreen */
-[data-theme="forest"] {
-  --bg:            #07120c;
-  --bg-card:       #0e1f16;
-  --bg-card-hover: #13291d;
-  --border:        #1e3a2a;
-  --border-subtle: #12251a;
-  --text:          #6f9a80;
-  --text-muted:    #5a8068;
-  --text-light:    #a8d8bc;
-  --text-white:    #e6f6ec;
-  --cyan:          #34d399;
-  --cyan-glow:     rgba(52, 211, 153, 0.13);
-  --magenta:       #a3e635;
-  --green:         #4ade80;
-  --nav-glow:      52, 211, 153;
 }
 
 * {

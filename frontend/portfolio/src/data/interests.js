@@ -1,22 +1,17 @@
 // ─────────────────────────────────────────────
 //  INTERESTS DATA
 //  Game covers pulled from Steam CDN (portrait 600×900).
-//  Book covers pulled from Open Library by ISBN.
 //  cover: null  → no thumbnail shown.
 //  favourite: true  → appears in ★ Fav filter.
 //  status: 'playing' → appears in Playing filter (set these yourself).
 // ─────────────────────────────────────────────
 
-const steam = (id) =>
-  `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${id}/library_600x900.jpg`
+import { steam, steamFallback } from './covers'
+import { mergeSteam } from './steamMerge'
 
-const steamFallback = (id) =>
-  `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${id}/header.jpg`
-
-const book = (isbn) =>
-  `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`
-
+// `appid` is kept on the object so steamMerge.js can join live Steam data onto it.
 const g = (id, name, sub, opts = {}) => ({
+  appid: id,
   name, sub,
   favourite: false,
   cover: steam(id),
@@ -35,7 +30,9 @@ export const interestCards = [
     filterLabels: {
       playing: 'PLAYING',
     },
-    items: [
+    // Curated order below; live Steam data (playtime, developer, games you own
+    // but have not listed) is merged in by mergeSteam. See steamMerge.js.
+    items: mergeSteam([
       // ── Tell me which are favourite: true and status: 'playing' ──
 
       // From your Steam library screenshots
@@ -111,42 +108,6 @@ export const interestCards = [
       g(1551360, 'Forza Horizon 5',               'Playground Games'),
       { name: 'League of Legends', sub: 'Riot Games',  favourite: false, cover: null },
       { name: 'Valorant',          sub: 'Riot Games',  favourite: false, cover: null },
-    ],
-  },
-  {
-    id: 'reading',
-    label: '02 // Reading',
-    title: 'Currently Reading',
-    image: '/Book_Card.gif',
-    accent: 'var(--magenta)',
-    glow: 'rgba(217, 70, 239, 0.18)',
-    filterLabels: {
-      reading:   'READING',
-      completed: 'COMPLETED',
-    },
-    items: [
-      { name: 'Atomic Habits',            sub: 'James Clear',   status: 'reading',   favourite: false, cover: book('9780735211292') },
-      { name: 'Dune',                     sub: 'Frank Herbert', status: 'reading',   favourite: false, cover: book('9780441013593') },
-      { name: 'The Pragmatic Programmer', sub: 'Hunt & Thomas', status: 'completed', favourite: false, cover: book('9780135957059') },
-      { name: 'Clean Code',               sub: 'Robert Martin', status: 'completed', favourite: false, cover: book('9780132350884') },
-    ],
-  },
-  {
-    id: 'working',
-    route: '/projects',
-    label: '02 // Working',
-    title: 'Currently Working On',
-    image: '/Job_Card.gif',
-    accent: 'var(--green)',
-    glow: 'rgba(34, 197, 94, 0.18)',
-    filterLabels: {
-      current: 'CURRENT',
-      past:    'PAST',
-    },
-    items: [
-      { name: 'Acme Corp',  sub: 'Software Developer', status: 'current', favourite: true  },
-      { name: 'Freelance',  sub: 'Web Projects',       status: 'current', favourite: false },
-      { name: 'University', sub: 'CS Student',         status: 'past',    favourite: false },
-    ],
+    ]),
   },
 ]

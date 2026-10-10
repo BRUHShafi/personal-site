@@ -41,6 +41,50 @@ export default function Navbar({ mode, onSearch, searchActive }) {
   const [dimmed, setDimmed]       = useState(false)
   const navRef    = useRef(null)
   const centerRef = useRef(null)
+  const diskRef   = useRef(null)
+
+  // Accretion-disk spin driven by scroll velocity: it idles at a slow drift,
+  // whips up in the scroll direction while you scroll, then eases back to idle.
+  // Scrolling up spins it the other way. Rotation is written to a CSS var so
+  // the disk's ::before (the glowing matter) can read it.
+  useEffect(() => {
+    const disk = diskRef.current
+    if (!disk) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const IDLE   = 36      // deg/sec — the resting drift (~10s per turn)
+    const K       = 1.6    // deg/sec added per pixel scrolled
+    const MAX_VEL = 240    // cap kept LOW so the spin stays trackable, not a blur
+    const DECAY   = 2.2    // how quickly velocity relaxes back toward IDLE
+
+    let angle    = 0
+    let vel      = IDLE
+    let lastY    = window.scrollY
+    let lastT    = performance.now()
+    let raf      = 0
+
+    const onScroll = () => {
+      const y  = window.scrollY
+      vel = Math.max(-MAX_VEL, Math.min(MAX_VEL, vel + (y - lastY) * K))
+      lastY = y
+    }
+
+    const frame = (t) => {
+      const dt = Math.min(0.05, (t - lastT) / 1000)   // clamp long gaps
+      lastT = t
+      angle += vel * dt
+      vel   += (IDLE - vel) * Math.min(1, dt * DECAY) // relax back to idle
+      disk.style.setProperty('--disk-angle', `${angle}deg`)
+      raf = requestAnimationFrame(frame)
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    raf = requestAnimationFrame(frame)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(raf)
+    }
+  }, [])
 
   // Close the theme palette whenever the nav closes
   useEffect(() => {
@@ -174,6 +218,7 @@ export default function Navbar({ mode, onSearch, searchActive }) {
       style={{ opacity: dimmed && !open ? 0.25 : 1, transition: 'opacity 0.5s ease' }}
     >
       <div className="orbital-nav__ring" aria-hidden="true" />
+      <span className="orbital-nav__disk" aria-hidden="true" ref={diskRef} />
 
       {items.map((item, i) => {
         const { x, y } = getPos(i, items.length)

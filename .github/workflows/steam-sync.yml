@@ -1,0 +1,60 @@
+name: Sync Steam library
+
+# Runs daily and writes src/data/steam-games.json back to the repo.
+#
+# SECURITY NOTES:
+#  - Triggers are schedule + manual ONLY. Deliberately no `pull_request` or
+#    `pull_request_target`: those run on code from forks, and any trigger that
+#    exposes secrets to fork-authored code is a key-exfiltration path.
+#  - `permissions` is set at the top level to the minimum this job needs.
+#    Without this block the default GITHUB_TOKEN may get broad write scopes.
+#  - Secrets are injected per-step via `env:`, not job-wide, so no other step
+#    can see them.
+#  - Actions are pinned to major version tags. To harden further, pin to a full
+#    commit SHA (e.g. actions/checkout@<40-char-sha>) so a compromised or
+#    retagged action version cannot silently change what runs here.
+
+on:
+  schedule:
+    - cron: '0 5 * * *'      # 05:00 UTC daily
+  workflow_dispatch:          # lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write             # needed to commit the regenerated JSON
+  # everything else stays at no-access
+
+concurrency:
+  group: steam-sync
+  cancel-in-progress: false   # don't kill a run mid-commit
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # The script uses only Node built-ins (global fetch, fs), so there is
+      # nothing to npm install — fewer dependencies, smaller supply-chain surface.
+      - name: Fetch Steam library
+        env:
+          STEAM_KEY: ${{ secrets.STEAM_KEY }}
+          STEAM_ID:  ${{ secrets.STEAM_ID }}
+        run: node scripts/fetch-steam.mjs
+
+      - name: Commit if changed
+        run: |
+          set -euo pipefail
+          FILE=frontend/portfolio/src/data/steam-games.json
+          if git diff --quiet -- "$FILE"; then
+            echo "No library changes — nothing to commit."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$FILE"
+          git commit -m "chore: sync Steam library data"
+          git push

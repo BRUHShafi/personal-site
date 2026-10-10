@@ -101,7 +101,7 @@
   }
 }
 
-/* Default (Blackhole + Ember): rich fire aura */
+/* Default (Blackhole): rich fire aura */
 .orbital-nav__center {
   animation: fireGlow 2.8s ease-in-out infinite;
 }
@@ -115,17 +115,13 @@
   animation: blueGlow 2.8s ease-in-out infinite;
 }
 
-/* Synthwave / Ocean / Forest: themed single-color aura */
-[data-theme="synthwave"] .orbital-nav__center,
-[data-theme="ocean"] .orbital-nav__center,
-[data-theme="forest"] .orbital-nav__center {
+/* Synthwave: themed single-color aura */
+[data-theme="synthwave"] .orbital-nav__center {
   animation: themeGlow 3.4s ease-in-out infinite;
 }
 
 [data-theme="light"] .orbital-nav--open .orbital-nav__center,
-[data-theme="synthwave"] .orbital-nav--open .orbital-nav__center,
-[data-theme="ocean"] .orbital-nav--open .orbital-nav__center,
-[data-theme="forest"] .orbital-nav--open .orbital-nav__center {
+[data-theme="synthwave"] .orbital-nav--open .orbital-nav__center {
   animation: none;
 }
 
@@ -156,11 +152,12 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  /* Always-visible solid dark backdrop */
-  background: rgba(10, 10, 20, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(var(--nav-glow), 0.45);
+  /* Fully opaque event horizon. Must be solid: any transparency (or a
+     backdrop-filter) lets the disk spinning behind bleed through the face
+     and makes the SHAFI text look like it's spinning on scroll. */
+  background: #08080f;
+  /* bright photon ring hugging the sphere */
+  border: 2px solid rgba(var(--nav-glow), 0.9);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
   cursor: pointer;
   display: flex;
@@ -171,14 +168,79 @@
   transition: background 0.25s, box-shadow 0.25s, border-color 0.25s;
 }
 
+/* ── Accretion disk ──
+   A real black-hole disk: a wide, flat, TILTED ellipse of glowing matter
+   whose silhouette stays put while the material streams around inside it.
+   - `.orbital-nav__disk` is the fixed ellipse: wide box + border-radius 50%,
+     tilted a few degrees, with a soft radial mask so its far ends fade into
+     space (no hard rim) and a warm radial glow baked into its core.
+   - `::before` is the spinning matter: a repeating conic gradient reads as
+     dozens of bright spokes; rotating + blurred it becomes a textured swirl.
+     It's larger than the ellipse and clipped by the parent, so only the disk
+     shows. Colour tracks --nav-glow, so each theme spins in its own hue.
+     Rotation is driven from JS in Navbar.jsx (scroll velocity). */
+.orbital-nav__disk {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 250px;
+  height: 92px;
+  transform: translate(-50%, -50%) rotate(-14deg);   /* the disk tilt */
+  border-radius: 50%;
+  overflow: hidden;                                   /* clip matter to disk */
+  z-index: 1;                                         /* under the sphere (z 2) */
+  pointer-events: none;
+  /* warm core glow that falls off toward the rim */
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--nav-glow), 0.55),
+    rgba(var(--nav-glow), 0.12) 42%,
+    transparent 72%
+  );
+  /* elliptical fade so the disk dissolves into space at its ends */
+  -webkit-mask: radial-gradient(closest-side, #000 26%, rgba(0,0,0,0.9) 46%, transparent 80%);
+          mask: radial-gradient(closest-side, #000 26%, rgba(0,0,0,0.9) 46%, transparent 80%);
+}
+
+.orbital-nav__disk::before {
+  content: '';
+  position: absolute;
+  inset: -55%;                                        /* overspill so corners stay filled while spinning */
+  background:
+    /* travelling light: a sharp hotspot + a trailing arc that clearly
+       sweep AROUND as it spins, so the motion is trackable by eye */
+    conic-gradient(
+      from 0deg,
+      rgba(var(--nav-glow), 0)    0deg,
+      rgba(var(--nav-glow), 1)    30deg,   /* bright leading hotspot */
+      rgba(var(--nav-glow), 0.25) 70deg,
+      rgba(var(--nav-glow), 0.05) 150deg,
+      rgba(var(--nav-glow), 0.85) 210deg,  /* trailing arc */
+      rgba(var(--nav-glow), 0.08) 270deg,
+      rgba(var(--nav-glow), 0)    360deg
+    ),
+    /* concentric streak texture: fine rings the light flows along */
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      rgba(var(--nav-glow), 0)    0,
+      rgba(var(--nav-glow), 0.28) 2px,
+      rgba(var(--nav-glow), 0)    5px
+    );
+  background-blend-mode: screen;                      /* glows add, not stack */
+  filter: blur(6px);                                  /* smear rings into flowing light */
+  /* rotation is driven from JS (scroll velocity) via --disk-angle */
+  transform: rotate(var(--disk-angle, 0deg));
+  will-change: transform;
+}
+
 .orbital-nav__center:hover {
-  background: rgba(10, 10, 22, 0.92);
+  background: #0a0a16;
   border-color: rgba(var(--nav-glow), 0.9);
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.7), 0 0 16px rgba(var(--nav-glow), 0.2);
 }
 
 .orbital-nav--open .orbital-nav__center {
-  background: rgba(10, 10, 22, 0.92);
+  background: #0a0a16;
   border-color: rgba(var(--nav-glow), 0.9);
   box-shadow:
     0 0 0 6px rgba(var(--nav-glow), 0.07),
