@@ -1,6 +1,2417 @@
 {
-  "generatedAt": null,
-  "profileUrl": null,
-  "gameCount": 0,
-  "games": {}
+  "generatedAt": "2026-10-10T23:23:55.496Z",
+  "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
+  "gameCount": 196,
+  "games": {
+    "10": {
+      "appid": 10,
+      "name": "Counter-Strike",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "20": {
+      "appid": 20,
+      "name": "Team Fortress Classic",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "30": {
+      "appid": 30,
+      "name": "Day of Defeat",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "40": {
+      "appid": 40,
+      "name": "Deathmatch Classic",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "50": {
+      "appid": 50,
+      "name": "Half-Life: Opposing Force",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Gearbox Software",
+      "genres": [
+        "Action"
+      ]
+    },
+    "60": {
+      "appid": 60,
+      "name": "Ricochet",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "70": {
+      "appid": 70,
+      "name": "Half-Life",
+      "playtimeMinutes": 47,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1669207570,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "80": {
+      "appid": 80,
+      "name": "Counter-Strike: Condition Zero",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "100": {
+      "appid": 100,
+      "name": "Counter-Strike: Condition Zero Deleted Scenes",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "130": {
+      "appid": 130,
+      "name": "Half-Life: Blue Shift",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Gearbox Software",
+      "genres": [
+        "Action"
+      ]
+    },
+    "220": {
+      "appid": 220,
+      "name": "Half-Life 2",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "240": {
+      "appid": 240,
+      "name": "Counter-Strike: Source",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "280": {
+      "appid": 280,
+      "name": "Half-Life: Source",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "300": {
+      "appid": 300,
+      "name": "Day of Defeat: Source",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "320": {
+      "appid": 320,
+      "name": "Half-Life 2: Deathmatch",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "360": {
+      "appid": 360,
+      "name": "Half-Life Deathmatch: Source",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "400": {
+      "appid": 400,
+      "name": "Portal",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "500": {
+      "appid": 500,
+      "name": "Left 4 Dead",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "550": {
+      "appid": 550,
+      "name": "Left 4 Dead 2",
+      "playtimeMinutes": 144,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1628364778,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "570": {
+      "appid": 570,
+      "name": "Dota 2",
+      "playtimeMinutes": 89952,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1784769818,
+      "developer": "Valve",
+      "genres": [
+        "Action",
+        "Strategy",
+        "Free To Play"
+      ]
+    },
+    "620": {
+      "appid": 620,
+      "name": "Portal 2",
+      "playtimeMinutes": 131,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1745647472,
+      "developer": "Valve",
+      "genres": [
+        "Action",
+        "Adventure"
+      ]
+    },
+    "730": {
+      "appid": 730,
+      "name": "Counter-Strike 2",
+      "playtimeMinutes": 63818,
+      "playtime2WeeksMinutes": 156,
+      "lastPlayed": 1790905572,
+      "developer": "Valve",
+      "genres": [
+        "Action",
+        "Free To Play"
+      ]
+    },
+    "3590": {
+      "appid": 3590,
+      "name": "Plants vs. Zombies: Game of the Year",
+      "playtimeMinutes": 2293,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1778701323,
+      "developer": "PopCap Games, Inc.",
+      "genres": [
+        "Strategy"
+      ]
+    },
+    "6850": {
+      "appid": 6850,
+      "name": "Hitman 2: Silent Assassin",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Io-Interactive A/S",
+      "genres": [
+        "Action"
+      ]
+    },
+    "6860": {
+      "appid": 6860,
+      "name": "Hitman: Blood Money",
+      "playtimeMinutes": 57,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1630958760,
+      "developer": "Io-Interactive A/S",
+      "genres": [
+        "Action"
+      ]
+    },
+    "6900": {
+      "appid": 6900,
+      "name": "Hitman: Codename 47",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "IO Interactive A/S",
+      "genres": [
+        "Action"
+      ]
+    },
+    "8190": {
+      "appid": 8190,
+      "name": "Just Cause 2",
+      "playtimeMinutes": 410,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1632672637,
+      "developer": "Avalanche Studios",
+      "genres": [
+        "Action",
+        "Adventure"
+      ]
+    },
+    "8870": {
+      "appid": 8870,
+      "name": "BioShock Infinite",
+      "playtimeMinutes": 1142,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1636908966,
+      "developer": "Irrational Games",
+      "genres": [
+        "Action"
+      ]
+    },
+    "20900": {
+      "appid": 20900,
+      "name": "The Witcher: Enhanced Edition",
+      "playtimeMinutes": 133,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1588767992,
+      "developer": "CD PROJEKT RED",
+      "genres": [
+        "Action",
+        "RPG"
+      ]
+    },
+    "20920": {
+      "appid": 20920,
+      "name": "The Witcher 2: Assassins of Kings Enhanced Edition",
+      "playtimeMinutes": 48,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1609321008,
+      "developer": "CD PROJEKT RED",
+      "genres": [
+        "RPG"
+      ]
+    },
+    "22330": {
+      "appid": 22330,
+      "name": "The Elder Scrolls IV: Oblivion Game of the Year Edition (2009)",
+      "playtimeMinutes": 162,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1629443526,
+      "developer": "Bethesda Game Studios",
+      "genres": [
+        "RPG"
+      ]
+    },
+    "22380": {
+      "appid": 22380,
+      "name": "Fallout: New Vegas",
+      "playtimeMinutes": 2631,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1715163568,
+      "developer": "Obsidian Entertainment",
+      "genres": [
+        "Action",
+        "RPG"
+      ]
+    },
+    "34870": {
+      "appid": 34870,
+      "name": "Sniper Ghost Warrior 2",
+      "playtimeMinutes": 59,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1607968238,
+      "developer": "City Interactive",
+      "genres": [
+        "Action"
+      ]
+    },
+    "39120": {
+      "appid": 39120,
+      "name": "RIFT",
+      "playtimeMinutes": 128,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1602437926,
+      "developer": "gamigo US Inc.",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Massively Multiplayer",
+        "RPG",
+        "Free To Play"
+      ]
+    },
+    "43110": {
+      "appid": 43110,
+      "name": "Metro 2033",
+      "playtimeMinutes": 13,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1617649138,
+      "developer": "4A Games",
+      "genres": [
+        "Action"
+      ]
+    },
+    "46500": {
+      "appid": 46500,
+      "name": "Syberia",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Microids",
+      "genres": [
+        "Adventure",
+        "Casual"
+      ]
+    },
+    "46510": {
+      "appid": 46510,
+      "name": "Syberia 2",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Microids",
+      "genres": [
+        "Adventure"
+      ]
+    },
+    "49520": {
+      "appid": 49520,
+      "name": "Borderlands 2",
+      "playtimeMinutes": 592,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1673428759,
+      "developer": "Gearbox Software",
+      "genres": [
+        "Action",
+        "RPG"
+      ]
+    },
+    "105600": {
+      "appid": 105600,
+      "name": "Terraria",
+      "playtimeMinutes": 9335,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1756767291,
+      "developer": "Re-Logic",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Indie",
+        "RPG"
+      ]
+    },
+    "109600": {
+      "appid": 109600,
+      "name": "Neverwinter",
+      "playtimeMinutes": 169,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1582097620,
+      "developer": "Cryptic Studios",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Massively Multiplayer",
+        "RPG",
+        "Free To Play"
+      ]
+    },
+    "203140": {
+      "appid": 203140,
+      "name": "Hitman: Absolution",
+      "playtimeMinutes": 17,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1598203350,
+      "developer": "Io-Interactive A/S",
+      "genres": [
+        "Action"
+      ]
+    },
+    "203160": {
+      "appid": 203160,
+      "name": "Tomb Raider",
+      "playtimeMinutes": 1504,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1610640427,
+      "developer": "Crystal Dynamics",
+      "genres": [
+        "Action",
+        "Adventure"
+      ]
+    },
+    "205930": {
+      "appid": 205930,
+      "name": "Hitman: Sniper Challenge",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": null,
+      "genres": []
+    },
+    "206420": {
+      "appid": 206420,
+      "name": "Saints Row IV",
+      "playtimeMinutes": 123,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1630864627,
+      "developer": "Deep Silver Volition",
+      "genres": [
+        "Action",
+        "Adventure"
+      ]
+    },
+    "208650": {
+      "appid": 208650,
+      "name": "Batman™: Arkham Knight",
+      "playtimeMinutes": 1769,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1789949772,
+      "developer": "Rocksteady Studios",
+      "genres": [
+        "Action",
+        "Adventure"
+      ]
+    },
+    "212500": {
+      "appid": 212500,
+      "name": "The Lord of the Rings Online™",
+      "playtimeMinutes": 513,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1504852354,
+      "developer": "Standing Stone Games",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Massively Multiplayer",
+        "RPG",
+        "Free To Play"
+      ]
+    },
+    "218620": {
+      "appid": 218620,
+      "name": "PAYDAY 2",
+      "playtimeMinutes": 1478,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1592054884,
+      "developer": "OVERKILL - a Starbreeze Studio.",
+      "genres": [
+        "Action",
+        "RPG"
+      ]
+    },
+    "220440": {
+      "appid": 220440,
+      "name": "DmC Devil May Cry",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Ninja Theory",
+      "genres": [
+        "Action",
+        "Adventure"
+      ]
+    },
+    "224260": {
+      "appid": 224260,
+      "name": "No More Room in Hell",
+      "playtimeMinutes": 28,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1532023707,
+      "developer": "No More Room in Hell Team",
+      "genres": [
+        "Action",
+        "Indie",
+        "Free To Play"
+      ]
+    },
+    "225540": {
+      "appid": 225540,
+      "name": "Just Cause 3",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Avalanche Studios",
+      "genres": [
+        "Action",
+        "Adventure"
+      ]
+    },
+    "226840": {
+      "appid": 226840,
+      "name": "Age of Wonders III",
+      "playtimeMinutes": 12,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1565673547,
+      "developer": "Triumph Studios",
+      "genres": [
+        "RPG",
+        "Strategy"
+      ]
+    },
+    "230410": {
+      "appid": 230410,
+      "name": "Warframe",
+      "playtimeMinutes": 18250,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1789946606,
+      "developer": "Digital Extremes",
+      "genres": [
+        "Action",
+        "RPG",
+        "Free To Play"
+      ]
+    },
+    "231430": {
+      "appid": 231430,
+      "name": "Company of Heroes 2",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Relic Entertainment",
+      "genres": [
+        "Strategy"
+      ]
+    },
+    "235540": {
+      "appid": 235540,
+      "name": "Warhammer: End Times - Vermintide",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Fatshark",
+      "genres": [
+        "Action",
+        "Indie"
+      ]
+    },
+    "236390": {
+      "appid": 236390,
+      "name": "War Thunder",
+      "playtimeMinutes": 21,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1624441750,
+      "developer": "Gaijin Entertainment",
+      "genres": [
+        "Action",
+        "Massively Multiplayer",
+        "Simulation",
+        "Free To Play"
+      ]
+    },
+    "238960": {
+      "appid": 238960,
+      "name": "Path of Exile",
+      "playtimeMinutes": 13271,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1676964972,
+      "developer": "Grinding Gear Games",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Indie",
+        "Massively Multiplayer",
+        "RPG"
+      ]
+    },
+    "239160": {
+      "appid": 239160,
+      "name": "Thief",
+      "playtimeMinutes": 1017,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1625633157,
+      "developer": "Eidos-Montréal",
+      "genres": [
+        "Action",
+        "Adventure"
+      ]
+    },
+    "247430": {
+      "appid": 247430,
+      "name": "Hitman: Contracts",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Io-Interactive A/S",
+      "genres": [
+        "Action"
+      ]
+    },
+    "250320": {
+      "appid": 250320,
+      "name": "The Wolf Among Us",
+      "playtimeMinutes": 1298,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1765432800,
+      "developer": "Telltale",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Casual"
+      ]
+    },
+    "251870": {
+      "appid": 251870,
+      "name": "Go! Go! Nippon! ~My First Trip to Japan~",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "OVERDRIVE",
+      "genres": [
+        "Adventure"
+      ]
+    },
+    "252490": {
+      "appid": 252490,
+      "name": "Rust",
+      "playtimeMinutes": 189,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1577526760,
+      "developer": "Facepunch Studios",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Indie",
+        "Massively Multiplayer",
+        "RPG"
+      ]
+    },
+    "261640": {
+      "appid": 261640,
+      "name": "Borderlands: The Pre-Sequel",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "2K Australia",
+      "genres": [
+        "Action",
+        "RPG"
+      ]
+    },
+    "264710": {
+      "appid": 264710,
+      "name": "Subnautica",
+      "playtimeMinutes": 1006,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1753687144,
+      "developer": "Unknown Worlds Entertainment",
+      "genres": [
+        "Adventure",
+        "Indie"
+      ]
+    },
+    "265590": {
+      "appid": 265590,
+      "name": "The Red Solstice",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Ironward",
+      "genres": [
+        "Strategy"
+      ]
+    },
+    "265630": {
+      "appid": 265630,
+      "name": "Fistful of Frags",
+      "playtimeMinutes": 904,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1634991986,
+      "developer": "Fistful of Frags Team",
+      "genres": [
+        "Action",
+        "Free To Play",
+        "Indie"
+      ]
+    },
+    "268910": {
+      "appid": 268910,
+      "name": "Cuphead",
+      "playtimeMinutes": 725,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1786914139,
+      "developer": "Studio MDHR Entertainment Inc.",
+      "genres": [
+        "Action",
+        "Indie"
+      ]
+    },
+    "275850": {
+      "appid": 275850,
+      "name": "No Man's Sky",
+      "playtimeMinutes": 1138,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1767472207,
+      "developer": "Hello Games",
+      "genres": [
+        "Action",
+        "Adventure"
+      ]
+    },
+    "280790": {
+      "appid": 280790,
+      "name": "Creativerse",
+      "playtimeMinutes": 112,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1535731540,
+      "developer": "Playful Corp.",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Casual",
+        "Indie",
+        "Massively Multiplayer"
+      ]
+    },
+    "283270": {
+      "appid": 283270,
+      "name": "Jagged Alliance Gold",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Sir-Tech",
+      "genres": [
+        "Action",
+        "RPG",
+        "Strategy"
+      ]
+    },
+    "285160": {
+      "appid": 285160,
+      "name": "LEGO® The Hobbit™",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Traveller's Tales",
+      "genres": [
+        "Action",
+        "Adventure"
+      ]
+    },
+    "286690": {
+      "appid": 286690,
+      "name": "Metro 2033 Redux",
+      "playtimeMinutes": 103,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1790442388,
+      "developer": "4A Games",
+      "genres": [
+        "Action"
+      ]
+    },
+    "287390": {
+      "appid": 287390,
+      "name": "Metro: Last Light Redux",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "4A Games",
+      "genres": [
+        "Action"
+      ]
+    },
+    "287450": {
+      "appid": 287450,
+      "name": "Rise of Nations: Extended Edition",
+      "playtimeMinutes": 479,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1779121658,
+      "developer": "SkyBox Labs",
+      "genres": [
+        "Simulation",
+        "Strategy"
+      ]
+    },
+    "291550": {
+      "appid": 291550,
+      "name": "Brawlhalla",
+      "playtimeMinutes": 3246,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1733774808,
+      "developer": "Blue Mammoth Games",
+      "genres": [
+        "Action",
+        "Indie",
+        "Free To Play"
+      ]
+    },
+    "292030": {
+      "appid": 292030,
+      "name": "The Witcher 3: Wild Hunt — Remastered",
+      "playtimeMinutes": 737,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1607933774,
+      "developer": "CD PROJEKT RED",
+      "genres": [
+        "RPG"
+      ]
+    },
+    "297130": {
+      "appid": 297130,
+      "name": "Titan Souls",
+      "playtimeMinutes": 139,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1730356822,
+      "developer": "Acid Nerve",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Indie"
+      ]
+    },
+    "304050": {
+      "appid": 304050,
+      "name": "Trove",
+      "playtimeMinutes": 17,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1661855849,
+      "developer": "gamigo US Inc.",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Casual",
+        "Massively Multiplayer",
+        "RPG"
+      ]
+    },
+    "304390": {
+      "appid": 304390,
+      "name": "FOR HONOR",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Ubisoft Montreal",
+      "genres": [
+        "Action"
+      ]
+    },
+    "304930": {
+      "appid": 304930,
+      "name": "Unturned",
+      "playtimeMinutes": 124,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1628592786,
+      "developer": "Smartly Dressed Games",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Casual",
+        "Indie",
+        "Free To Play"
+      ]
+    },
+    "306130": {
+      "appid": 306130,
+      "name": "The Elder Scrolls Online",
+      "playtimeMinutes": 13933,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1759496517,
+      "developer": "ZeniMax Online Studios",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Massively Multiplayer",
+        "RPG"
+      ]
+    },
+    "307690": {
+      "appid": 307690,
+      "name": "Sleeping Dogs: Definitive Edition",
+      "playtimeMinutes": 5266,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1735461397,
+      "developer": "United Front Games",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Racing"
+      ]
+    },
+    "310560": {
+      "appid": 310560,
+      "name": "DiRT Rally",
+      "playtimeMinutes": 53,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1786742444,
+      "developer": "Codemasters",
+      "genres": [
+        "Racing",
+        "Simulation",
+        "Sports"
+      ]
+    },
+    "314650": {
+      "appid": 314650,
+      "name": "SpaceEngine",
+      "playtimeMinutes": 106,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1695768507,
+      "developer": "Cosmographic Software",
+      "genres": [
+        "Casual",
+        "Indie",
+        "Simulation",
+        "Early Access"
+      ]
+    },
+    "323370": {
+      "appid": 323370,
+      "name": "TERA",
+      "playtimeMinutes": 78,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1567845833,
+      "developer": null,
+      "genres": []
+    },
+    "324800": {
+      "appid": 324800,
+      "name": "Shadow Warrior 2",
+      "playtimeMinutes": 645,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1686946297,
+      "developer": "Flying Wild Hog",
+      "genres": [
+        "Action",
+        "Adventure"
+      ]
+    },
+    "324810": {
+      "appid": 324810,
+      "name": "TOXIKK",
+      "playtimeMinutes": 137,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1699641873,
+      "developer": "Reakktor Studios",
+      "genres": [
+        "Action",
+        "Free To Play",
+        "Indie"
+      ]
+    },
+    "329050": {
+      "appid": 329050,
+      "name": "Devil May Cry 4 Special Edition",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "CAPCOM Co., Ltd.",
+      "genres": [
+        "Action"
+      ]
+    },
+    "333930": {
+      "appid": 333930,
+      "name": "Dirty Bomb",
+      "playtimeMinutes": 18,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1561751416,
+      "developer": "Splash Damage",
+      "genres": [
+        "Action",
+        "Free To Play"
+      ]
+    },
+    "346110": {
+      "appid": 346110,
+      "name": "ARK: Survival Evolved",
+      "playtimeMinutes": 199,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1679080249,
+      "developer": "Studio Wildcard",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Indie",
+        "Massively Multiplayer",
+        "RPG"
+      ]
+    },
+    "351510": {
+      "appid": 351510,
+      "name": "Quiplash",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Jackbox Games, Inc.",
+      "genres": [
+        "Casual",
+        "Indie",
+        "Strategy"
+      ]
+    },
+    "355180": {
+      "appid": 355180,
+      "name": "Codename CURE",
+      "playtimeMinutes": 109,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1544693975,
+      "developer": "Raptor Byte",
+      "genres": [
+        "Action",
+        "Free To Play"
+      ]
+    },
+    "359550": {
+      "appid": 359550,
+      "name": "Tom Clancy's Rainbow Six Siege",
+      "playtimeMinutes": 2244,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1736803710,
+      "developer": "Ubisoft Montreal",
+      "genres": [
+        "Action",
+        "Free To Play"
+      ]
+    },
+    "364470": {
+      "appid": 364470,
+      "name": "The Elder Scrolls: Legends",
+      "playtimeMinutes": 233,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1604124741,
+      "developer": "Sparkypants Studios, LLC",
+      "genres": [
+        "Free To Play"
+      ]
+    },
+    "365670": {
+      "appid": 365670,
+      "name": "Blender",
+      "playtimeMinutes": 15541,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1790301134,
+      "developer": "Blender Foundation",
+      "genres": [
+        "Animation & Modeling",
+        "Design & Illustration",
+        "Video Production"
+      ]
+    },
+    "377160": {
+      "appid": 377160,
+      "name": "Fallout 4",
+      "playtimeMinutes": 1687,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1679316574,
+      "developer": "Bethesda Game Studios",
+      "genres": [
+        "RPG"
+      ]
+    },
+    "379720": {
+      "appid": 379720,
+      "name": "DOOM",
+      "playtimeMinutes": 2922,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1701127134,
+      "developer": "id Software",
+      "genres": [
+        "Action"
+      ]
+    },
+    "380600": {
+      "appid": 380600,
+      "name": "Fishing Planet",
+      "playtimeMinutes": 11,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1637917933,
+      "developer": "Fishing Planet LLC",
+      "genres": [
+        "Massively Multiplayer",
+        "Simulation",
+        "Sports",
+        "Free To Play"
+      ]
+    },
+    "383270": {
+      "appid": 383270,
+      "name": "Hue",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Fiddlesticks Games",
+      "genres": [
+        "Adventure",
+        "Indie"
+      ]
+    },
+    "386360": {
+      "appid": 386360,
+      "name": "SMITE",
+      "playtimeMinutes": 3167,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1626447271,
+      "developer": "Titan Forge Games",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Casual",
+        "Indie",
+        "Massively Multiplayer"
+      ]
+    },
+    "391220": {
+      "appid": 391220,
+      "name": "Rise of the Tomb Raider",
+      "playtimeMinutes": 57,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1673432080,
+      "developer": "Crystal Dynamics",
+      "genres": [
+        "Action",
+        "Adventure"
+      ]
+    },
+    "394310": {
+      "appid": 394310,
+      "name": "Punch Club",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Lazy Bear Games",
+      "genres": [
+        "Indie",
+        "RPG",
+        "Strategy"
+      ]
+    },
+    "404790": {
+      "appid": 404790,
+      "name": "Godot Engine",
+      "playtimeMinutes": 46,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1734590056,
+      "developer": "Godot Engine",
+      "genres": [
+        "Game Development"
+      ]
+    },
+    "407530": {
+      "appid": 407530,
+      "name": "ARK: Survival Of The Fittest",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Studio Wildcard",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Indie",
+        "Massively Multiplayer",
+        "RPG"
+      ]
+    },
+    "412020": {
+      "appid": 412020,
+      "name": "Metro Exodus",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "4A Games",
+      "genres": [
+        "Action"
+      ]
+    },
+    "413150": {
+      "appid": 413150,
+      "name": "Stardew Valley",
+      "playtimeMinutes": 8727,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1772570609,
+      "developer": "ConcernedApe",
+      "genres": [
+        "Indie",
+        "RPG",
+        "Simulation"
+      ]
+    },
+    "424840": {
+      "appid": 424840,
+      "name": "Little Nightmares",
+      "playtimeMinutes": 100,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1698217797,
+      "developer": "Tarsier Studios",
+      "genres": [
+        "Adventure"
+      ]
+    },
+    "429790": {
+      "appid": 429790,
+      "name": "AdventureQuest 3D",
+      "playtimeMinutes": 3750,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1646225677,
+      "developer": "Artix Entertainment, LLC",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Casual",
+        "Free To Play",
+        "Indie"
+      ]
+    },
+    "431960": {
+      "appid": 431960,
+      "name": "Wallpaper Engine",
+      "playtimeMinutes": 9324,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1786507512,
+      "developer": "Wallpaper Engine Team",
+      "genres": [
+        "Casual",
+        "Indie",
+        "Animation & Modeling",
+        "Design & Illustration",
+        "Photo Editing"
+      ]
+    },
+    "444090": {
+      "appid": 444090,
+      "name": "Paladins",
+      "playtimeMinutes": 5599,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1690386704,
+      "developer": "Evil Mojo Games",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Massively Multiplayer",
+        "Strategy",
+        "Free To Play"
+      ]
+    },
+    "444200": {
+      "appid": 444200,
+      "name": "World of Tanks Blitz",
+      "playtimeMinutes": 48,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1742194344,
+      "developer": "Wargaming Group Limited",
+      "genres": [
+        "Action",
+        "Massively Multiplayer",
+        "Simulation",
+        "Strategy",
+        "Free To Play"
+      ]
+    },
+    "447040": {
+      "appid": 447040,
+      "name": "Watch_Dogs 2",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Ubisoft",
+      "genres": [
+        "Action",
+        "Adventure"
+      ]
+    },
+    "464920": {
+      "appid": 464920,
+      "name": "Surviving Mars",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Haemimont Games",
+      "genres": [
+        "Simulation",
+        "Strategy"
+      ]
+    },
+    "475150": {
+      "appid": 475150,
+      "name": "Titan Quest Anniversary Edition",
+      "playtimeMinutes": 287,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1634721248,
+      "developer": "Iron Lore Entertainment",
+      "genres": [
+        "Action",
+        "RPG"
+      ]
+    },
+    "475550": {
+      "appid": 475550,
+      "name": "Beholder",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Alawar Stargaze (Warm Lamp Games)",
+      "genres": [
+        "Adventure",
+        "Indie",
+        "Strategy"
+      ]
+    },
+    "489520": {
+      "appid": 489520,
+      "name": "Minion Masters",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "BetaDwarf",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Indie",
+        "RPG",
+        "Strategy"
+      ]
+    },
+    "489630": {
+      "appid": 489630,
+      "name": "Warhammer 40,000: Gladius - Relics of War",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Proxy Studios",
+      "genres": [
+        "Strategy"
+      ]
+    },
+    "489830": {
+      "appid": 489830,
+      "name": "The Elder Scrolls V: Skyrim Special Edition",
+      "playtimeMinutes": 12601,
+      "playtime2WeeksMinutes": 18,
+      "lastPlayed": 1790917411,
+      "developer": "Bethesda Game Studios",
+      "genres": [
+        "RPG"
+      ]
+    },
+    "537800": {
+      "appid": 537800,
+      "name": "Bomber Crew",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Runner Duck",
+      "genres": [
+        "Simulation",
+        "Strategy"
+      ]
+    },
+    "556130": {
+      "appid": 556130,
+      "name": "Drones, The Human Condition",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Blunt Games",
+      "genres": [
+        "Action",
+        "Indie",
+        "Sports"
+      ]
+    },
+    "561770": {
+      "appid": 561770,
+      "name": "Just Ignore Them",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Stranga Games",
+      "genres": [
+        "Adventure",
+        "Indie"
+      ]
+    },
+    "571310": {
+      "appid": 571310,
+      "name": "SteamWorld Dig 2",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Image & Form Games",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Indie"
+      ]
+    },
+    "582500": {
+      "appid": 582500,
+      "name": "We Were Here",
+      "playtimeMinutes": 53,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1654115727,
+      "developer": "Total Mayhem Games",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Indie",
+        "Free To Play"
+      ]
+    },
+    "582660": {
+      "appid": 582660,
+      "name": "Black Desert",
+      "playtimeMinutes": 36,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1583070296,
+      "developer": "Pearl Abyss",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Massively Multiplayer",
+        "RPG",
+        "Strategy"
+      ]
+    },
+    "588430": {
+      "appid": 588430,
+      "name": "Fallout Shelter",
+      "playtimeMinutes": 44,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1666425855,
+      "developer": "Bethesda Game Studios",
+      "genres": [
+        "RPG",
+        "Simulation",
+        "Free To Play"
+      ]
+    },
+    "601150": {
+      "appid": 601150,
+      "name": "Devil May Cry 5",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "CAPCOM Co., Ltd.",
+      "genres": [
+        "Action"
+      ]
+    },
+    "601510": {
+      "appid": 601510,
+      "name": "Yu-Gi-Oh! Duel Links",
+      "playtimeMinutes": 686,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1629651042,
+      "developer": "KONAMI",
+      "genres": [
+        "Strategy",
+        "Free To Play"
+      ]
+    },
+    "607890": {
+      "appid": 607890,
+      "name": "Sword Art Online: Hollow Realization Deluxe Edition",
+      "playtimeMinutes": 38,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1567767535,
+      "developer": "AQURIA",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Casual",
+        "RPG"
+      ]
+    },
+    "613900": {
+      "appid": 613900,
+      "name": "Museum of Other Realities",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "MOR Museum Inc.",
+      "genres": [
+        "Casual",
+        "Simulation"
+      ]
+    },
+    "623990": {
+      "appid": 623990,
+      "name": "Tom Clancy's Rainbow Six Siege - Test Server",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": null,
+      "genres": []
+    },
+    "627270": {
+      "appid": 627270,
+      "name": "Injustice™ 2",
+      "playtimeMinutes": 390,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1726369317,
+      "developer": "NetherRealm Studios",
+      "genres": [
+        "Action"
+      ]
+    },
+    "630100": {
+      "appid": 630100,
+      "name": "SoulWorker",
+      "playtimeMinutes": 284,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1600945103,
+      "developer": "Lion Games Co., Ltd.",
+      "genres": [
+        "Action",
+        "Free To Play",
+        "Massively Multiplayer",
+        "RPG"
+      ]
+    },
+    "631510": {
+      "appid": 631510,
+      "name": "Devil May Cry HD Collection",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "CAPCOM Co., Ltd.",
+      "genres": [
+        "Action"
+      ]
+    },
+    "632360": {
+      "appid": 632360,
+      "name": "Risk of Rain 2",
+      "playtimeMinutes": 896,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1741079651,
+      "developer": "Hopoo Games",
+      "genres": [
+        "Action",
+        "Indie"
+      ]
+    },
+    "698780": {
+      "appid": 698780,
+      "name": "Doki Doki Literature Club",
+      "playtimeMinutes": 107,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1514203972,
+      "developer": "Team Salvato",
+      "genres": [
+        "Casual",
+        "Free To Play",
+        "Indie"
+      ]
+    },
+    "700580": {
+      "appid": 700580,
+      "name": "Rust - Staging Branch",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": null,
+      "genres": []
+    },
+    "714010": {
+      "appid": 714010,
+      "name": "Aimlabs",
+      "playtimeMinutes": 180,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1612693958,
+      "developer": "Statespace",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Casual",
+        "Indie",
+        "Simulation"
+      ]
+    },
+    "732730": {
+      "appid": 732730,
+      "name": "War Trigger 2",
+      "playtimeMinutes": 291,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1580223659,
+      "developer": "Rocketeer Games Studio, LLC",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Free To Play",
+        "Indie",
+        "Simulation"
+      ]
+    },
+    "761890": {
+      "appid": 761890,
+      "name": "Albion Online",
+      "playtimeMinutes": 177,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1602360046,
+      "developer": "Sandbox Interactive GmbH",
+      "genres": [
+        "Massively Multiplayer",
+        "RPG",
+        "Free To Play"
+      ]
+    },
+    "783770": {
+      "appid": 783770,
+      "name": "Ironsight",
+      "playtimeMinutes": 40,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1625974385,
+      "developer": "WipleGames Inc.,",
+      "genres": [
+        "Action",
+        "Free To Play"
+      ]
+    },
+    "813780": {
+      "appid": 813780,
+      "name": "Age of Empires II: Definitive Edition",
+      "playtimeMinutes": 63,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1704386240,
+      "developer": "World's Edge",
+      "genres": [
+        "Strategy"
+      ]
+    },
+    "823130": {
+      "appid": 823130,
+      "name": "Totally Accurate Battlegrounds",
+      "playtimeMinutes": 21,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1634727330,
+      "developer": "Landfall",
+      "genres": [
+        "Action",
+        "Indie",
+        "Free To Play"
+      ]
+    },
+    "848450": {
+      "appid": 848450,
+      "name": "Subnautica: Below Zero",
+      "playtimeMinutes": 2813,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1672221354,
+      "developer": "Unknown Worlds Entertainment",
+      "genres": [
+        "Adventure",
+        "Indie"
+      ]
+    },
+    "863550": {
+      "appid": 863550,
+      "name": "HITMAN™ 2",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "IO Interactive A/S",
+      "genres": [
+        "Action"
+      ]
+    },
+    "883710": {
+      "appid": 883710,
+      "name": "Resident Evil 2",
+      "playtimeMinutes": 718,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1781676833,
+      "developer": "CAPCOM Co., Ltd.",
+      "genres": [
+        "Action"
+      ]
+    },
+    "892970": {
+      "appid": 892970,
+      "name": "Valheim",
+      "playtimeMinutes": 111,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1638081596,
+      "developer": "Iron Gate AB",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Indie",
+        "RPG"
+      ]
+    },
+    "893520": {
+      "appid": 893520,
+      "name": "CreativeDestruction",
+      "playtimeMinutes": 109,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1584117762,
+      "developer": "NetEase Games",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Casual",
+        "Massively Multiplayer"
+      ]
+    },
+    "945360": {
+      "appid": 945360,
+      "name": "Among Us",
+      "playtimeMinutes": 69,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1698948578,
+      "developer": "Innersloth",
+      "genres": [
+        "Casual"
+      ]
+    },
+    "952060": {
+      "appid": 952060,
+      "name": "Resident Evil 3",
+      "playtimeMinutes": 446,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1781843662,
+      "developer": "CAPCOM Co., Ltd.",
+      "genres": [
+        "Action"
+      ]
+    },
+    "952070": {
+      "appid": 952070,
+      "name": "RESIDENT EVIL RESISTANCE",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "CAPCOM Co., Ltd.",
+      "genres": [
+        "Action"
+      ]
+    },
+    "976730": {
+      "appid": 976730,
+      "name": "Halo: The Master Chief Collection",
+      "playtimeMinutes": 122,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1673638657,
+      "developer": "343 Industries",
+      "genres": [
+        "Action"
+      ]
+    },
+    "993090": {
+      "appid": 993090,
+      "name": "Lossless Scaling",
+      "playtimeMinutes": 122,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1648220937,
+      "developer": "THS",
+      "genres": [
+        "Utilities"
+      ]
+    },
+    "1046930": {
+      "appid": 1046930,
+      "name": "Dota Underlords",
+      "playtimeMinutes": 843,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1566307251,
+      "developer": "Valve",
+      "genres": [
+        "Casual",
+        "Strategy",
+        "Free To Play"
+      ]
+    },
+    "1049590": {
+      "appid": 1049590,
+      "name": "Eternal Return",
+      "playtimeMinutes": 85,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1639913304,
+      "developer": "Nimble Neuron",
+      "genres": []
+    },
+    "1086940": {
+      "appid": 1086940,
+      "name": "Baldur's Gate 3",
+      "playtimeMinutes": 10825,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1760315076,
+      "developer": "Larian Studios",
+      "genres": [
+        "Adventure",
+        "RPG",
+        "Strategy"
+      ]
+    },
+    "1091500": {
+      "appid": 1091500,
+      "name": "Cyberpunk 2077",
+      "playtimeMinutes": 45,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1785784254,
+      "developer": "CD PROJEKT RED",
+      "genres": [
+        "RPG"
+      ]
+    },
+    "1134700": {
+      "appid": 1134700,
+      "name": "Wild Terra 2: New Lands",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Juvty Worlds",
+      "genres": [
+        "Action",
+        "Indie",
+        "Massively Multiplayer",
+        "RPG"
+      ]
+    },
+    "1140630": {
+      "appid": 1140630,
+      "name": "Red Wings",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "All in! Games",
+      "genres": [
+        "Action",
+        "Indie"
+      ]
+    },
+    "1145350": {
+      "appid": 1145350,
+      "name": "Hades II",
+      "playtimeMinutes": 676,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1759721358,
+      "developer": "Supergiant Games",
+      "genres": [
+        "Action",
+        "Indie",
+        "RPG"
+      ]
+    },
+    "1145360": {
+      "appid": 1145360,
+      "name": "Hades",
+      "playtimeMinutes": 1447,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1749092442,
+      "developer": "Supergiant Games",
+      "genres": [
+        "Action",
+        "Indie",
+        "RPG"
+      ]
+    },
+    "1172470": {
+      "appid": 1172470,
+      "name": "Apex Legends",
+      "playtimeMinutes": 1241,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1741162991,
+      "developer": "Respawn",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Free To Play"
+      ]
+    },
+    "1180660": {
+      "appid": 1180660,
+      "name": "Tell Me Why",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "DONTNOD Entertainment",
+      "genres": [
+        "Adventure",
+        "Free To Play"
+      ]
+    },
+    "1240440": {
+      "appid": 1240440,
+      "name": "Halo Infinite",
+      "playtimeMinutes": 299,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1679145802,
+      "developer": "343 Industries",
+      "genres": [
+        "Action",
+        "Free To Play"
+      ]
+    },
+    "1244800": {
+      "appid": 1244800,
+      "name": "Terraformers",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Asteroid Lab",
+      "genres": [
+        "Strategy"
+      ]
+    },
+    "1284410": {
+      "appid": 1284410,
+      "name": "GWENT: The Witcher Card Game",
+      "playtimeMinutes": 188,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1629376705,
+      "developer": "CD PROJEKT RED",
+      "genres": [
+        "RPG",
+        "Strategy",
+        "Free To Play"
+      ]
+    },
+    "1289310": {
+      "appid": 1289310,
+      "name": "Helltaker",
+      "playtimeMinutes": 59,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1617878516,
+      "developer": "vanripper",
+      "genres": [
+        "Adventure",
+        "Free To Play",
+        "Indie"
+      ]
+    },
+    "1294660": {
+      "appid": 1294660,
+      "name": "Divine Knockout (DKO)",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Red Beard Games",
+      "genres": [
+        "Action"
+      ]
+    },
+    "1304930": {
+      "appid": 1304930,
+      "name": "The Outlast Trials",
+      "playtimeMinutes": 205,
+      "playtime2WeeksMinutes": 205,
+      "lastPlayed": 1791229134,
+      "developer": "Red Barrels",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Indie"
+      ]
+    },
+    "1326470": {
+      "appid": 1326470,
+      "name": "Sons Of The Forest",
+      "playtimeMinutes": 995,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1701849617,
+      "developer": "Endnight Games Ltd",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Indie",
+        "Simulation"
+      ]
+    },
+    "1328660": {
+      "appid": 1328660,
+      "name": "Need for Speed™ Hot Pursuit Remastered",
+      "playtimeMinutes": 318,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1786739121,
+      "developer": "Stellar Entertainment Limited",
+      "genres": [
+        "Action",
+        "Racing"
+      ]
+    },
+    "1337010": {
+      "appid": 1337010,
+      "name": "Alba: A Wildlife Adventure",
+      "playtimeMinutes": 254,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1666172809,
+      "developer": "ustwo games",
+      "genres": [
+        "Adventure",
+        "Casual"
+      ]
+    },
+    "1363430": {
+      "appid": 1363430,
+      "name": "Propagation VR",
+      "playtimeMinutes": 71,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1723452763,
+      "developer": "WanadevStudio",
+      "genres": [
+        "Action"
+      ]
+    },
+    "1399780": {
+      "appid": 1399780,
+      "name": "Spellbreak",
+      "playtimeMinutes": 548,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1611042629,
+      "developer": "Proletariat, Inc.",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Free To Play",
+        "RPG"
+      ]
+    },
+    "1422450": {
+      "appid": 1422450,
+      "name": "Deadlock",
+      "playtimeMinutes": 26,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1725741732,
+      "developer": "Valve",
+      "genres": [
+        "Action"
+      ]
+    },
+    "1449560": {
+      "appid": 1449560,
+      "name": "Metro Exodus Enhanced Edition",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "4A Games",
+      "genres": [
+        "Action"
+      ]
+    },
+    "1568590": {
+      "appid": 1568590,
+      "name": "Goose Goose Duck",
+      "playtimeMinutes": 261,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1687030387,
+      "developer": "Gaggle Studios, Inc.",
+      "genres": [
+        "Casual",
+        "Indie",
+        "Massively Multiplayer",
+        "Strategy",
+        "Free To Play"
+      ]
+    },
+    "1604030": {
+      "appid": 1604030,
+      "name": "V Rising",
+      "playtimeMinutes": 49,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1711447437,
+      "developer": "Stunlock Studios",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Massively Multiplayer"
+      ]
+    },
+    "1623730": {
+      "appid": 1623730,
+      "name": "Palworld",
+      "playtimeMinutes": 6488,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1784836482,
+      "developer": "Pocketpair",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Indie",
+        "RPG"
+      ]
+    },
+    "1625450": {
+      "appid": 1625450,
+      "name": "Muck",
+      "playtimeMinutes": 882,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1653067357,
+      "developer": "Dani",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Free To Play",
+        "Indie"
+      ]
+    },
+    "1712840": {
+      "appid": 1712840,
+      "name": "Tiny Tina's Assault on Dragon Keep: A Wonderlands One-shot Adventure",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Gearbox Software",
+      "genres": [
+        "Action",
+        "Adventure",
+        "RPG"
+      ]
+    },
+    "1818750": {
+      "appid": 1818750,
+      "name": "MultiVersus",
+      "playtimeMinutes": 304,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1728110271,
+      "developer": "Player First Games",
+      "genres": [
+        "Action",
+        "Free To Play"
+      ]
+    },
+    "1903340": {
+      "appid": 1903340,
+      "name": "Clair Obscur: Expedition 33",
+      "playtimeMinutes": 3614,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1776640342,
+      "developer": "Sandfall Interactive",
+      "genres": [
+        "Action",
+        "RPG"
+      ]
+    },
+    "1911390": {
+      "appid": 1911390,
+      "name": "Knightfall: A Daring Journey",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Landfall",
+      "genres": [
+        "Action",
+        "Indie",
+        "Racing",
+        "Free To Play"
+      ]
+    },
+    "1961460": {
+      "appid": 1961460,
+      "name": "Project Playtime",
+      "playtimeMinutes": 38,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1679078842,
+      "developer": "Mob Entertainment",
+      "genres": [
+        "Action",
+        "Indie",
+        "Free To Play",
+        "Early Access"
+      ]
+    },
+    "1962700": {
+      "appid": 1962700,
+      "name": "Subnautica 2",
+      "playtimeMinutes": 165,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1783363474,
+      "developer": "Unknown Worlds Entertainment",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Early Access"
+      ]
+    },
+    "1985690": {
+      "appid": 1985690,
+      "name": "The Looker",
+      "playtimeMinutes": 12,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1666389494,
+      "developer": "Subcreation Studio",
+      "genres": [
+        "Indie"
+      ]
+    },
+    "2050650": {
+      "appid": 2050650,
+      "name": "Resident Evil 4",
+      "playtimeMinutes": 203,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1782711790,
+      "developer": "CAPCOM Co., Ltd.",
+      "genres": [
+        "Action",
+        "Adventure"
+      ]
+    },
+    "2073850": {
+      "appid": 2073850,
+      "name": "THE FINALS",
+      "playtimeMinutes": 207,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1760074106,
+      "developer": "Embark Studios",
+      "genres": [
+        "Action",
+        "Free To Play"
+      ]
+    },
+    "2076040": {
+      "appid": 2076040,
+      "name": "THE FINALS PLAYTEST",
+      "playtimeMinutes": 714,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1698784821,
+      "developer": null,
+      "genres": []
+    },
+    "2139460": {
+      "appid": 2139460,
+      "name": "Once Human",
+      "playtimeMinutes": 40,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1721156532,
+      "developer": "Starry Studio",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Casual",
+        "Massively Multiplayer",
+        "Racing"
+      ]
+    },
+    "2149010": {
+      "appid": 2149010,
+      "name": "Little Nightmares Enhanced Edition",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Engine Software BV",
+      "genres": [
+        "Adventure"
+      ]
+    },
+    "2334730": {
+      "appid": 2334730,
+      "name": "Death Must Die",
+      "playtimeMinutes": 20,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1703405632,
+      "developer": "Realm Archive",
+      "genres": [
+        "Action",
+        "Casual",
+        "Indie",
+        "RPG",
+        "Early Access"
+      ]
+    },
+    "2483190": {
+      "appid": 2483190,
+      "name": "Forza Horizon 6",
+      "playtimeMinutes": 852,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1790127577,
+      "developer": "Playground Games",
+      "genres": [
+        "Racing",
+        "Simulation",
+        "Sports"
+      ]
+    },
+    "2592160": {
+      "appid": 2592160,
+      "name": "Dispatch",
+      "playtimeMinutes": 1892,
+      "playtime2WeeksMinutes": 49,
+      "lastPlayed": 1791615914,
+      "developer": "AdHoc Studio",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Casual",
+        "Indie",
+        "Strategy"
+      ]
+    },
+    "2767030": {
+      "appid": 2767030,
+      "name": "Marvel Rivals",
+      "playtimeMinutes": 9834,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1790392072,
+      "developer": "NetEase Games",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Casual",
+        "Massively Multiplayer",
+        "Racing"
+      ]
+    },
+    "3513350": {
+      "appid": 3513350,
+      "name": "Wuthering Waves",
+      "playtimeMinutes": 4067,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1786916403,
+      "developer": "KURO GAMES",
+      "genres": [
+        "Action",
+        "Adventure",
+        "RPG",
+        "Free To Play"
+      ]
+    },
+    "3716600": {
+      "appid": 3716600,
+      "name": "Mage Arena",
+      "playtimeMinutes": 8,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1766827181,
+      "developer": "jrsjams",
+      "genres": [
+        "Action",
+        "Early Access"
+      ]
+    }
+  }
 }
