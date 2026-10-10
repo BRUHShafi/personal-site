@@ -7,10 +7,7 @@
 export const THEMES = [
   { id: 'blackhole', name: 'Blackhole', swatch: '#00e5ff', scene: 'stars' },
   { id: 'light',     name: 'Whitehole', swatch: '#0088aa', scene: 'stars' },
-  { id: 'ember',     name: 'Ember',     swatch: '#ffb020', scene: 'ember' },
   { id: 'synthwave', name: 'Synthwave', swatch: '#ff43c4', scene: 'synthwave' },
-  { id: 'ocean',     name: 'Ocean',     swatch: '#22d3ee', scene: 'ocean' },
-  { id: 'forest',    name: 'Forest',    swatch: '#34d399', scene: 'forest' },
 ]
 
 export const DEFAULT_THEME = 'blackhole'

@@ -353,3 +353,102 @@ npm run build
   - Bloom `luminanceThreshold` raised: `0.3→0.6` (swords), `0.25→0.65/0.7` (lightning)
   - Removed `mipmapBlur` from `LightningAmbient` Bloom
   - `Sword` + `SwordFlyby` now pause rendering (`frameloop="never"`) when scrolled out of viewport via `IntersectionObserver`
+
+### Session 14
+- **Theme cull** — 6 themes → 3. Kept Blackhole, Whitehole, Synthwave; removed Ember, Ocean, Forest:
+  - `data/themes.js` — 3 entries dropped (picker now renders 3 swatches)
+  - `SceneBackground.jsx` — 3 imports + 3 switch cases removed
+  - `index.css` — deleted `[data-theme="ember"]`, `="ocean"`, `="forest"` token blocks (~48 lines)
+  - `Navbar.css` — `themeGlow` selector is synthwave-only now; `--open` animation-reset list trimmed
+  - `git rm` on `EmberScene.jsx`, `OceanScene.jsx`, `ForestScene.jsx` (recoverable from history)
+  - No change needed at `App.jsx:22` (`showLightning` already only matched blackhole/light)
+  - Stale localStorage needs no migration: `ThemeContext.jsx:11` validates the stored id against `THEMES` and falls back to `DEFAULT_THEME`, so anyone sitting on `ember`/`ocean`/`forest` lands on blackhole
+- **Steam library sync (build-time, option A)** — library + playtime now generated from the Steam Web API instead of hand-typed:
+  - `scripts/fetch-steam.mjs` (new) — Node built-ins only, zero deps. Calls `IPlayerService/GetOwnedGames/v1` (needs key) then the unofficial `store.steampowered.com/api/appdetails` for developer + genres. Writes `src/data/steam-games.json`
+  - `.github/workflows/steam-sync.yml` (new) — daily `cron: '0 5 * * *'` + `workflow_dispatch`, commits the JSON back via github-actions[bot] only when it changed
+  - `src/data/steam-games.json` (new) — generated, committed, seeded empty. **Do not hand-edit**
+  - `src/data/steamMerge.js` (new) — joins Steam facts onto the curated list by appid
+  - `src/data/covers.js` (new) — `steam()` / `steamFallback()` / `book()` moved out of `interests.js` so the merge can share them; appid is now validated before URL interpolation
+  - `interests.js` — `g()` now keeps `appid: id` (**it previously discarded it** — only used it to build the cover URL, so there was no join key); playing-card items wrapped in `mergeSteam([...])`
+  - `package.json` — added `"sync:steam": "node ../../scripts/fetch-steam.mjs"`
+  - Ownership split: **Steam owns facts** (playtime, last played, developer, genres); **`interests.js` owns curation** (`favourite`, `status`, display order). Steam has no equivalent for those, so the merge never overwrites them. Owned-but-uncurated games append at the end sorted by last-played
+  - `sub` (developer) only auto-fills when not hand-typed (`item.sub ?? s.developer`) — flip the `??` in `steamMerge.js` to prefer Steam's
+- **Security measures on the above** (the key is a real secret — it grants read access to the Steam account):
+  - Key is read from `process.env` only. Never written to the output JSON, never printed
+  - `fail()` in `fetch-steam.mjs` scrubs the key out of all error text before logging. This matters: fetch/undici errors routinely include the full request URL, which carries `?key=`, so one network blip would otherwise publish the key into public CI logs
+  - Workflow triggers are `schedule` + `workflow_dispatch` **only** — deliberately no `pull_request`/`pull_request_target`, which run fork-authored code and are a key-exfiltration path
+  - Top-level `permissions: contents: write` (minimum needed); secrets injected per-step via `env:`, not job-wide
+  - Cover URLs are always constructed locally from an appid that must pass an integer guard — no string from the Steam response is ever used as a `src`
+  - Response strings are coerced + length-capped (`MAX_STR = 200`)
+  - Added root `.gitignore` (**there was none**) covering `.env`, `.env.*`, `*.pem`, `*.key`. The frontend `.gitignore` only had `*.local`, so a root `.env` holding the key was committable. Verified with `git check-ignore`
+  - Added `.env.example` documenting both vars + where to revoke the key
+  - Actions pinned to major tags; noted in-file that full SHA pinning is the next hardening step
+- **Setup still owed by user** (not done — requires account access):
+  1. Get key at `steamcommunity.com/dev/apikey` (account needs $5+ lifetime spend)
+  2. Steam profile → Edit Profile → Privacy → **"Game details" must be Public**, or `GetOwnedGames` returns an empty list
+  3. Add `STEAM_KEY` + `STEAM_ID` (17-digit SteamID64) as GitHub repo secrets
+  4. Run the workflow once from the Actions tab to populate the JSON
+- Verified: `npm run build` clean; merge logic unit-tested against sample data (curated order/flags preserved, uncurated appended by last-played, non-Steam games like Valorant pass through untouched)
+- Stray `personal-site.code-workspace` is now covered by the root `.gitignore` (`*.code-workspace`)
+- ⚠️ All of Session 14 is **uncommitted**, stacked on top of the uncommitted Session 13.5 accretion-disk Navbar work
+- Minor knob: `formatPlaytime` rounds to whole hours, so 90 min reads "2h"
+- **sword.glb compression — 3.48MB → 425KB (8.2×, −87.8%)**, done with `@gltf-transform/cli` (npx, not added as a project dep). No Blender round-trip needed:
+  - What was actually fat (from `gltf-transform inspect`): `scratches` was a **1024² PNG at 1.2MB used as a metallicRoughnessTexture** (lossless PNG for a roughness map — pure waste); `leatherCord` was an 888KB 1024² JPEG (near-lossless quality). Mesh was a modest 1.32MB / 57.9k tris. So it was ~62% textures, not geometry
+  - Pipeline: `resize --pattern "{scratches,leatherCord}" --width 512 --height 512` → `webp --quality 85 --effort 90` → `dedup` → `prune` → `meshopt`
+  - Results: scratches 1.2MB→82KB, leatherCord 888KB→37.9KB, mesh→meshopt-compressed. `runes` deliberately left at full 556×1892 (it's the signature blade detail; only 41KB anyway)
+  - GPU VRAM also dropped ~16.8MB → ~8.45MB, which matters because the model is live in **3 WebGL contexts** (`Sword`, `SwordFlyby`, `SwordSpin`)
+  - **Chose Meshopt over Draco deliberately.** drei's `useGLTF` defaults `useDraco = true` but points `DRACOLoader` at a **gstatic CDN** (`@react-three/drei/core/Gltf.js:8`) — a third-party runtime request on every visit that breaks the model if blocked. Meshopt's decoder is bundled locally (`node_modules/three-stdlib/libs/MeshoptDecoder.js`) and is also already enabled by default, so Draco would have been strictly worse here. **No component code changed** — `useGLTF('/sword.glb')` handles it as-is
+  - Integrity verified: **30,457 vertices / 57,928 triangles unchanged** (no simplification ran), all 6 material names intact (`Blade`, `Blade_No_Runes`, `Handle`, `Guard`, `Pommel_Tip`, `Pommel_Runes`), bbox identical to 4dp
+  - `prune` dropped one empty node, so the scene root renamed `SwordReference` → `Cube`. Safe here: all 3 sword components use `scene.traverse` + `node.isMesh`, no `getObjectByName` anywhere
+  - Verified headlessly: GLB header/length consistent, `extensionsRequired` = meshopt + webp + quantization + texture_transform, 19/23 bufferViews meshopt-compressed, 4/4 textures WebP, dev server returns HTTP 200 `model/gltf-binary` with bytes identical to disk. `npm run build` clean
+  - ⚠️ **Not yet eyeballed in a browser** — no browser tooling available this session. Structurally valid and the decoders are confirmed present, but the actual render (especially the yellow emissive glow and rune detail at 512) is unconfirmed
+  - Original is recoverable: `git show ffb5804:frontend/portfolio/public/sword.glb > sword.glb`. A local copy also sits in `.model-backup/` (gitignored)
+  - If it ever needs redoing, the knobs are: `--width/--height` on the resize, `--quality` on webp, and which textures the `--pattern` targets
+- **"Now" section trimmed to one card** — the home-page `02 // Now` grid is just **Currently Playing** now, by design ("that should be a consistent part of my website"):
+  - `interests.js` — the `reading` card is **deleted permanently**. The `working` card is **parked, not deleted**: moved out of `interestCards` into a new `export const workingCard`, kept verbatim with a comment, to be re-homed elsewhere on the site later. Restoring it to the grid = adding `workingCard` back into the array
+  - Removed `book` from the `./covers` import — the reading card was its only consumer, so it would have tripped `no-unused-vars`. `book()` itself stays exported from `covers.js` for whenever books come back
+  - Nothing orphaned by parking `working`: its `route` pointed at `/projects`, which stays reachable from the orbital nav's "Work" item (`Navbar.jsx:10`). `ProjectsPage` and both `/projects` routes are untouched
+  - Old `/interests/reading` links degrade gracefully — `InterestPage.jsx:59` already renders a "Page not found." state when `interestCards.find()` misses
+  - `Interests.css` — grid was hardcoded `repeat(3, 1fr)`, which would have left the lone card in a 1/3-width column with two dead columns. Now `repeat(auto-fit, minmax(260px, 376px))` + `justify-content: start`. 376px is exactly what each column measured before ((1160 − 2×16) / 3), so the single card renders pixel-identical to how it looked as the first of three, and the layout still reflows correctly if cards are added back. Left-aligned so it lines up under the section heading. The existing `max-width: 900px` → `1fr` mobile override still applies
+  - Verified: `npm run build` clean; `eslint` clean on every touched file (the repo's 7 pre-existing lint errors are all in files not touched here — `Galaxy`, `Hero`, `Navbar`, `SkillConstellation`, `Skills`, `ThemeContext`, `InterestPage`)
+  - ⚠️ Now-dead assets in `public/`, **not deleted** pending a call: `Book_Card.gif` (629KB) and `book_card.jpeg` (930KB, already unreferenced before this). Everything in `public/` is copied into `dist/`, so that is ~1.5MB of dead weight shipping. `Job_Card.gif` is still referenced by the parked `workingCard` — keep it
+- **"Now" section rebuilt as three tiles** — heading changed `What I'm up to.` → `What I'm playing.` (`02 // Now` label kept):
+  1. **Currently Playing** — the existing gif card, unchanged, routes to `/interests/playing`
+  2. **Top 3 right now** — new `TopGamesCard`; rank + cover thumb + name + developer + playtime per row
+  3. **Steam profile** — new `SteamTile`; inlined official Steam mark, links out to the profile. Deliberately an `<a>`, not a tab/route, per the design ask
+  - `Interests.jsx` rewritten: now resolves the `playing` card directly (`interestCards.find`) instead of mapping the array, since the section is single-subject by design. Returns `null` if that card is ever missing rather than throwing
+  - `steamMerge.js` — new `topPlayed(items, n)`. Ranks by Steam's **2-week playtime** (the only real "right now" signal), with a fallback chain so the tile is never empty before the first sync: 2-week playtime → hand-marked `status: 'playing'` → favourites → list order. Also added `recentMinutes` to merged items to feed it
+  - Verified today (no Steam data yet) it resolves to: Batman: Arkham Knight, Counter-Strike 2, Subnautica. Once the sync runs, real 2-week playtime takes over automatically
+  - **Steam profile URL self-configures** — `scripts/fetch-steam.mjs` now writes `profileUrl: https://steamcommunity.com/profiles/<STEAM_ID>` into the generated JSON (SteamID64 is a public identifier, not a secret). `src/data/steamProfile.js` (new) reads it, with an `OVERRIDE` const for a vanity URL and a fallback to `steamcommunity.com` so the tile is never a dead link pre-sync. Nothing hardcoded or guessed
+  - External link carries `rel="noopener noreferrer"` — without `noopener` the opened tab gets a `window.opener` handle back to this page and can navigate it elsewhere
+  - `Interests.css` — new `.now-tile` shell shared by tiles 2 and 3: same box as `.interest-card` (320px min-height, 20px radius, inset accent glow, lift-on-hover) but a flat `--bg-card` surface rather than a gif, so a list and a link read as different objects from the gif card. Long game titles ellipsis via `min-width: 0` on the flex row. `prefers-reduced-motion` block added
+  - Grid unchanged (`repeat(auto-fit, minmax(260px, 376px))`) — 3 × 376 + 2 × 16 = exactly the 1160px container, so the row fills edge to edge again
+  - Verified: `npm run build` clean, `eslint` clean on all touched files, `topPlayed` unit-checked headlessly
+  - ⚠️ Not eyeballed in a browser (no browser tooling this session) — tile proportions and the 76px Steam mark are unconfirmed visually
+- **Fixed the Now tiles stacking vertically** — they must sit side by side:
+  - Cause: `Interests.css` had `@media (max-width: 900px) { .interests__grid { grid-template-columns: 1fr } }`, and the base rule used `repeat(auto-fit, minmax(260px, 376px))`. **auto-fit drops columns the moment tiles stop fitting at their min width**, and on a display with OS scaling (Windows 125%/150% is normal) the effective CSS viewport falls under 900 even on a physically wide window — so both paths collapsed the row
+  - Base grid is now `repeat(3, minmax(0, 1fr))` — three equal columns always, which get narrower instead of wrapping. `minmax(0, 1fr)` not plain `1fr`: it lets a column shrink below its content's intrinsic width, which is what actually lets long game titles ellipsis instead of forcing the row wider than its container
+  - `@media (max-width: 1100px)` — new, trims section padding to 40px
+  - `@media (max-width: 900px)` — no longer collapses the row. Reclaims space instead: padding 24px, gap 12px, tile min-height 280px, cover 30×44, smaller type, Steam mark 56px
+  - `@media (max-width: 640px)` — new, the only place that stacks (true phone widths)
+  - `index.css:186-188` already staggers `.interests__grid .reveal:nth-child(1..3)`, so all three tiles animate in sequence with no change needed
+- Steam profile link wired: `steamProfile.js` `OVERRIDE = 'https://steamcommunity.com/profiles/76561198411489517'`. Was previously falling back to `steamcommunity.com` (Steam's homepage) because `profileUrl` is still `null` pre-sync. `OVERRIDE` takes precedence over the generated value, so this stays correct forever
+- **`STEAM_ID` for the sync secrets is `76561198411489517`** (from that profile URL — SteamID64 is a public identifier, not a secret). Only `STEAM_KEY` is genuinely secret
+- **Full wipe of "Currently Reading" + "Currently Working On"** (they were only parked before; user wanted them gone entirely):
+  - `interests.js` — deleted the parked `export const workingCard` block outright, plus the stale "Book covers pulled from Open Library" header comment. `interestCards` now contains exactly one card: `playing`
+  - `covers.js` — removed `book()` (no consumers left) and trimmed its security comment to the two steam helpers
+  - `InterestPage.jsx` — `STATUS_LABELS` dropped `reading`/`current`/`past`; `CARD_NOUNS` dropped `reading`/`working`. No matching `ip-badge--*` CSS existed, so nothing to clean there
+  - `git rm` on `public/Book_Card.gif` (629KB), `public/book_card.jpeg` (930KB), `public/Job_Card.gif` (286KB) — ~1.8MB that was being copied into `dist/` on every build. Confirmed absent from `dist/` after rebuild
+  - Verified: `grep -rniE "reading|workingcard|'working'|book|Book_Card|Job_Card"` over `src/` returns **zero matches**; build clean
+  - Still-unreferenced in `public/`, left alone as out of scope: `gaming_interest_pic.jpg`, `icons.svg`, `test-lightning.html`, `test-portal.html` (the two test pages do ship to `dist/`)
+- **Note on "the cards came back"**: the files were never reverted — the background dev server had been killed, so the browser tab was serving a cached page. No service worker in this project, so a hard reload (Ctrl+Shift+R) is the fix. Dev server restarted on a pinned port via `npx vite --port 5180 --strictPort` to avoid stale-tab confusion (vite auto-increments to 5174+ when 5173 is taken, which is how the two ports diverged earlier)
+
+### Session 15
+- **Steam: diagnosed the real blocker without needing the key.** Profile `76561198411489517` is public (`visibilityState: 3`, Steam name `BRUHM0N (Shafi)`), but `steamcommunity.com/profiles/<id>/games?tab=all&xml=1` **302-redirects to a login page** → **"Game details" is still private**. This blocks the official API too: `GetOwnedGames` returns an empty list when game details are private, key or no key. Fix is Steam → Edit Profile → Privacy Settings → Game details → Public
+- Evaluated a **keyless XML alternative** (`.../games?tab=all&xml=1` returns `appID`, `name`, `hoursLast2Weeks`, `hoursOnRecord` — enough for the tiles, no API key, no secret). **User chose the official Web API**, so `fetch-steam.mjs` is unchanged. Rejected XML tradeoffs for the record: hours-as-formatted-string instead of exact minutes, no `rtime_last_played` (which `steamMerge.js` uses to sort uncurated games), and no path to a live "in game right now" badge or achievements
+- **Key scrubbing actually exercised, not just asserted** — ran the script with a deliberately fake key: output was `✗ GetOwnedGames: HTTP 401 Unauthorized` and `grep -c` for the key in the output returned **0**. Also confirmed the no-env path fails clean. The 401 confirms the endpoint/auth path works, so a real key should pass straight through
+- **Playtime now shows on the games list page** — `steamMerge.js` was attaching `playtime` to every item but only the top-3 tile rendered it; the full `/interests/playing` list ignored it. Added `.ip-item-time` between the name block and the status badge, mono/muted, with a light-mode override. Absent until the sync runs
+- `InterestPage.jsx` fixes made while in the file:
+  - List rows were keyed by **array index** while the list is filtered *and* searched — React reuses a row for a different game on filter change, which with `<img>` means a row can briefly show the previous game's cover. Now keyed `item.appid ?? item.name`
+  - Removed the unused `navigate` + `useNavigate` import (back navigation lives in `Navbar` via `back: true`). Clears one of the repo's pre-existing lint errors
+- Verified: `eslint` clean on `InterestPage.jsx` (was 1 error, now 0), `npm run build` clean

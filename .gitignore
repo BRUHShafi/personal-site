@@ -1,0 +1,19 @@
+# Secrets — never commit these. The Steam API key lives here for local runs
+# (npm run sync:steam) and in GitHub repo secrets for CI. Nowhere else.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dependencies / build output
+node_modules
+dist
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.code-workspace
+
+# Local model backups — originals are recoverable from git history
+.model-backup/

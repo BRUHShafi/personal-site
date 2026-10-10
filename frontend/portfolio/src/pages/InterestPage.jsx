@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { interestCards } from '../data/interests'
 import Navbar from '../components/Navbar'
 import SceneBackground from '../components/SceneBackground'
@@ -10,15 +10,10 @@ const STATUS_LABELS = {
   ongoing:   'Playing',
   completed: 'Completed',
   online:    'Online',
-  reading:   'Reading',
-  current:   'Current',
-  past:      'Past',
 }
 
 const CARD_NOUNS = {
   playing: 'game',
-  reading: 'book',
-  working: 'position',
 }
 
 function StatusBadge({ status }) {
@@ -32,7 +27,6 @@ function StatusBadge({ status }) {
 
 export default function InterestPage() {
   const { id }        = useParams()
-  const navigate      = useNavigate()
   const defaultFilter = id === 'playing' ? 'playing' : 'all'
   const [filter, setFilter]           = useState(defaultFilter)
   const [searchOpen, setSearchOpen]   = useState(false)
@@ -179,7 +173,10 @@ export default function InterestPage() {
             <p className="ip-empty">Nothing here yet.</p>
           )}
           {visible.map((item, i) => (
-            <div key={i} className="ip-item">
+            // Key on identity, not index: the list is filtered and searched, so
+            // index keys let React reuse a row for a different game and briefly
+            // show the previous game's cover art.
+            <div key={item.appid ?? item.name} className="ip-item">
               <span className="ip-num">{String(i + 1).padStart(2, '0')}</span>
               {item.cover && (
                 <img
@@ -204,6 +201,8 @@ export default function InterestPage() {
                 </span>
                 <span className="ip-item-sub">{item.sub}</span>
               </div>
+              {/* Populated by the Steam sync; absent until it has run. */}
+              {item.playtime && <span className="ip-item-time">{item.playtime}</span>}
               <StatusBadge status={item.status} />
             </div>
           ))}
