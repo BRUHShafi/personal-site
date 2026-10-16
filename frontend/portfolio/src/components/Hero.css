@@ -40,13 +40,15 @@
   z-index: 1;
 }
 
-/* ── Name + subtitle, centred in the top half; the sword stands below ── */
+/* ── Name + subtitle, bottom-aligned at 61% of the screen; the sword stands
+   below. Pushed down from 50% to leave a slot under the SHAFI eclipse for
+   Portal #1 (PORTAL_SCREEN_Y in heroSwordConfig.js) ── */
 .hero__content {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
-  height: 50%;
+  height: 61%;
   z-index: 2;
   display: flex;
   flex-direction: column;

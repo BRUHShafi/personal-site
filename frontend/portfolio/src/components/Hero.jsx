@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import SwordCanvas from './Sword'
 import { useSnapPanel } from '../hooks/useSnapPanel'
-import { tipScreenY, progressForTipAt } from './heroSwordConfig'
+import { tipScreenY, progressForTipAt, FULLY_IN_AT, STAGE_EXIT_SHIFT } from './heroSwordConfig'
 import './Hero.css'
 
 const TITLES = [
@@ -153,6 +153,11 @@ export default function Hero() {
       stage.setProperty('--hero-fade', (1 - clamp01(progress * 4)).toFixed(3))
       // Halves fade during the last stretch of their drift
       stage.setProperty('--name-opacity', (1 - clamp01((flyOutT - 0.5) / 0.5)).toFixed(3))
+      // Once the sword is fully inside the portal, slide the whole stage up
+      // and off the top, so the (still open) portal leaves with the hero
+      // instead of vanishing when the stage is hidden at progress 1
+      const exit = clamp01((progress - FULLY_IN_AT) / (1 - FULLY_IN_AT))
+      stage.transform = exit > 0 ? `translateY(${(-exit * STAGE_EXIT_SHIFT * vpH).toFixed(1)}px)` : ''
       // Fully scrolled past → take the fixed stage out of the way entirely
       stage.visibility = progress >= 1 ? 'hidden' : 'visible'
     }
