@@ -3,8 +3,6 @@ import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import SceneBackground from './components/SceneBackground'
-import LightningGlobal from './components/LightningGlobal'
-import { useTheme } from './context/ThemeContext'
 import { useSnapScroll } from './hooks/useSnapScroll'
 import About from './components/About'
 import Interests from './components/Interests'
@@ -17,10 +15,6 @@ import ProjectsPage from './pages/ProjectsPage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
 
 function HomePage() {
-  const { theme } = useTheme()
-  // Gold lightning belongs to the deep-space themes; other scenes bring their own mood.
-  const showLightning = theme === 'blackhole' || theme === 'light'
-
   // Scroll snapping is a home-page-only behaviour. The class lives on <html>
   // because that's the element that actually scrolls the document. It has to
   // land before the first paint — the sections' reveal animations are driven
@@ -37,7 +31,6 @@ function HomePage() {
   return (
     <>
       <SceneBackground />
-      {showLightning && <LightningGlobal />}
       <Navbar />
       <main>
         <Hero />

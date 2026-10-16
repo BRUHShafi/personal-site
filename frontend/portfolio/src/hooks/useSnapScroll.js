@@ -2,14 +2,19 @@ import { useEffect } from 'react'
 
 // How long one section-to-section glide takes. This is the knob CSS never gave
 // us — there is no `scroll-snap-duration`, the native glide is browser-internal.
-const DURATION = 1100
+// Slow on purpose. A panel can ask for a longer glide into/out of it with
+// data-glide-ms="..." — the hero does (2400), so its sword-slices-the-name
+// animation has time to read.
+const DURATION = 1800
 
 // Trackpads keep firing wheel events well after the flick. Ignore them briefly
 // after a glide lands, otherwise inertia carries you straight into the next one.
 const COOLDOWN = 140
 
-const easeInOutCubic = (t) =>
-  t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+// Sine rather than cubic: cubic spends most of its time at the ends and races
+// through the middle — exactly where scroll-linked animations play — so even a
+// long glide felt rushed.
+const easeInOutSine = (t) => -(Math.cos(Math.PI * t) - 1) / 2
 
 // Takes the wheel over and animates the *real* document scroll to the next
 // panel. Native scroll position still advances, so every scrollY-driven effect
@@ -33,15 +38,18 @@ export function useSnapScroll() {
     // window resizes, and this keeps us honest about where the stops actually are.
     const scrollStops = () => {
       const max = root.scrollHeight - window.innerHeight
-      const tops = [...document.querySelectorAll('.snap-panel')].map((p) =>
-        Math.min(p.offsetTop, max)
-      )
+      const panels = [...document.querySelectorAll('.snap-panel')]
+      const tops = panels.map((p) => Math.min(p.offsetTop, max))
+      const durations = panels.map((p) => Number(p.dataset.glideMs) || DURATION)
       // The footer isn't a panel, but the bottom of the page is still a stop.
-      if (tops.length && max - tops[tops.length - 1] > 8) tops.push(max)
-      return tops
+      if (tops.length && max - tops[tops.length - 1] > 8) {
+        tops.push(max)
+        durations.push(DURATION)
+      }
+      return { tops, durations }
     }
 
-    const animateTo = (target) => {
+    const animateTo = (target, duration) => {
       const start = window.scrollY
       const delta = target - start
       if (Math.abs(delta) < 1) return
@@ -52,8 +60,8 @@ export function useSnapScroll() {
 
       const t0 = performance.now()
       const step = (now) => {
-        const t = Math.min(1, (now - t0) / DURATION)
-        window.scrollTo(0, start + delta * easeInOutCubic(t))
+        const t = Math.min(1, (now - t0) / duration)
+        window.scrollTo(0, start + delta * easeInOutSine(t))
 
         if (t < 1) {
           rafId = requestAnimationFrame(step)
@@ -75,7 +83,7 @@ export function useSnapScroll() {
       const dir = Math.sign(e.deltaY)
       if (!dir) return
 
-      const tops = scrollStops()
+      const { tops, durations } = scrollStops()
       if (!tops.length) return
 
       // Derive the current stop from scrollY instead of tracking an index.
@@ -88,7 +96,9 @@ export function useSnapScroll() {
       })
 
       const next = Math.min(tops.length - 1, Math.max(0, nearest + dir))
-      if (next !== nearest) animateTo(tops[next])
+      // The slower of the two panels sets the pace, so the hero glide is long
+      // in both directions
+      if (next !== nearest) animateTo(tops[next], Math.max(durations[nearest], durations[next]))
     }
 
     // Must be non-passive — a passive listener can't call preventDefault.

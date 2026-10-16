@@ -3,43 +3,72 @@
   position: relative;
   padding-top: 80px;
   background: transparent;
-  overflow: hidden;
 }
 
 [data-theme="light"] .hero {
   background: transparent;
 }
 
+/* ── Stage — pinned to the viewport while the hero is scrolled away ──
+   The section is just a 100vh snap stop; this is what you see. Being fixed,
+   the name + sword stay put while About rises in, so the split plays out in
+   place. Hero.jsx hides it (visibility) once the hero is fully scrolled past.
 
-/* ── Sword — floats over the entire hero ── */
+   Driven by CSS variables written from Hero's scroll handler:
+     --cut            0 → 1  how far the blade has risen through the name
+     --spread         px     how far each half has slid out
+     --slash-opacity  0 → 1  the gold cut line
+     --hero-fade      1 → 0  subtitle fade
+     --name-opacity   1 → 0  halves fade at the end of their drift                                   */
+.hero__stage {
+  --cut: 0;
+  --spread: 0px;
+  --slash-opacity: 0;
+  --hero-fade: 1;
+  --name-opacity: 1;
+
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ── Sword — fills the stage; it's positioned in 3D (heroSwordConfig.js) ── */
 .hero__sword-overlay {
   position: absolute;
   inset: 0;
-  pointer-events: none;
   z-index: 1;
 }
 
-/* ── Left side ── */
-.hero__left {
-  position: relative;
+/* ── Name + subtitle, centred in the top half; the sword stands below ── */
+.hero__content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 50%;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 72px 64px 72px 80px;
-  min-height: 100vh;
-  max-width: 55%;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 24px 24px;
+  text-align: center;
 }
 
 .hero__name {
+  position: relative;
+  /* Shrink to the text, so 50% of this box is the centre of the name — which
+     is where the sword (REST_X = 0) passes through */
+  width: fit-content;
   font-family: var(--display);
-  font-size: clamp(32px, 3.8vw, 58px);
+  font-size: clamp(28px, 3.4vw, 60px);
   font-weight: 800;
   letter-spacing: -2px;
   line-height: 1.08;
   color: #ffffff;
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.4);
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 }
 
 [data-theme="light"] .hero__name {
@@ -47,10 +76,52 @@
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Two stacked copies of the name. The left one sits in normal flow (it gives
+   the h1 its size); the right one is laid exactly on top of it. Each is
+   clipped to its half. Polygons reach past the box vertically so the
+   bouncing letters (-22px, scale 1.12) aren't shaved off. */
+.hero__name-half {
+  display: block;
+  will-change: transform;
+  opacity: var(--name-opacity);
+}
+
+.hero__name-half--left {
+  clip-path: polygon(-10% -60%, 50% -60%, 50% 160%, -10% 160%);
+  transform: translateX(calc(var(--spread) * -1)) rotate(calc(var(--cut) * -2deg));
+}
+
+.hero__name-half--right {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(50% -60%, 110% -60%, 110% 160%, 50% 160%);
+  transform: translateX(var(--spread)) rotate(calc(var(--cut) * 2deg));
+}
+
+/* The cut line — grows from the bottom of the name as the blade tip rises */
+.hero__slash {
+  position: absolute;
+  left: 50%;
+  top: -15%;
+  bottom: -15%;
+  width: 3px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: linear-gradient(to top, #fff4c2, #ffcc33 40%, rgba(255, 170, 0, 0));
+  box-shadow: 0 0 12px 2px rgba(255, 190, 40, 0.8), 0 0 32px 6px rgba(255, 150, 0, 0.45);
+  transform-origin: bottom;
+  transform: scaleY(var(--cut));
+  opacity: var(--slash-opacity);
+}
+
 /* Each word is a flex container so letters sit inline */
 .hero__name-word {
   display: inline-flex;
   margin-right: 0.22em;
+}
+
+.hero__name-word:last-child {
+  margin-right: 0;
 }
 
 /* Each letter bounces independently */
@@ -72,6 +143,7 @@
   color: var(--text-light);
   line-height: 1.6;
   min-height: 1.6em; /* prevents layout shift as text changes */
+  opacity: var(--hero-fade);
 }
 
 @keyframes blink {
@@ -86,70 +158,6 @@
   animation: blink 1s step-start infinite;
 }
 
-
-.hero__throne-placeholder {
-  width: 100%;
-  max-width: 420px;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 52px 36px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  background: var(--bg-card);
-}
-
-.hero__throne-label {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 3px;
-  color: var(--text-white);
-  text-transform: uppercase;
-}
-
-.hero__throne-sub {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  line-height: 1.7;
-}
-
-/* Animated loading bar */
-.hero__throne-bar {
-  width: 55%;
-  height: 2px;
-  background: var(--border);
-  border-radius: 2px;
-  overflow: hidden;
-  margin-top: 16px;
-}
-
-@keyframes barSlide {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(200%); }
-}
-
-.hero__throne-bar-fill {
-  height: 100%;
-  width: 50%;
-  background: linear-gradient(90deg, transparent, var(--magenta), transparent);
-  animation: barSlide 2s ease-in-out infinite;
-}
-
-/* ── Responsive ── */
-@media (max-width: 900px) {
-  .hero__left {
-    max-width: 100%;
-    padding: 64px 32px;
-    align-items: center;
-    text-align: center;
-  }
-
-  .hero__sword-overlay {
-    opacity: 0.3;
-  }
+@media (prefers-reduced-motion: reduce) {
+  .hero__name-letter { animation: none; }
 }
