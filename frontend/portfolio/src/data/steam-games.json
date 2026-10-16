@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-10T23:23:55.496Z",
+  "generatedAt": "2026-10-15T09:39:43.603Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
   "gameCount": 196,
   "games": {
@@ -241,7 +241,7 @@
       "appid": 730,
       "name": "Counter-Strike 2",
       "playtimeMinutes": 63818,
-      "playtime2WeeksMinutes": 156,
+      "playtime2WeeksMinutes": 39,
       "lastPlayed": 1790905572,
       "developer": "Valve",
       "genres": [
@@ -1123,9 +1123,9 @@
     "365670": {
       "appid": 365670,
       "name": "Blender",
-      "playtimeMinutes": 15541,
-      "playtime2WeeksMinutes": 0,
-      "lastPlayed": 1790301134,
+      "playtimeMinutes": 15588,
+      "playtime2WeeksMinutes": 47,
+      "lastPlayed": 1791935210,
       "developer": "Blender Foundation",
       "genres": [
         "Animation & Modeling",
@@ -2030,9 +2030,9 @@
     "1304930": {
       "appid": 1304930,
       "name": "The Outlast Trials",
-      "playtimeMinutes": 205,
-      "playtime2WeeksMinutes": 205,
-      "lastPlayed": 1791229134,
+      "playtimeMinutes": 238,
+      "playtime2WeeksMinutes": 238,
+      "lastPlayed": 1791742781,
       "developer": "Red Barrels",
       "genres": [
         "Action",
