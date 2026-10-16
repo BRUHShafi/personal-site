@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-15T09:39:43.603Z",
+  "generatedAt": "2026-10-16T09:33:16.749Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
   "gameCount": 196,
   "games": {
@@ -241,7 +241,7 @@
       "appid": 730,
       "name": "Counter-Strike 2",
       "playtimeMinutes": 63818,
-      "playtime2WeeksMinutes": 39,
+      "playtime2WeeksMinutes": 0,
       "lastPlayed": 1790905572,
       "developer": "Valve",
       "genres": [
@@ -1123,9 +1123,9 @@
     "365670": {
       "appid": 365670,
       "name": "Blender",
-      "playtimeMinutes": 15588,
-      "playtime2WeeksMinutes": 47,
-      "lastPlayed": 1791935210,
+      "playtimeMinutes": 15749,
+      "playtime2WeeksMinutes": 207,
+      "lastPlayed": 1792136931,
       "developer": "Blender Foundation",
       "genres": [
         "Animation & Modeling",
@@ -1421,7 +1421,7 @@
       "appid": 489830,
       "name": "The Elder Scrolls V: Skyrim Special Edition",
       "playtimeMinutes": 12601,
-      "playtime2WeeksMinutes": 18,
+      "playtime2WeeksMinutes": 0,
       "lastPlayed": 1790917411,
       "developer": "Bethesda Game Studios",
       "genres": [
