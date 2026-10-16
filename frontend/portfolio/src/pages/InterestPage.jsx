@@ -25,27 +25,103 @@ function StatusBadge({ status }) {
   )
 }
 
+// ── Toolbar options ──
+// Hours buckets only apply to games Steam reports playtime for. Hand-added
+// non-Steam games (Valorant, Elden Ring…) have no hours, so they only show
+// under "Any hours".
+const HOUR_BUCKETS = [
+  { key: 'any',    label: 'Any hours' },
+  { key: 'never',  label: 'Never played', test: m => m === 0 },
+  { key: 'lt1',    label: 'Under 1h',     test: m => m > 0 && m < 60 },
+  { key: '1-10',   label: '1–10h',        test: m => m >= 60 && m < 600 },
+  { key: '10-100', label: '10–100h',      test: m => m >= 600 && m < 6000 },
+  { key: '100+',   label: '100h+',        test: m => m >= 6000 },
+]
+
+const SORTS = [
+  { key: 'default', label: 'My order' },
+  { key: 'most',    label: 'Most played' },
+  { key: 'least',   label: 'Least played' },
+  { key: 'recent',  label: 'Recently played' },
+  { key: 'twoweek', label: 'Last 2 weeks' },
+  { key: 'az',      label: 'Name A–Z' },
+  { key: 'za',      label: 'Name Z–A' },
+]
+
+// Steam lists software in the same library as games. Anything tagged only with
+// these store genres (no game genre alongside) counts as software.
+const SOFTWARE_GENRES = new Set([
+  'Animation & Modeling', 'Audio Production', 'Design & Illustration',
+  'Education', 'Game Development', 'Photo Editing', 'Software Training',
+  'Utilities', 'Video Production', 'Web Publishing', 'Accounting',
+])
+const NEUTRAL_GENRES = new Set(['Early Access', 'Free To Play'])
+const isSoftware = item => {
+  const g = (item.genres ?? []).filter(x => !NEUTRAL_GENRES.has(x))
+  return g.length > 0 && g.every(x => SOFTWARE_GENRES.has(x))
+}
+
+const TYPES = [
+  { key: 'any',      label: 'Games + apps' },
+  { key: 'games',    label: 'Games only' },
+  { key: 'software', label: 'Apps only' },
+]
+
+const PLATFORMS = [
+  { key: 'any',   label: 'All platforms' },
+  { key: 'steam', label: 'Steam' },
+  { key: 'other', label: 'Other' },
+]
+
+// Games with no Steam number sort last in either direction, so
+// "Least played" isn't just a wall of non-Steam games.
+const byNumber = (get, dir) => (a, b) => {
+  const x = get(a), y = get(b)
+  if (x == null && y == null) return 0
+  if (x == null) return 1
+  if (y == null) return -1
+  return dir * (x - y)
+}
+
+const SORT_FNS = {
+  most:    byNumber(i => i.playtimeMinutes, -1),
+  least:   byNumber(i => i.playtimeMinutes || null, 1),
+  recent:  byNumber(i => i.lastPlayed || null, -1),
+  twoweek: byNumber(i => i.recentMinutes || null, -1),
+  az:      (a, b) => a.name.localeCompare(b.name),
+  za:      (a, b) => b.name.localeCompare(a.name),
+}
+
 export default function InterestPage() {
   const { id }        = useParams()
-  const defaultFilter = id === 'playing' ? 'playing' : 'all'
+  const defaultFilter = 'all'
   const [filter, setFilter]           = useState(defaultFilter)
-  const [searchOpen, setSearchOpen]   = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [sort, setSort]               = useState('default')
+  const [hours, setHours]             = useState('any')
+  const [genre, setGenre]             = useState('any')
+  const [platform, setPlatform]       = useState('any')
+  const [type, setType]               = useState('any')
   const searchRef = useRef(null)
 
   // Always start at the top when entering this page
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
-  // Auto-focus input when search opens
-  useEffect(() => {
-    if (searchOpen) searchRef.current?.focus()
-  }, [searchOpen])
-
+  // The search box is always visible now; the navbar's Search item just
+  // jumps to it.
   const handleSearchToggle = () => {
-    setSearchOpen(prev => {
-      if (prev) setSearchQuery('') // clear on close
-      return !prev
-    })
+    searchRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+    searchRef.current?.focus({ preventScroll: true })
+  }
+
+  const resetFilters = () => {
+    setFilter(defaultFilter)
+    setSearchQuery('')
+    setSort('default')
+    setHours('any')
+    setGenre('any')
+    setPlatform('any')
+    setType('any')
   }
 
   const card = interestCards.find(c => c.id === id)
@@ -70,15 +146,36 @@ export default function InterestPage() {
     ...(hasFavs ? [{ key: 'favourite', label: '★ Fav' }] : []),
   ]
 
+  // Only offer filters the data can answer — before the first Steam sync
+  // there is no playtime or genre, so those dropdowns stay hidden.
+  const hasHours = card.items.some(i => i.playtimeMinutes != null)
+  const genres   = [...new Set(card.items.flatMap(i => i.genres ?? []))].sort()
+  const hasOther = card.items.some(i => !i.ownedOnSteam)
+  const hasApps  = card.items.some(isSoftware)
+  const bucket   = HOUR_BUCKETS.find(b => b.key === hours)
+  const query    = searchQuery.trim().toLowerCase()
+
   const visible = card.items.filter(item => {
     const matchesTab = filter === 'all'       ? true
                      : filter === 'favourite' ? item.favourite
                      : item.status === filter
-    const matchesSearch = !searchQuery.trim()
-      || item.name.toLowerCase().includes(searchQuery.toLowerCase())
-      || item.sub?.toLowerCase().includes(searchQuery.toLowerCase())
-    return matchesTab && matchesSearch
+    const matchesSearch = !query
+      || item.name.toLowerCase().includes(query)
+      || item.sub?.toLowerCase().includes(query)
+    const matchesHours = !bucket?.test
+      || (item.playtimeMinutes != null && bucket.test(item.playtimeMinutes))
+    const matchesGenre    = genre === 'any' || item.genres?.includes(genre)
+    const matchesPlatform = platform === 'any'
+      || (platform === 'steam' ? item.ownedOnSteam : !item.ownedOnSteam)
+    const matchesType = type === 'any'
+      || (type === 'software' ? isSoftware(item) : !isSoftware(item))
+    return matchesTab && matchesSearch && matchesHours && matchesGenre
+      && matchesPlatform && matchesType
   })
+  if (SORT_FNS[sort]) visible.sort(SORT_FNS[sort])
+
+  const isFiltered = filter !== defaultFilter || !!query || sort !== 'default'
+    || hours !== 'any' || genre !== 'any' || platform !== 'any' || type !== 'any'
 
   const noun  = CARD_NOUNS[card.id] ?? 'item'
   const count = card.items.length
@@ -87,7 +184,7 @@ export default function InterestPage() {
     <>
       <SceneBackground />
       <FloatingOrbs accent={card.accent} />
-      <Navbar mode="interest" onSearch={handleSearchToggle} searchActive={searchOpen} />
+      <Navbar mode="interest" onSearch={handleSearchToggle} searchActive={!!query} />
       <div className="ip-wrap" style={{ '--accent': card.accent, '--accent-glow': card.glow }}>
 
         {/* Header */}
@@ -122,29 +219,6 @@ export default function InterestPage() {
           <div className="ip-header-meta">
             <p className="ip-count">{count} {noun}{count !== 1 ? 's' : ''} tracked</p>
 
-            {searchOpen && (
-              <div className="ip-search-bar">
-                <span className="ip-search-bar__icon">⌕</span>
-                <input
-                  ref={searchRef}
-                  className="ip-search-bar__input"
-                  type="text"
-                  placeholder={`Search ${noun}s…`}
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  onKeyDown={e => e.key === 'Escape' && handleSearchToggle()}
-                />
-                {searchQuery && (
-                  <button
-                    className="ip-search-bar__clear"
-                    onClick={() => setSearchQuery('')}
-                    aria-label="Clear search"
-                  >
-                    ✕
-                  </button>
-                )}
-              </div>
-            )}
           </div>
         </header>
 
@@ -161,15 +235,77 @@ export default function InterestPage() {
           ))}
         </div>
 
+        {/* Toolbar: search + sort + filters */}
+        <div className="ip-toolbar">
+          <div className="ip-search-bar">
+            <span className="ip-search-bar__icon">⌕</span>
+            <input
+              ref={searchRef}
+              className="ip-search-bar__input"
+              type="text"
+              placeholder={`Search ${noun}s or developers…`}
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              onKeyDown={e => e.key === 'Escape' && setSearchQuery('')}
+              aria-label={`Search ${noun}s`}
+            />
+            {searchQuery && (
+              <button
+                className="ip-search-bar__clear"
+                onClick={() => setSearchQuery('')}
+                aria-label="Clear search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          <div className="ip-selects">
+            <select className="ip-select" value={sort} onChange={e => setSort(e.target.value)} aria-label="Sort">
+              {SORTS.map(o => <option key={o.key} value={o.key}>{o.label}</option>)}
+            </select>
+            {hasHours && (
+              <select className="ip-select" value={hours} onChange={e => setHours(e.target.value)} aria-label="Hours played">
+                {HOUR_BUCKETS.map(o => <option key={o.key} value={o.key}>{o.label}</option>)}
+              </select>
+            )}
+            {genres.length > 0 && (
+              <select className="ip-select" value={genre} onChange={e => setGenre(e.target.value)} aria-label="Genre">
+                <option value="any">All genres</option>
+                {genres.map(g => <option key={g} value={g}>{g}</option>)}
+              </select>
+            )}
+            {hasApps && (
+              <select className="ip-select" value={type} onChange={e => setType(e.target.value)} aria-label="Type">
+                {TYPES.map(o => <option key={o.key} value={o.key}>{o.label}</option>)}
+              </select>
+            )}
+            {hasOther && (
+              <select className="ip-select" value={platform} onChange={e => setPlatform(e.target.value)} aria-label="Platform">
+                {PLATFORMS.map(o => <option key={o.key} value={o.key}>{o.label}</option>)}
+              </select>
+            )}
+          </div>
+        </div>
+
+        <div className="ip-result-row">
+          <p className="ip-result-count">Showing {visible.length} of {count}</p>
+          {isFiltered && (
+            <button className="ip-reset" onClick={resetFilters}>Reset filters</button>
+          )}
+        </div>
+
         {/* List */}
         <div className="ip-list">
-          {visible.length === 0 && searchQuery.trim() && (
+          {visible.length === 0 && isFiltered && (
             <div className="ip-no-results">
-              <p className="ip-no-results__text">No results for "{searchQuery}"</p>
-              <p className="ip-no-results__hint">Try a different name or developer</p>
+              <p className="ip-no-results__text">
+                {query ? `No results for "${searchQuery}"` : 'No games match these filters'}
+              </p>
+              <p className="ip-no-results__hint">Try loosening a filter, or hit Reset</p>
             </div>
           )}
-          {visible.length === 0 && !searchQuery.trim() && (
+          {visible.length === 0 && !isFiltered && (
             <p className="ip-empty">Nothing here yet.</p>
           )}
           {visible.map((item, i) => (

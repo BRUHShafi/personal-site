@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSnapPanel } from '../hooks/useSnapPanel'
 import { useTilt } from '../hooks/useTilt'
 import { interestCards } from '../data/interests'
-import { topPlayed } from '../data/steamMerge'
+import { topPlayed, formatPlaytime } from '../data/steamMerge'
 import { STEAM_PROFILE_URL } from '../data/steamProfile'
 import './Interests.css'
 
@@ -38,6 +38,8 @@ function InterestCard({ card }) {
 }
 
 /* ── Tile 2: the top three right now ── */
+const recent = game => formatPlaytime(game.recentMinutes)
+
 function TopGamesCard({ card }) {
   const { ref: tiltRef, onMouseMove, onMouseLeave } = useTilt(8)
   const top = topPlayed(card.items, 3)
@@ -50,7 +52,7 @@ function TopGamesCard({ card }) {
       onMouseLeave={onMouseLeave}
       style={{ '--accent': card.accent, '--card-glow': card.glow }}
     >
-      <p className="now-tile__label">Top 3 right now</p>
+      <p className="now-tile__label">Top games now · Last 2 weeks</p>
 
       <ul className="top3">
         {top.map((game, i) => (
@@ -80,8 +82,19 @@ function TopGamesCard({ card }) {
               {game.sub && <span className="top3__sub">{game.sub}</span>}
             </span>
 
-            {/* playtime only exists once the Steam sync has run */}
-            {game.playtime && <span className="top3__time">{game.playtime}</span>}
+            {/* Ranked by 2-week playtime, so that's the headline number;
+                all-time total sits underneath for context. Both only exist
+                once the Steam sync has run. */}
+            {(recent(game) || game.playtime) && (
+              <span className="top3__time">
+                {recent(game) && (
+                  <span className="top3__recent">{recent(game)}</span>
+                )}
+                {game.playtime && (
+                  <span className="top3__total">{game.playtime} total</span>
+                )}
+              </span>
+            )}
           </li>
         ))}
       </ul>

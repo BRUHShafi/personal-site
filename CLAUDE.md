@@ -452,3 +452,23 @@ npm run build
   - List rows were keyed by **array index** while the list is filtered *and* searched — React reuses a row for a different game on filter change, which with `<img>` means a row can briefly show the previous game's cover. Now keyed `item.appid ?? item.name`
   - Removed the unused `navigate` + `useNavigate` import (back navigation lives in `Navbar` via `back: true`). Clears one of the repo's pre-existing lint errors
 - Verified: `eslint` clean on `InterestPage.jsx` (was 1 error, now 0), `npm run build` clean
+
+### Session 16
+- Steam sync **live**. User revoked a key accidentally pasted in chat, made a new one, added `STEAM_KEY` + `STEAM_ID` as GitHub repo secrets
+- Committed Sessions 13–15 (`64e4ee3`), PR #8 dev → main merged, ran `steam-sync.yml` via `workflow_dispatch` on main
+- Run took 5m21s (196 games × 1.5s `APPDETAILS_DELAY`). Bot committed `a8798d7` to main; pulled into local `dev`. Key absent from Actions log (grep count 0)
+- Top 3 (2-week): The Outlast Trials, Counter-Strike 2, Dispatch. Most played all-time: Dota 2 1499h, CS2 1064h, Warframe 304h
+- Note: workflow commits to **main** daily → `git pull origin main` on dev before new work
+- "Add all Steam games": already happening — `mergeSteam` appends every owned-but-uncurated game, so `/interests/playing` shows all 196 Steam games + 15 hand-added non-Steam ones = **211**
+- **Fixed 10 duplicates** in `interests.js`: curated entries had wrong appids (or none), so the merge couldn't match them and the same game appeared twice (once curated, once as a Steam extra), also with the wrong cover. Corrected: Brawlhalla 291550, Wolf Among Us 250320, Muck 1625450, Spellbreak 1399780, Injustice 2 627270, MultiVersus 1818750, AQ3D 429790, Clair Obscur 1903340; Dispatch 2592160 + Gwent 1284410 converted from plain objects to `g()`
+- Verified via Vite `ssrLoadModule` name-match check: 0 duplicates left. Build + eslint clean
+- **Games list filter system** (`InterestPage.jsx/.css`):
+  - Search box now always visible in a toolbar (name or developer); navbar "⌕ Search" just scrolls to + focuses it. Esc clears
+  - Dropdowns: **Sort** (My order, Most/Least played, Recently played, Last 2 weeks, Name A–Z/Z–A), **Hours** (Never played, <1h, 1–10h, 10–100h, 100h+), **Genre** (from Steam store genres), **Type** (games vs apps — Steam libraries include Blender/Godot/Lossless Scaling), **Platform** (Steam vs hand-added)
+  - Dropdowns only render when the data can answer them (no hours/genres pre-sync). Non-Steam games have no hours → only match "Any hours"; games with no number sort last in either direction; "Least played" skips never-played
+  - "Showing N of 211" + "Reset filters" (shown only when something differs from default). Status tabs (All/Playing/★ Fav) kept and stack with all of the above
+  - Page now opens on **All** (was Playing → only 2 games)
+  - Apps = every non-neutral genre is in `SOFTWARE_GENRES`
+  - Verified in Chrome (first browser check of this page): 100h+ → 13, never played → 65, RPG → 45, apps → 3, other platform → 15; build + eslint clean
+  - Known: some Steam extras have no cover art (portrait + header both 404 → image hidden), e.g. Mage Arena
+- **Top 3 tile hours fixed**: it ranked by 2-week playtime but displayed all-time totals (CS2 "1064h" sat below a "3h" game). Now shows both — 2-week hours (accent, headline; "Last 2 weeks" lives in the tile title "Top games now · Last 2 weeks", not per row) over `1064h total` (muted, small). Fallback-filled rows with no 2-week time show total only. `formatPlaytime` now imported into `Interests.jsx`; new `.top3__recent/__total` styles
