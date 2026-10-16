@@ -6,6 +6,7 @@ import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import useCanvasLifecycle from '../hooks/useCanvasLifecycle'
 import CanvasWarmup from './CanvasWarmup'
 import Portal from './Portal'
+import PortalCrackle from './PortalCrackle'
 import {
   SCALE, REST_X, REST_Y, rise,
   PORTAL_Y, PORTAL_SCALE, PORTAL_ROTATION,
@@ -33,7 +34,8 @@ const PORTAL_PLANE = (() => {
   return new THREE.Plane().setFromNormalAndCoplanarPoint(normal, new THREE.Vector3(REST_X, PORTAL_Y, 0))
 })()
 
-function SwordMesh({ scrollProgressRef, portalIntensityRef }) {
+function SwordMesh({ scrollProgressRef, portalIntensityRef, portalBurstRef }) {
+  const prevProgressRef = useRef(null)
   const groupRef = useRef()
   const { scene: cached } = useGLTF(MODEL_URL)
 
@@ -69,6 +71,11 @@ function SwordMesh({ scrollProgressRef, portalIntensityRef }) {
     // the stage slides away instead (Hero.jsx)
     const crossing = clamp01((p - TIP_ENTERS_AT) / (FULLY_IN_AT - TIP_ENTERS_AT))
     portalIntensityRef.current = 1 + PORTAL_FLARE * Math.sin(Math.PI * crossing)
+
+    // Lightning burst the moment the tip crosses into the portal (either way)
+    const prev = prevProgressRef.current
+    if (prev !== null && (prev - TIP_ENTERS_AT) * (p - TIP_ENTERS_AT) < 0) portalBurstRef.current++
+    prevProgressRef.current = p
   })
 
   return (
@@ -83,6 +90,7 @@ export default function SwordCanvas({ scrollProgressRef }) {
   const { mounted, onScreen } = useCanvasLifecycle(wrapRef)
   // Written by SwordMesh each frame, read by Portal — no React re-renders
   const portalIntensityRef = useRef(1)
+  const portalBurstRef = useRef(0)
 
   // The stage is position: fixed, so IntersectionObserver always reports it
   // on screen (and it ignores visibility: hidden). Gate on hero progress
@@ -119,6 +127,7 @@ export default function SwordCanvas({ scrollProgressRef }) {
         <SwordMesh
           scrollProgressRef={scrollProgressRef}
           portalIntensityRef={portalIntensityRef}
+          portalBurstRef={portalBurstRef}
         />
         {/* Portal #1 — a hole in the ceiling; the blade rises into it */}
         <Portal
@@ -126,6 +135,12 @@ export default function SwordCanvas({ scrollProgressRef }) {
           rotation={PORTAL_ROTATION}
           scale={PORTAL_SCALE}
           intensity={portalIntensityRef}
+        />
+        <PortalCrackle
+          position={[REST_X, PORTAL_Y, 0]}
+          rotation={PORTAL_ROTATION}
+          portalScale={PORTAL_SCALE}
+          burstRef={portalBurstRef}
         />
         <CanvasWarmup />
         <EffectComposer multisampling={4}>

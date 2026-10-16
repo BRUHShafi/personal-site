@@ -19,9 +19,12 @@ import * as THREE from 'three'
 const WIDTH  = 1.0
 const HEIGHT = 1.6
 
-const RIM_COLOR  = new THREE.Color('#FFD36B')   // bright warm gold
-const MID_COLOR  = new THREE.Color('#E8A317')   // amber
-const CORE_COLOR = new THREE.Color('#120800')   // near-black amber — the "hole"
+// Colour palettes. Pass one as the `palette` prop; gold is the default.
+// rim = bright ring + motes, mid = swirl/inner glow, core = the dark "hole"
+const PORTAL_PALETTES = {
+  gold:  { rim: '#FFD36B', mid: '#E8A317', core: '#120800' },
+  white: { rim: '#FFFFFF', mid: '#C9D6EA', core: '#06080D' },
+}
 
 // Values > 1 push the rim over Bloom's luminance threshold (0.6) so it glows
 const RIM_BRIGHTNESS = 2.2
@@ -168,6 +171,7 @@ export default function Portal({
   open = 1,
   intensity = 1,
   seed = 1,          // different seed → different mote layout per portal
+  palette = 'gold',  // key of PORTAL_PALETTES
 }) {
   const reduced = useMemo(() => prefersReducedMotion(), [])
   const moteCount = useMemo(() => (isSmallScreen() ? 150 : 260), [])
@@ -176,23 +180,24 @@ export default function Portal({
   const surfaceMatRef = useRef()
   const moteMatRef = useRef()
 
+  const colors = PORTAL_PALETTES[palette] ?? PORTAL_PALETTES.gold
   const surfaceUniforms = useMemo(() => ({
     uTime:          { value: 0 },
     uOpen:          { value: 0 },
     uIntensity:     { value: 1 },
-    uRim:           { value: RIM_COLOR },
-    uMid:           { value: MID_COLOR },
-    uCore:          { value: CORE_COLOR },
+    uRim:           { value: new THREE.Color(colors.rim) },
+    uMid:           { value: new THREE.Color(colors.mid) },
+    uCore:          { value: new THREE.Color(colors.core) },
     uRimBrightness: { value: RIM_BRIGHTNESS },
-  }), [])
+  }), [colors])
 
   const moteUniforms = useMemo(() => ({
     uTime:  { value: 0 },
     uOpen:  { value: 0 },
     uSize:  { value: 0.045 },
     uHalf:  { value: new THREE.Vector2(WIDTH / 2, HEIGHT / 2) },
-    uColor: { value: RIM_COLOR },
-  }), [])
+    uColor: { value: new THREE.Color(colors.rim) },
+  }), [colors])
 
   const moteGeometry = useMemo(() => {
     const g = new THREE.BufferGeometry()
