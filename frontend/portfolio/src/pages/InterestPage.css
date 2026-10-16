@@ -281,6 +281,93 @@
   border-bottom-color: var(--accent);
 }
 
+/* ── Toolbar: search + sort/filter dropdowns ── */
+.ip-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0 10px;
+}
+
+.ip-toolbar .ip-search-bar {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+
+.ip-selects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ip-select {
+  /* Dark native dropdown list on Windows/Chrome instead of a white one */
+  color-scheme: dark;
+  appearance: none;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.06);
+  /* Chevron drawn inline so there is no extra asset */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23aaa' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  padding: 10px 32px 10px 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.ip-select:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.ip-select:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 14px var(--accent-glow, rgba(0, 229, 255, 0.15));
+}
+
+.ip-select option {
+  background: #12121c;
+  color: #ffffff;
+}
+
+.ip-result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 28px;
+  margin-bottom: 4px;
+}
+
+.ip-result-count {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.ip-reset {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.ip-reset:hover {
+  text-decoration: underline;
+}
+
 /* ── Items list ── */
 .ip-list {
   display: flex;
@@ -415,6 +502,22 @@
   color: rgba(0, 0, 0, 0.3);
 }
 
+[data-theme="light"] .ip-select {
+  color-scheme: light;
+  color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .ip-select option {
+  background: #ffffff;
+  color: #111111;
+}
+
+[data-theme="light"] .ip-result-count {
+  color: rgba(0, 0, 0, 0.5);
+}
+
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .ip-wrap {
@@ -425,5 +528,14 @@
 @media (max-width: 600px) {
   .ip-wrap {
     padding: 90px 20px 48px;
+  }
+
+  /* Dropdowns share the row two-up instead of overflowing */
+  .ip-selects {
+    width: 100%;
+  }
+
+  .ip-select {
+    flex: 1 1 calc(50% - 4px);
   }
 }

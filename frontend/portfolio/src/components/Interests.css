@@ -134,10 +134,25 @@
 }
 
 .top3__time {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
   font-family: var(--mono);
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.top3__recent {
   font-size: 11px;
   color: var(--accent);
-  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.top3__total {
+  font-size: 9px;
+  color: var(--text-muted);
+  white-space: nowrap;
 }
 
 /* ── Tile 3: Steam link ── */
