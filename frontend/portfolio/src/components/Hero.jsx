@@ -126,7 +126,21 @@ export default function Hero() {
   useEffect(() => {
     // The name sits in a fixed stage, so its box only changes on resize —
     // measure it then, not on every scroll (reading layout mid-scroll is slow).
-    let nameRect = nameRef.current.getBoundingClientRect()
+    //
+    // Always measure the *resting* position: getBoundingClientRect includes
+    // the stage's exit slide (translateY below), so measuring while scrolled
+    // down recorded the name ~0.5 viewport too high and the cut then started
+    // late or never finished. Strip the transform for the measurement.
+    const measureName = () => {
+      const stage = stageRef.current.style
+      const slid = stage.transform
+      stage.transform = ''
+      const r = nameRef.current.getBoundingClientRect()
+      stage.transform = slid
+      return { top: r.top, bottom: r.bottom, height: r.height }
+    }
+    let nameRect = measureName()
+    let disposed = false
 
     const update = () => {
       const vpH = window.innerHeight
@@ -163,16 +177,19 @@ export default function Hero() {
     }
 
     const onResize = () => {
-      nameRect = nameRef.current.getBoundingClientRect()
+      if (disposed) return
+      nameRect = measureName()
       update()
     }
 
     window.addEventListener('scroll', update, { passive: true })
     window.addEventListener('resize', onResize)
-    // Fonts load after first paint and change the name's size
+    // Fonts load after first paint and change the name's size. (Can resolve
+    // after the user has navigated away — onResize checks `disposed`.)
     document.fonts?.ready.then(onResize)
     update()
     return () => {
+      disposed = true
       window.removeEventListener('scroll', update)
       window.removeEventListener('resize', onResize)
     }

@@ -16,6 +16,18 @@ const COOLDOWN = 140
 // long glide felt rushed.
 const easeInOutSine = (t) => -(Math.cos(Math.PI * t) - 1) / 2
 
+// Index of the stop closest to a scroll position. Derived from scrollY each
+// time rather than tracked — keyboard and scrollbar moves don't tell us.
+function nearestStop(tops, y) {
+  let nearest = 0
+  let best = Infinity
+  tops.forEach((top, i) => {
+    const d = Math.abs(top - y)
+    if (d < best) { best = d; nearest = i }
+  })
+  return nearest
+}
+
 // Takes the wheel over and animates the *real* document scroll to the next
 // panel. Native scroll position still advances, so every scrollY-driven effect
 // on the page — the swords, the lightning, the navbar dim check — keeps working.
@@ -49,10 +61,11 @@ export function useSnapScroll() {
       return { tops, durations }
     }
 
-    const animateTo = (target, duration) => {
+    // onDone lets a caller chain a second glide (see onSnapTo)
+    const animateTo = (target, duration, onDone) => {
       const start = window.scrollY
       const delta = target - start
-      if (Math.abs(delta) < 1) return
+      if (Math.abs(delta) < 1) { onDone?.(); return }
 
       animating = true
       // CSS snap would fight our per-frame scrollTo calls. Stand it down.
@@ -65,6 +78,8 @@ export function useSnapScroll() {
 
         if (t < 1) {
           rafId = requestAnimationFrame(step)
+        } else if (onDone) {
+          onDone()
         } else {
           animating = false
           root.classList.remove('snapping')
@@ -86,25 +101,44 @@ export function useSnapScroll() {
       const { tops, durations } = scrollStops()
       if (!tops.length) return
 
-      // Derive the current stop from scrollY instead of tracking an index.
-      // Navbar clicks and keyboard scrolling move us without telling us.
-      let nearest = 0
-      let best = Infinity
-      tops.forEach((top, i) => {
-        const d = Math.abs(top - window.scrollY)
-        if (d < best) { best = d; nearest = i }
-      })
-
+      const nearest = nearestStop(tops, window.scrollY)
       const next = Math.min(tops.length - 1, Math.max(0, nearest + dir))
       // The slower of the two panels sets the pace, so the hero glide is long
       // in both directions
       if (next !== nearest) animateTo(tops[next], Math.max(durations[nearest], durations[next]))
     }
 
+    // Navbar clicks ask for a glide to a section via this event, so they move
+    // at the same pace as the wheel (the hero cut looked rushed under the
+    // browser's own smooth scroll). preventDefault() tells the caller we've
+    // handled it; if this hook is inactive (touch / reduced motion) nobody
+    // does, and the caller falls back to scrollIntoView.
+    const onSnapTo = (e) => {
+      const el = e.detail?.el
+      if (!el) return
+      e.preventDefault()
+      if (animating) return
+      const { tops, durations } = scrollStops()
+      if (!tops.length) return
+      const from = nearestStop(tops, window.scrollY)
+      const to = nearestStop(tops, el.offsetTop)
+      const glide = (a, b, then) => animateTo(tops[b], Math.max(durations[a], durations[b]), then)
+
+      // A long jump that crosses the hero (e.g. Skills → Home) would rush the
+      // hero's scroll-linked sword animation through in a fraction of its
+      // normal time. Split it: travel to the hero's neighbour first, then do
+      // the hero leg at exactly the pace a single wheel step would.
+      if (to === 0 && from > 1) glide(from, 1, () => glide(1, 0))
+      else if (from === 0 && to > 1) glide(0, 1, () => glide(1, to))
+      else glide(from, to)
+    }
+
     // Must be non-passive — a passive listener can't call preventDefault.
     window.addEventListener('wheel', onWheel, { passive: false })
+    window.addEventListener('snapscroll:to', onSnapTo)
     return () => {
       window.removeEventListener('wheel', onWheel)
+      window.removeEventListener('snapscroll:to', onSnapTo)
       cancelAnimationFrame(rafId)
       root.classList.remove('snapping')
     }

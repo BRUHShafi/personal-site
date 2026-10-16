@@ -205,7 +205,13 @@ export default function Navbar({ mode, onSearch, searchActive }) {
     }
     setOpen(false)
     const el = document.querySelector(item.href)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
+    if (!el) return
+    // Prefer the home page's glide (same pace as the wheel); fall back to the
+    // browser's smooth scroll where it isn't running (touch, reduced motion)
+    const handled = !window.dispatchEvent(
+      new CustomEvent('snapscroll:to', { detail: { el }, cancelable: true })
+    )
+    if (!handled) el.scrollIntoView({ behavior: 'smooth' })
   }
 
   const items = mode === 'interest' ? INTEREST_ITEMS : NAV_ITEMS
