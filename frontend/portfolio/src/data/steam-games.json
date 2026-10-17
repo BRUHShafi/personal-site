@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-16T09:33:16.749Z",
+  "generatedAt": "2026-10-17T09:03:27.917Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
   "gameCount": 196,
   "games": {
@@ -1123,9 +1123,9 @@
     "365670": {
       "appid": 365670,
       "name": "Blender",
-      "playtimeMinutes": 15749,
-      "playtime2WeeksMinutes": 207,
-      "lastPlayed": 1792136931,
+      "playtimeMinutes": 15810,
+      "playtime2WeeksMinutes": 269,
+      "lastPlayed": 1792178335,
       "developer": "Blender Foundation",
       "genres": [
         "Animation & Modeling",
