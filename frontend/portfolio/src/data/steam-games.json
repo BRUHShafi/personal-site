@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-17T09:03:27.917Z",
+  "generatedAt": "2026-10-18T09:22:14.049Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
   "gameCount": 196,
   "games": {
@@ -884,9 +884,9 @@
     "292030": {
       "appid": 292030,
       "name": "The Witcher 3: Wild Hunt — Remastered",
-      "playtimeMinutes": 737,
-      "playtime2WeeksMinutes": 0,
-      "lastPlayed": 1607933774,
+      "playtimeMinutes": 754,
+      "playtime2WeeksMinutes": 16,
+      "lastPlayed": 1792288402,
       "developer": "CD PROJEKT RED",
       "genres": [
         "RPG"
@@ -1869,9 +1869,9 @@
     "1086940": {
       "appid": 1086940,
       "name": "Baldur's Gate 3",
-      "playtimeMinutes": 10825,
-      "playtime2WeeksMinutes": 0,
-      "lastPlayed": 1760315076,
+      "playtimeMinutes": 10909,
+      "playtime2WeeksMinutes": 84,
+      "lastPlayed": 1792305836,
       "developer": "Larian Studios",
       "genres": [
         "Adventure",
@@ -2031,7 +2031,7 @@
       "appid": 1304930,
       "name": "The Outlast Trials",
       "playtimeMinutes": 238,
-      "playtime2WeeksMinutes": 238,
+      "playtime2WeeksMinutes": 202,
       "lastPlayed": 1791742781,
       "developer": "Red Barrels",
       "genres": [
