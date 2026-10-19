@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-18T09:22:14.049Z",
+  "generatedAt": "2026-10-19T10:34:04.627Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
   "gameCount": 196,
   "games": {
@@ -240,9 +240,9 @@
     "730": {
       "appid": 730,
       "name": "Counter-Strike 2",
-      "playtimeMinutes": 63818,
-      "playtime2WeeksMinutes": 0,
-      "lastPlayed": 1790905572,
+      "playtimeMinutes": 63838,
+      "playtime2WeeksMinutes": 20,
+      "lastPlayed": 1792362449,
       "developer": "Valve",
       "genres": [
         "Action",
@@ -1869,9 +1869,9 @@
     "1086940": {
       "appid": 1086940,
       "name": "Baldur's Gate 3",
-      "playtimeMinutes": 10909,
-      "playtime2WeeksMinutes": 84,
-      "lastPlayed": 1792305836,
+      "playtimeMinutes": 10982,
+      "playtime2WeeksMinutes": 157,
+      "lastPlayed": 1792360377,
       "developer": "Larian Studios",
       "genres": [
         "Adventure",
@@ -2031,7 +2031,7 @@
       "appid": 1304930,
       "name": "The Outlast Trials",
       "playtimeMinutes": 238,
-      "playtime2WeeksMinutes": 202,
+      "playtime2WeeksMinutes": 140,
       "lastPlayed": 1791742781,
       "developer": "Red Barrels",
       "genres": [
