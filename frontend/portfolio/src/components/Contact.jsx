@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useSnapPanel } from '../hooks/useSnapPanel'
+import ContactPillars from './ContactPillars'
 import './Contact.css'
 
 export default function Contact() {
   const panelRef = useSnapPanel()
+  const cardRef = useRef()
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [sent, setSent] = useState(false)
 
@@ -25,7 +27,8 @@ export default function Contact() {
 
   return (
     <section className="contact snap-panel" id="contact" ref={panelRef}>
-      <div className="contact__card reveal">
+      <ContactPillars cardRef={cardRef} />
+      <div className="contact__card reveal" ref={cardRef}>
         <div className="contact__header">
           <p className="section-label">05 // Contact</p>
           {/* label sequence: About 01, Interests 02, Skills 03, Résumé 04, Contact 05 */}

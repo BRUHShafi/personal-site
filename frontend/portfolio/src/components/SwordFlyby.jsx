@@ -6,6 +6,7 @@ import * as THREE from 'three'
 import BandCamera from './BandCamera'
 import Portal from './Portal'
 import PortalCrackle from './PortalCrackle'
+import PortalGate from './PortalGate'
 import useCanvasLifecycle from '../hooks/useCanvasLifecycle'
 import CanvasWarmup from './CanvasWarmup'
 
@@ -13,23 +14,40 @@ import CanvasWarmup from './CanvasWarmup'
 // Portal #1 comes *out* of Portal #2 (left edge) as you arrive, rests there
 // while you read, then on the next scroll flies right into Portal #3.
 
-const SCALE  = 2.0     // sword is 2 × SCALE long, lying flat
+// Everything in this canvas (sword, portals, gates) is sized off this
+const SIZE   = 0.85
+const SCALE  = 2.0 * SIZE   // sword is 2 × SCALE long, lying flat
 const REST_Y = -1.5    // the blade's height — portals sit on the same line
 
 // The canvas only covers this band of the section (fractions of its height).
-// REST_Y = -1.5 puts the blade ~69–82% down; the rest is portal + Bloom margin.
-// Move REST_Y → move the band too, or the sword/portals get clipped.
-const BAND_TOP    = 0.58
-const BAND_HEIGHT = 0.34
+// REST_Y = -1.5 puts the blade ~76% down. The band is sized for the temple
+// gates (pediment ~61%, bottom step ~88% at SIZE 0.85) + Bloom margin.
+// Every pixel of band costs render + Bloom + MSAA, so keep it tight.
+// Move REST_Y, SIZE or GATE_FIT → move the band too, or things get clipped.
+const BAND_TOP    = 0.56
+const BAND_HEIGHT = 0.37
+// How much of the band's top/bottom edge fades out (fraction of the band)
+const BAND_FADE   = 0.1
 
 // Half the camera's visible height at z = 0 (camera z = 7, fov 45°)
 const HALF_VIEW_H = 7 * Math.tan((45 / 2) * Math.PI / 180)
 
 // ── Portals #2 / #3 ──
-const PORTAL_SCALE  = 0.75   // 0.75 × 1.6 = 1.2 units tall — fits the band
+const PORTAL_SCALE  = 0.75 * SIZE   // × 1.6 = portal height in units
 const PORTAL_INSET  = 1.3    // distance from the screen edge to each portal
 const PORTAL_TILT   = 0.5    // radians each opening leans toward the camera
 const PORTAL_FLARE  = 1.6    // extra intensity at the peak of a crossing
+
+// ── Temple gates around Portals #2 / #3 ──
+// The model's opening is 9.24 tall; a portal 7.2 gate-units tall fits it with
+// breathing room. Portal #2 is 1.6 × PORTAL_SCALE tall; GATE_FIT shrinks the
+// gate below that (the visible oval is smaller than the portal's plane) so the
+// pediment stays clear of the About heading. Total height = 14.9 × GATE_SCALE.
+const GATE_FIT   = 0.75
+const GATE_SCALE = ((1.6 * PORTAL_SCALE) / 7.2) * GATE_FIT
+// Below this section aspect (portrait / phone) the stacked About text runs
+// down into the band, so the gate would cover the cards — it's left out there
+const GATE_MIN_ASPECT = 1
 
 // ── Timeline ──
 // `a` = how far About has scrolled, in viewports: −1 while the hero fills the
@@ -41,9 +59,8 @@ const PORTAL_FLARE  = 1.6    // extra intensity at the peak of a crossing
 const EMERGE     = [-0.16, 0]       // sword slides out of #2, settles at rest
 const FLY        = [0.05, 0.6]      // next scroll: sword flies right, into #3
 
-// Where the sword's centre sits: x = tip − SCALE. Resting position leaves a
-// small gap between the pommel and Portal #2.
-const REST_GAP = 0.6
+// Where the sword's centre sits while you read: the middle of the page
+const REST_X = 0
 
 const clamp01 = (x) => Math.min(1, Math.max(0, x))
 const ramp = (a, [from, to]) => clamp01((a - from) / (to - from))
@@ -56,7 +73,7 @@ const portalXFor = (aspect) => HALF_VIEW_H * aspect - PORTAL_INSET
 // Sword centre x for a given `a`
 function swordX(a, portalX) {
   const inside = -portalX - SCALE           // tip just touching Portal #2
-  const rest   = -portalX + SCALE + REST_GAP // pommel clear of Portal #2
+  const rest   = REST_X                      // resting mid-page
   const gone   = portalX + SCALE             // pommel through Portal #3
   if (a <= 0) return inside + (rest - inside) * easeOutCubic(ramp(a, EMERGE))
   return rest + (gone - rest) * easeInOutQuad(ramp(a, FLY))
@@ -181,10 +198,10 @@ export default function SwordFlyby() {
       zIndex:        1,
       // Bloom spreads the portals' glow past the band; without this the halo
       // ends in a hard horizontal line at the canvas's top/bottom edge.
-      // Fading the edges lets it dissolve instead. Sword (~32–71% of the band)
-      // and portals (~20–80%) sit inside the fully opaque middle.
-      WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 18%, black 82%, transparent)',
-      maskImage:       'linear-gradient(to bottom, transparent, black 18%, black 82%, transparent)',
+      // Fading the edges lets it dissolve instead. Only the gate's pediment tip
+      // and lowest step reach into the fade.
+      WebkitMaskImage: `linear-gradient(to bottom, transparent, black ${BAND_FADE * 100}%, black ${100 - BAND_FADE * 100}%, transparent)`,
+      maskImage:       `linear-gradient(to bottom, transparent, black ${BAND_FADE * 100}%, black ${100 - BAND_FADE * 100}%, transparent)`,
     }}>
       {mounted && <Canvas
         // Portals are always on display (swirling), so render whenever the band
@@ -223,6 +240,19 @@ export default function SwordFlyby() {
           intensity={p2IntensityRef}
           seed={2}
         />
+        {/* Temple gates framing Portals #2 / #3 — same transforms, so each
+            portal sits in the centre of its gate's opening and the sword
+            leaves through one and enters the other */}
+        {aspect >= GATE_MIN_ASPECT && <PortalGate
+          position={[-portalX, REST_Y, 0]}
+          rotation={p2Rotation}
+          scale={GATE_SCALE}
+        />}
+        {aspect >= GATE_MIN_ASPECT && <PortalGate
+          position={[portalX, REST_Y, 0]}
+          rotation={p3Rotation}
+          scale={GATE_SCALE}
+        />}
         {/* Portal #3 — right edge, opening faces left; the sword flies into it */}
         <Portal
           position={[portalX, REST_Y, 0]}

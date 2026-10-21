@@ -18,6 +18,3 @@ Thumbs.db
 # Local model backups — originals are recoverable from git history
 .model-backup/
 
-# Private dev notes — kept local only
-CLAUDE.md
-.claude/

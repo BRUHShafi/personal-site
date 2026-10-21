@@ -9,7 +9,6 @@ import Interests from './components/Interests'
 import Skills from './components/Skills'
 import Resume from './components/Resume'
 import Contact from './components/Contact'
-import Footer from './components/Footer'
 import InterestPage from './pages/InterestPage'
 import ProjectsPage from './pages/ProjectsPage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
@@ -40,7 +39,6 @@ function HomePage() {
         <Resume />
         <Contact />
       </main>
-      <Footer />
     </>
   )
 }

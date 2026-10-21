@@ -7,8 +7,9 @@ import useCanvasLifecycle from '../hooks/useCanvasLifecycle'
 import CanvasWarmup from './CanvasWarmup'
 import Portal from './Portal'
 import PortalCrackle from './PortalCrackle'
+import BandCamera from './BandCamera'
 import {
-  SCALE, REST_X, REST_Y, rise,
+  HALF_VIEW_H, SCALE, REST_X, REST_Y, rise,
   PORTAL_Y, PORTAL_SCALE, PORTAL_ROTATION,
   TIP_ENTERS_AT, FULLY_IN_AT, PORTAL_FLARE,
 } from './heroSwordConfig'
@@ -23,6 +24,22 @@ const MODEL_URL = '/sword-v2.opt.glb'
 const EMISSIVE_BOOST = 1.0
 
 const clamp01 = (x) => Math.min(1, Math.max(0, x))
+
+// The canvas only covers a centre column of the screen, this many world units
+// either side of the sword (BandCamera keeps the camera framing the full
+// screen, so nothing moves). Everything drawn — blade, Portal #1 (~0.7 half
+// length), its lightning crackle and their Bloom — stays inside ~1.6 units.
+// As a full-screen canvas at full res + MSAA 4 it was the main cost of the
+// hero ↔ About glide: measured 56fps / 16 dropped frames → ~75fps / 3.
+// Widen this if the crackle or glow ever gets cut at the sides.
+const COLUMN_HALF_W = 2.2
+// How much of the column's left/right edge fades out (fraction of the column),
+// so Bloom dissolves instead of ending in a hard vertical line
+const COLUMN_FADE = 0.15
+
+// Column width as a fraction of the screen, for a screen aspect (w / h).
+// Clamped to 1: on narrow/portrait screens the column is the whole width.
+const columnWidthFor = (aspect) => Math.min(1, COLUMN_HALF_W / (HALF_VIEW_H * aspect))
 
 // The portal's plane, as a clipping plane. Its normal is the direction the
 // opening faces (down at the sword, tipped toward the camera) — the same
@@ -97,6 +114,18 @@ export default function SwordCanvas({ scrollProgressRef }) {
   // instead: once the hero is fully scrolled past, the sword is inside the
   // portal and the portal has closed — nothing left to draw.
   const [heroActive, setHeroActive] = useState(true)
+  const [aspect, setAspect] = useState(() => window.innerWidth / window.innerHeight)
+  useEffect(() => {
+    const handleResize = () => setAspect(window.innerWidth / window.innerHeight)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+  const columnW = columnWidthFor(aspect)
+  const columnLeft = (1 - columnW) / 2
+  // No fade when the column is the full width — the screen edge is the edge
+  const fade = columnW < 1
+    ? `linear-gradient(to right, transparent, black ${COLUMN_FADE * 100}%, black ${100 - COLUMN_FADE * 100}%, transparent)`
+    : 'none'
   useEffect(() => {
     // Same progress formula as Hero.jsx (child effects run first, so reading
     // scrollProgressRef here would see last frame's value)
@@ -107,7 +136,15 @@ export default function SwordCanvas({ scrollProgressRef }) {
   }, [])
 
   return (
-    <div ref={wrapRef} style={{ width: '100%', height: '100%' }}>
+    <div ref={wrapRef} style={{
+      position:        'absolute',
+      top:             0,
+      bottom:          0,
+      left:            `${columnLeft * 100}%`,
+      width:           `${columnW * 100}%`,
+      WebkitMaskImage: fade,
+      maskImage:       fade,
+    }}>
       {mounted && <Canvas
         frameloop={onScreen && heroActive ? 'always' : 'never'}
         gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
@@ -124,6 +161,7 @@ export default function SwordCanvas({ scrollProgressRef }) {
         <directionalLight position={[3, 5, 5]}  intensity={2.0} color="#ffd060" />
         <directionalLight position={[-3, 1, -2]} intensity={0.8} color="#ff9900" />
         <pointLight position={[0, -1, 3]} intensity={4.0} color="#ffbb00" distance={12} />
+        <BandCamera left={columnLeft} width={columnW} />
         <SwordMesh
           scrollProgressRef={scrollProgressRef}
           portalIntensityRef={portalIntensityRef}

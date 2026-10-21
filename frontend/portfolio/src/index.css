@@ -83,7 +83,7 @@ html {
 }
 
 /* Sit above fixed background canvases (LightningAmbient, StarField) via DOM order */
-section, footer {
+section {
   position: relative;
 }
 
@@ -156,12 +156,6 @@ html.snap .snap-panel {
    it past 100vh, and a snap area taller than the viewport stops snapping. */
 html.snap .hero {
   padding-top: 0;
-}
-
-/* Footer is short — snap its bottom edge to the viewport bottom so the last
-   stop shows the contact card sitting above it. */
-html.snap .footer {
-  scroll-snap-align: end;
 }
 
 /* ── Panel-driven reveal ──

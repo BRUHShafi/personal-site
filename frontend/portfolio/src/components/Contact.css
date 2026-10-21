@@ -1,8 +1,73 @@
 .contact {
   padding: 80px 80px 120px;
+  /* Anchor for the pillars canvas */
+  position: relative;
+}
+
+/* Full-section canvas for the marble pillars flanking the card (ContactPillars) */
+.contact__pillars {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Social links floating above the pillars (or in a row under the card when
+   the pillars don't fit). Positioned by ContactPillars; the wrapper ignores
+   the pointer, so the links opt back in. */
+.pillar-link {
+  position: absolute;
+  translate: -50% -50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--nav-glow), 0.55);
+  background: rgba(10, 10, 20, 0.55);
+  backdrop-filter: blur(6px);
+  color: var(--text-white);
+  text-decoration: none;
+  pointer-events: auto;
+  box-shadow: 0 0 18px rgba(var(--nav-glow), 0.35);
+  /* `translate` above centres it; the bob uses `transform`, so they stack */
+  animation: pillarFloat 4.2s ease-in-out infinite;
+  transition: box-shadow 0.25s, border-color 0.25s, scale 0.25s;
+}
+
+.pillar-link:hover,
+.pillar-link:focus-visible {
+  scale: 1.1;
+  border-color: rgba(var(--nav-glow), 0.95);
+  box-shadow: 0 0 30px rgba(var(--nav-glow), 0.7);
+  outline: none;
+}
+
+.pillar-link__text {
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.pillar-link__icon {
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
+}
+
+@keyframes pillarFloat {
+  0%, 100% { transform: translateY(-6px); }
+  50%      { transform: translateY(6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pillar-link { animation: none; }
 }
 
 .contact__card {
+  /* Above the pillars canvas */
+  position: relative;
+  z-index: 1;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 24px;

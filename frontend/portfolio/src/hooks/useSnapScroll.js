@@ -53,7 +53,7 @@ export function useSnapScroll() {
       const panels = [...document.querySelectorAll('.snap-panel')]
       const tops = panels.map((p) => Math.min(p.offsetTop, max))
       const durations = panels.map((p) => Number(p.dataset.glideMs) || DURATION)
-      // The footer isn't a panel, but the bottom of the page is still a stop.
+      // The last panel can be taller than the screen; the bottom of the page is still a stop.
       if (tops.length && max - tops[tops.length - 1] > 8) {
         tops.push(max)
         durations.push(DURATION)
