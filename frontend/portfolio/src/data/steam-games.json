@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-21T09:52:44.997Z",
+  "generatedAt": "2026-10-22T09:52:46.806Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
   "gameCount": 196,
   "games": {
@@ -240,9 +240,9 @@
     "730": {
       "appid": 730,
       "name": "Counter-Strike 2",
-      "playtimeMinutes": 63905,
-      "playtime2WeeksMinutes": 87,
-      "lastPlayed": 1792563380,
+      "playtimeMinutes": 63988,
+      "playtime2WeeksMinutes": 170,
+      "lastPlayed": 1792613787,
       "developer": "Valve",
       "genres": [
         "Action",
