@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-22T09:52:46.806Z",
+  "generatedAt": "2026-10-23T09:46:48.288Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
-  "gameCount": 196,
+  "gameCount": 197,
   "games": {
     "10": {
       "appid": 10,
@@ -1869,9 +1869,9 @@
     "1086940": {
       "appid": 1086940,
       "name": "Baldur's Gate 3",
-      "playtimeMinutes": 11256,
-      "playtime2WeeksMinutes": 431,
-      "lastPlayed": 1792553267,
+      "playtimeMinutes": 11593,
+      "playtime2WeeksMinutes": 768,
+      "lastPlayed": 1792707017,
       "developer": "Larian Studios",
       "genres": [
         "Adventure",
@@ -2342,6 +2342,18 @@
         "Indie",
         "RPG",
         "Early Access"
+      ]
+    },
+    "2357570": {
+      "appid": 2357570,
+      "name": "Overwatch®",
+      "playtimeMinutes": 127,
+      "playtime2WeeksMinutes": 127,
+      "lastPlayed": 1792736537,
+      "developer": "Blizzard Entertainment, Inc.",
+      "genres": [
+        "Action",
+        "Free To Play"
       ]
     },
     "2483190": {
