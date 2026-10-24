@@ -2,6 +2,7 @@ import { useLayoutEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
+import IntroReveal from './components/IntroReveal'
 import SceneBackground from './components/SceneBackground'
 import { useSnapScroll } from './hooks/useSnapScroll'
 import About from './components/About'
@@ -30,6 +31,7 @@ function HomePage() {
   return (
     <>
       <SceneBackground />
+      <IntroReveal />
       <Navbar />
       <main>
         <Hero />

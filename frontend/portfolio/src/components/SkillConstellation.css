@@ -20,15 +20,19 @@
   color: var(--text-muted);
 }
 
-.constellation__legend-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+.constellation__legend-bolt {
+  width: 8px;
+  height: 13px;
   flex-shrink: 0;
-  box-shadow: 0 0 5px currentColor;
+  filter: drop-shadow(0 0 3px currentColor);
+}
+
+.constellation__stage {
+  position: relative;
 }
 
 .constellation__svg {
+  display: block;
   width: 100%;
   height: auto;
   overflow: visible;
@@ -41,17 +45,10 @@
   letter-spacing: 0.1px;
 }
 
-/* Pulse animation on the outer ring */
-@keyframes constellationPulse {
-  0%, 100% { opacity: 0.15; r: 2.2px; }
-  50%       { opacity: 0.45; r: 2.8px; }
+/* 3D bolts on each node (SkillBolts) — exactly the SVG's box, on top of it,
+   transparent to the pointer so hovers reach the SVG */
+.constellation__bolts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
-
-.constellation__ring {
-  animation: constellationPulse 3s ease-in-out infinite;
-}
-
-/* Stagger pulse per node so they don't all pulse together */
-.constellation__ring:nth-child(3n)   { animation-delay: 0s;    }
-.constellation__ring:nth-child(3n+1) { animation-delay: 1s;    }
-.constellation__ring:nth-child(3n+2) { animation-delay: 2s;    }

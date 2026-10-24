@@ -25,7 +25,7 @@
 
   /* Fonts */
   --sans:    'Plus Jakarta Sans', system-ui, sans-serif;
-  --display: 'Syne', 'Plus Jakarta Sans', sans-serif;
+  --display: 'Cinzel', 'Times New Roman', serif;  /* carved classical capitals — the temple theme */
   --mono:    'JetBrains Mono', monospace;
 }
 
@@ -80,6 +80,10 @@
 
 html {
   scroll-behavior: smooth;
+  /* Always reserve the scrollbar's space. The intro locks scrolling (hiding
+     the scrollbar); without this the page re-centred ~7px left the moment it
+     came back */
+  scrollbar-gutter: stable;
 }
 
 /* Sit above fixed background canvases (LightningAmbient, StarField) via DOM order */
@@ -205,7 +209,7 @@ html.snap .snap-panel .interests__grid .reveal:nth-child(3) { transition-delay: 
   font-size: clamp(38px, 5vw, 64px);
   font-weight: 700;
   color: var(--text-white);
-  letter-spacing: -1px;
+  letter-spacing: 0.5px;
   line-height: 1.05;
   margin-bottom: 52px;
 }

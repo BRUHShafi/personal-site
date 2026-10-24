@@ -45,6 +45,11 @@ export default function SynthwaveScene() {
 
     let t = 0
     const draw = () => {
+      // Hidden under the loading intro's dark curtain — skip the work, keep looping
+      if (document.documentElement.classList.contains('intro-covering')) {
+        rafRef.current = requestAnimationFrame(draw)
+        return
+      }
       const w = canvas.width
       const h = canvas.height
 

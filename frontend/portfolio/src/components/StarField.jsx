@@ -219,6 +219,11 @@ export default function StarField() {
 
     let frame = 0
     const draw = () => {
+      // Hidden under the loading intro's dark curtain — skip the work, keep looping
+      if (document.documentElement.classList.contains('intro-covering')) {
+        rafRef.current = requestAnimationFrame(draw)
+        return
+      }
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       const vh       = canvas.height

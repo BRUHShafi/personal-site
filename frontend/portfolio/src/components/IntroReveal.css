@@ -1,0 +1,90 @@
+/* Loading intro (IntroReveal). Sits just under the navbar (z 200), so the
+   SHAFI orb stays visible — and clickable — above the dark. */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 199;
+}
+
+/* Everything that moves: the dark curtain (always deep space, whatever the
+   theme — it's the "before" of the site), the hand's dust, the blackhole's
+   glow, and the supernova */
+.intro__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* "Click the blackhole to continue" — bottom centre, like a title screen's
+   "press start": always clear of the hand (which stays up and to the right) */
+.intro__hint {
+  position: absolute;
+  left: 50%;
+  bottom: 13vh;
+  margin: 0;
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #ffd98a;
+  text-shadow: 0 0 12px rgba(255, 170, 0, 0.55);
+  opacity: 0;
+  transition: opacity 0.9s ease, transform 0.9s ease;
+  /* Centring lives in transform (not the separate `translate` property): the
+     CSS minifier drops `translate` when a rule also sets `transform` */
+  transform: translate(-50%, 8px);
+  pointer-events: none;
+}
+
+.intro__hint--shown {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  animation: introHintBreathe 2.8s ease-in-out 0.9s infinite;
+}
+
+.intro__hint--gone {
+  opacity: 0 !important;
+  transition-duration: 0.3s;
+  animation: none;
+}
+
+/* A click anywhere but the blackhole: a small shake toward the right place */
+.intro__hint--nudge {
+  animation: introHintNudge 0.45s ease;
+}
+
+.intro__hint-touch { display: none; }
+
+@media (pointer: coarse) {
+  .intro__hint-mouse { display: none; }
+  .intro__hint-touch { display: inline; }
+}
+
+@keyframes introHintBreathe {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+
+@keyframes introHintNudge {
+  0%, 100% { transform: translate(-50%, 0); }
+  20%      { transform: translate(calc(-50% - 7px), 0); }
+  40%      { transform: translate(calc(-50% + 6px), 0); }
+  60%      { transform: translate(calc(-50% - 4px), 0); }
+  80%      { transform: translate(calc(-50% + 2px), 0); }
+}
+
+/* The orb is the thing to click while the intro waits */
+html.intro-playing .orbital-nav__center {
+  cursor: pointer;
+}
+
+/* While it plays the scrollbar is invisible but keeps its space. (Not
+   overflow: hidden — Chrome drops the root's reserved scrollbar-gutter under
+   it, so the page jumped sideways when the scrollbar came back.) Scrolling
+   itself is blocked in IntroReveal. */
+html.intro-playing {
+  scrollbar-color: transparent transparent;
+}

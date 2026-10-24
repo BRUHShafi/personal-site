@@ -42,6 +42,18 @@ export default function useCanvasLifecycle(ref) {
     }
   }, [])
 
+  // The loading intro covers the whole page; until it uncovers, nothing here
+  // is visible, so canvases stay paused (IntroReveal sets the class)
+  const [covered, setCovered] = useState(
+    () => document.documentElement.classList.contains('intro-covering'),
+  )
+  useEffect(() => {
+    const html = document.documentElement
+    const obs = new MutationObserver(() => setCovered(html.classList.contains('intro-covering')))
+    obs.observe(html, { attributes: true, attributeFilter: ['class'] })
+    return () => obs.disconnect()
+  }, [])
+
   useEffect(() => {
     const el = ref.current
     if (!el) return
@@ -57,5 +69,5 @@ export default function useCanvasLifecycle(ref) {
     return () => obs.disconnect()
   }, [ref])
 
-  return { mounted, onScreen }
+  return { mounted, onScreen: onScreen && !covered }
 }

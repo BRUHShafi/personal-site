@@ -93,6 +93,8 @@ export function useSnapScroll() {
       // Always swallow the event, even mid-glide — otherwise the browser
       // scrolls underneath us and the animation stutters.
       e.preventDefault()
+      // The loading intro owns the screen until it's done (IntroReveal)
+      if (document.documentElement.classList.contains('intro-playing')) return
       if (animating || performance.now() < lockedUntil) return
 
       const dir = Math.sign(e.deltaY)

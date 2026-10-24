@@ -14,6 +14,8 @@ import { useGLTF } from '@react-three/drei'
 // Props
 //   position / rotation / scale — normal three.js transforms
 //   glow     — multiplier on the model's own emissive strength (1 = as exported)
+//   color    — replaces the model's gold glow colour (e.g. '#00e5ff'). Set once;
+//              it isn't meant to change while the bolt is mounted
 //   float    — slow bob + slight sway on Z
 //   flicker  — mostly steady, with occasional quick charged flashes
 //   seed     — de-syncs bolts from each other
@@ -50,6 +52,7 @@ export default function Lightning({
   rotation,
   scale = 1,
   glow = 1,
+  color,
   float = false,
   flicker = false,
   seed = 1,
@@ -68,10 +71,11 @@ export default function Lightning({
       if (!node.isMesh || !node.material) return
       const mat = node.material.clone()
       mat.userData.baseEmissive = node.material.emissiveIntensity
+      if (color) mat.emissive.set(color)
       node.material = mat
     })
     return copy
-  }, [cached])
+  }, [cached, color])
 
   const motionRef = useRef()                  // bob/sway
   const strikeRef = useRef()                  // strike scale
