@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-23T09:46:48.288Z",
+  "generatedAt": "2026-10-24T09:20:09.305Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
   "gameCount": 197,
   "games": {
@@ -1869,9 +1869,9 @@
     "1086940": {
       "appid": 1086940,
       "name": "Baldur's Gate 3",
-      "playtimeMinutes": 11593,
-      "playtime2WeeksMinutes": 768,
-      "lastPlayed": 1792707017,
+      "playtimeMinutes": 11666,
+      "playtime2WeeksMinutes": 841,
+      "lastPlayed": 1792798902,
       "developer": "Larian Studios",
       "genres": [
         "Adventure",
@@ -2373,7 +2373,7 @@
       "appid": 2592160,
       "name": "Dispatch",
       "playtimeMinutes": 1892,
-      "playtime2WeeksMinutes": 49,
+      "playtime2WeeksMinutes": 0,
       "lastPlayed": 1791615914,
       "developer": "AdHoc Studio",
       "genres": [
