@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-27T10:14:54.528Z",
+  "generatedAt": "2026-10-28T11:03:56.828Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
   "gameCount": 197,
   "games": {
@@ -1124,7 +1124,7 @@
       "appid": 365670,
       "name": "Blender",
       "playtimeMinutes": 15895,
-      "playtime2WeeksMinutes": 353,
+      "playtime2WeeksMinutes": 306,
       "lastPlayed": 1792506625,
       "developer": "Blender Foundation",
       "genres": [
@@ -1869,9 +1869,9 @@
     "1086940": {
       "appid": 1086940,
       "name": "Baldur's Gate 3",
-      "playtimeMinutes": 11666,
-      "playtime2WeeksMinutes": 841,
-      "lastPlayed": 1792798902,
+      "playtimeMinutes": 11712,
+      "playtime2WeeksMinutes": 887,
+      "lastPlayed": 1793133014,
       "developer": "Larian Studios",
       "genres": [
         "Adventure",
