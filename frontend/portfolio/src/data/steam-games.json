@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-31T10:45:04.340Z",
+  "generatedAt": "2026-11-01T11:43:07.692Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
-  "gameCount": 197,
+  "gameCount": 198,
   "games": {
     "10": {
       "appid": 10,
@@ -240,9 +240,9 @@
     "730": {
       "appid": 730,
       "name": "Counter-Strike 2",
-      "playtimeMinutes": 63988,
-      "playtime2WeeksMinutes": 170,
-      "lastPlayed": 1792613787,
+      "playtimeMinutes": 63993,
+      "playtime2WeeksMinutes": 175,
+      "lastPlayed": 1793468645,
       "developer": "Valve",
       "genres": [
         "Action",
@@ -773,9 +773,9 @@
     "268910": {
       "appid": 268910,
       "name": "Cuphead",
-      "playtimeMinutes": 725,
-      "playtime2WeeksMinutes": 0,
-      "lastPlayed": 1786914139,
+      "playtimeMinutes": 750,
+      "playtime2WeeksMinutes": 24,
+      "lastPlayed": 1793470600,
       "developer": "Studio MDHR Entertainment Inc.",
       "genres": [
         "Action",
@@ -885,7 +885,7 @@
       "appid": 292030,
       "name": "The Witcher 3: Wild Hunt — Remastered",
       "playtimeMinutes": 754,
-      "playtime2WeeksMinutes": 16,
+      "playtime2WeeksMinutes": 0,
       "lastPlayed": 1792288402,
       "developer": "CD PROJEKT RED",
       "genres": [
@@ -1869,9 +1869,9 @@
     "1086940": {
       "appid": 1086940,
       "name": "Baldur's Gate 3",
-      "playtimeMinutes": 11712,
-      "playtime2WeeksMinutes": 887,
-      "lastPlayed": 1793133014,
+      "playtimeMinutes": 11735,
+      "playtime2WeeksMinutes": 826,
+      "lastPlayed": 1793472007,
       "developer": "Larian Studios",
       "genres": [
         "Adventure",
@@ -2423,6 +2423,19 @@
       "genres": [
         "Action",
         "Early Access"
+      ]
+    },
+    "3884860": {
+      "appid": 3884860,
+      "name": "The Wolf Among Us Remastered",
+      "playtimeMinutes": 0,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 0,
+      "developer": "Telltale",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Casual"
       ]
     }
   }
