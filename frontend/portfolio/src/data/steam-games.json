@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-01T11:43:07.692Z",
+  "generatedAt": "2026-11-02T13:13:17.388Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
   "gameCount": 198,
   "games": {
@@ -241,7 +241,7 @@
       "appid": 730,
       "name": "Counter-Strike 2",
       "playtimeMinutes": 63993,
-      "playtime2WeeksMinutes": 175,
+      "playtime2WeeksMinutes": 154,
       "lastPlayed": 1793468645,
       "developer": "Valve",
       "genres": [
@@ -773,9 +773,9 @@
     "268910": {
       "appid": 268910,
       "name": "Cuphead",
-      "playtimeMinutes": 750,
-      "playtime2WeeksMinutes": 24,
-      "lastPlayed": 1793470600,
+      "playtimeMinutes": 786,
+      "playtime2WeeksMinutes": 61,
+      "lastPlayed": 1793559638,
       "developer": "Studio MDHR Entertainment Inc.",
       "genres": [
         "Action",
@@ -1870,7 +1870,7 @@
       "appid": 1086940,
       "name": "Baldur's Gate 3",
       "playtimeMinutes": 11735,
-      "playtime2WeeksMinutes": 826,
+      "playtime2WeeksMinutes": 753,
       "lastPlayed": 1793472007,
       "developer": "Larian Studios",
       "genres": [
@@ -2347,9 +2347,9 @@
     "2357570": {
       "appid": 2357570,
       "name": "Overwatch®",
-      "playtimeMinutes": 190,
-      "playtime2WeeksMinutes": 190,
-      "lastPlayed": 1792902233,
+      "playtimeMinutes": 222,
+      "playtime2WeeksMinutes": 222,
+      "lastPlayed": 1793587738,
       "developer": "Blizzard Entertainment, Inc.",
       "genres": [
         "Action",
@@ -2372,9 +2372,9 @@
     "2592160": {
       "appid": 2592160,
       "name": "Dispatch",
-      "playtimeMinutes": 1942,
-      "playtime2WeeksMinutes": 49,
-      "lastPlayed": 1792906548,
+      "playtimeMinutes": 2054,
+      "playtime2WeeksMinutes": 161,
+      "lastPlayed": 1793594448,
       "developer": "AdHoc Studio",
       "genres": [
         "Action",
