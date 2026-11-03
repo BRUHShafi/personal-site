@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-02T13:13:17.388Z",
+  "generatedAt": "2026-11-03T12:39:22.085Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
   "gameCount": 198,
   "games": {
@@ -1124,7 +1124,7 @@
       "appid": 365670,
       "name": "Blender",
       "playtimeMinutes": 15919,
-      "playtime2WeeksMinutes": 108,
+      "playtime2WeeksMinutes": 39,
       "lastPlayed": 1793285277,
       "developer": "Blender Foundation",
       "genres": [
@@ -1870,7 +1870,7 @@
       "appid": 1086940,
       "name": "Baldur's Gate 3",
       "playtimeMinutes": 11735,
-      "playtime2WeeksMinutes": 753,
+      "playtime2WeeksMinutes": 520,
       "lastPlayed": 1793472007,
       "developer": "Larian Studios",
       "genres": [
@@ -2031,7 +2031,7 @@
       "appid": 1304930,
       "name": "The Outlast Trials",
       "playtimeMinutes": 338,
-      "playtime2WeeksMinutes": 99,
+      "playtime2WeeksMinutes": 0,
       "lastPlayed": 1792437704,
       "developer": "Red Barrels",
       "genres": [
