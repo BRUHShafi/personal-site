@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-04T12:48:47.321Z",
+  "generatedAt": "2026-11-05T12:57:40.406Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
   "gameCount": 198,
   "games": {
@@ -241,7 +241,7 @@
       "appid": 730,
       "name": "Counter-Strike 2",
       "playtimeMinutes": 63993,
-      "playtime2WeeksMinutes": 87,
+      "playtime2WeeksMinutes": 4,
       "lastPlayed": 1793468645,
       "developer": "Valve",
       "genres": [
@@ -2374,7 +2374,7 @@
       "name": "Dispatch",
       "playtimeMinutes": 2054,
       "playtime2WeeksMinutes": 161,
-      "lastPlayed": 1793594448,
+      "lastPlayed": 1793846970,
       "developer": "AdHoc Studio",
       "genres": [
         "Action",
@@ -2428,9 +2428,9 @@
     "3884860": {
       "appid": 3884860,
       "name": "The Wolf Among Us Remastered",
-      "playtimeMinutes": 0,
-      "playtime2WeeksMinutes": 0,
-      "lastPlayed": 0,
+      "playtimeMinutes": 23,
+      "playtime2WeeksMinutes": 23,
+      "lastPlayed": 1793846930,
       "developer": "Telltale",
       "genres": [
         "Action",
