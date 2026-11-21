@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-05T12:57:40.406Z",
+  "generatedAt": "2026-11-21T13:16:04.689Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
   "gameCount": 198,
   "games": {
@@ -240,9 +240,9 @@
     "730": {
       "appid": 730,
       "name": "Counter-Strike 2",
-      "playtimeMinutes": 63993,
-      "playtime2WeeksMinutes": 4,
-      "lastPlayed": 1793468645,
+      "playtimeMinutes": 64039,
+      "playtime2WeeksMinutes": 0,
+      "lastPlayed": 1793925375,
       "developer": "Valve",
       "genres": [
         "Action",
@@ -252,9 +252,9 @@
     "3590": {
       "appid": 3590,
       "name": "Plants vs. Zombies: Game of the Year",
-      "playtimeMinutes": 2293,
-      "playtime2WeeksMinutes": 0,
-      "lastPlayed": 1778701323,
+      "playtimeMinutes": 2294,
+      "playtime2WeeksMinutes": 1,
+      "lastPlayed": 1794781327,
       "developer": "PopCap Games, Inc.",
       "genres": [
         "Strategy"
@@ -774,7 +774,7 @@
       "appid": 268910,
       "name": "Cuphead",
       "playtimeMinutes": 786,
-      "playtime2WeeksMinutes": 61,
+      "playtime2WeeksMinutes": 0,
       "lastPlayed": 1793559638,
       "developer": "Studio MDHR Entertainment Inc.",
       "genres": [
@@ -837,9 +837,9 @@
     "286690": {
       "appid": 286690,
       "name": "Metro 2033 Redux",
-      "playtimeMinutes": 103,
-      "playtime2WeeksMinutes": 0,
-      "lastPlayed": 1790442388,
+      "playtimeMinutes": 403,
+      "playtime2WeeksMinutes": 299,
+      "lastPlayed": 1795130828,
       "developer": "4A Games",
       "genres": [
         "Action"
@@ -1124,7 +1124,7 @@
       "appid": 365670,
       "name": "Blender",
       "playtimeMinutes": 15919,
-      "playtime2WeeksMinutes": 23,
+      "playtime2WeeksMinutes": 0,
       "lastPlayed": 1793285277,
       "developer": "Blender Foundation",
       "genres": [
@@ -1262,7 +1262,7 @@
       "appid": 413150,
       "name": "Stardew Valley",
       "playtimeMinutes": 8734,
-      "playtime2WeeksMinutes": 6,
+      "playtime2WeeksMinutes": 0,
       "lastPlayed": 1792903590,
       "developer": "ConcernedApe",
       "genres": [
@@ -1870,7 +1870,7 @@
       "appid": 1086940,
       "name": "Baldur's Gate 3",
       "playtimeMinutes": 11735,
-      "playtime2WeeksMinutes": 479,
+      "playtime2WeeksMinutes": 0,
       "lastPlayed": 1793472007,
       "developer": "Larian Studios",
       "genres": [
@@ -2348,7 +2348,7 @@
       "appid": 2357570,
       "name": "Overwatch®",
       "playtimeMinutes": 222,
-      "playtime2WeeksMinutes": 222,
+      "playtime2WeeksMinutes": 0,
       "lastPlayed": 1793587738,
       "developer": "Blizzard Entertainment, Inc.",
       "genres": [
@@ -2359,9 +2359,9 @@
     "2483190": {
       "appid": 2483190,
       "name": "Forza Horizon 6",
-      "playtimeMinutes": 852,
-      "playtime2WeeksMinutes": 0,
-      "lastPlayed": 1790127577,
+      "playtimeMinutes": 1256,
+      "playtime2WeeksMinutes": 404,
+      "lastPlayed": 1794714368,
       "developer": "Playground Games",
       "genres": [
         "Racing",
@@ -2372,9 +2372,9 @@
     "2592160": {
       "appid": 2592160,
       "name": "Dispatch",
-      "playtimeMinutes": 2054,
-      "playtime2WeeksMinutes": 161,
-      "lastPlayed": 1793846970,
+      "playtimeMinutes": 2139,
+      "playtime2WeeksMinutes": 85,
+      "lastPlayed": 1794546969,
       "developer": "AdHoc Studio",
       "genres": [
         "Action",
@@ -2429,7 +2429,7 @@
       "appid": 3884860,
       "name": "The Wolf Among Us Remastered",
       "playtimeMinutes": 23,
-      "playtime2WeeksMinutes": 23,
+      "playtime2WeeksMinutes": 0,
       "lastPlayed": 1793846930,
       "developer": "Telltale",
       "genres": [
