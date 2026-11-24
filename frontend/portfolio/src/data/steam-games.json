@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-23T15:44:07.939Z",
+  "generatedAt": "2026-11-24T15:35:48.353Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
   "gameCount": 198,
   "games": {
@@ -1617,9 +1617,9 @@
     "632360": {
       "appid": 632360,
       "name": "Risk of Rain 2",
-      "playtimeMinutes": 924,
-      "playtime2WeeksMinutes": 28,
-      "lastPlayed": 1795287068,
+      "playtimeMinutes": 952,
+      "playtime2WeeksMinutes": 55,
+      "lastPlayed": 1795453234,
       "developer": "Hopoo Games",
       "genres": [
         "Action",
