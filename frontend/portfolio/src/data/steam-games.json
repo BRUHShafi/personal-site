@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T15:20:45.324Z",
+  "generatedAt": "2026-11-26T14:47:28.927Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
   "gameCount": 198,
   "games": {
@@ -2359,9 +2359,9 @@
     "2483190": {
       "appid": 2483190,
       "name": "Forza Horizon 6",
-      "playtimeMinutes": 1256,
-      "playtime2WeeksMinutes": 284,
-      "lastPlayed": 1794714368,
+      "playtimeMinutes": 1304,
+      "playtime2WeeksMinutes": 333,
+      "lastPlayed": 1795624730,
       "developer": "Playground Games",
       "genres": [
         "Racing",
