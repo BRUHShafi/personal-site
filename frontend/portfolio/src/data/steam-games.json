@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T14:47:28.927Z",
+  "generatedAt": "2026-11-27T14:46:02.205Z",
   "profileUrl": "https://steamcommunity.com/profiles/76561198411489517",
   "gameCount": 198,
   "games": {
@@ -837,9 +837,9 @@
     "286690": {
       "appid": 286690,
       "name": "Metro 2033 Redux",
-      "playtimeMinutes": 403,
-      "playtime2WeeksMinutes": 299,
-      "lastPlayed": 1795130828,
+      "playtimeMinutes": 466,
+      "playtime2WeeksMinutes": 362,
+      "lastPlayed": 1795726174,
       "developer": "4A Games",
       "genres": [
         "Action"
@@ -2360,7 +2360,7 @@
       "appid": 2483190,
       "name": "Forza Horizon 6",
       "playtimeMinutes": 1304,
-      "playtime2WeeksMinutes": 333,
+      "playtime2WeeksMinutes": 252,
       "lastPlayed": 1795624730,
       "developer": "Playground Games",
       "genres": [
@@ -2373,7 +2373,7 @@
       "appid": 2592160,
       "name": "Dispatch",
       "playtimeMinutes": 2139,
-      "playtime2WeeksMinutes": 85,
+      "playtime2WeeksMinutes": 0,
       "lastPlayed": 1794546969,
       "developer": "AdHoc Studio",
       "genres": [
